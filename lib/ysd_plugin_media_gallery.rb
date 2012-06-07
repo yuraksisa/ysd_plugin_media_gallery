@@ -1,0 +1,3 @@
+require 'ysd_plugin_media_gallery_middleware'
+require 'ysd_plugin_media_gallery_extension'
+require 'ysd_plugin_media_gallery_init'
