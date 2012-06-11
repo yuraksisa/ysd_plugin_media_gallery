@@ -27,6 +27,25 @@ module Huasi
                                   :weight => 2}}]      
    
     end
+
+    # ========= Page Building ============
+ 
+    #
+    # It gets the scripts used by the module
+    #
+    # @param [Context]
+    #
+    # @return [Array]
+    #   An array which contains the css resources used by the module
+    #
+    def page_script(context={})
+    
+      ['/js/ysd.events.js',
+       '/js/ysd.dialogs.js',
+       '/photo_gallery/js/jquery.ad-gallery.js']   
+    
+    end            
+
     
     # ========= Routes ===================
     
