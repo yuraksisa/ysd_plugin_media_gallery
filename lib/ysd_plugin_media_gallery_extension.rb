@@ -21,7 +21,13 @@ module Huasi
                                                       {:value => '', :description => 'Adaptador por defecto para la integración con álbumes de fotografía', :module => :media_gallery}) 
                                                       
         SystemConfiguration::Variable.first_or_create({:name => 'photo_default_account'}, 
-                                                      {:value => '', :description => 'Cuenta por defecto para acceder al proveedor de álbumes de fotografía', :module => :media_gallery})
+                                                      {:value => '', :description => 'Cuenta por defecto para acceder al proveedor de álbumes de fotografía. Una de las cuentas configuradas en cuentas servicios externos', :module => :media_gallery})
+                                                      
+        SystemConfiguration::Variable.first_or_create({:name => 'photo_media_accept'}, 
+                                                      {:value => 'image/jpeg,image/gif,image/png,image/jpeg', :description => 'Formatos de imágenes aceptados', :module => :media_gallery})
+                                                      
+        SystemConfiguration::Variable.first_or_create({:name => 'photo_max_size'}, 
+                                                      {:value => 1000000, :description => 'Máximo tamaño de la fotografía (en bytes)', :module => :media_gallery})                                                                                                            
                                                           
     end
 
