@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 require 'ysd-plugins_viewlistener' unless defined?Plugins::ViewListener
 
 #
@@ -6,6 +8,23 @@ require 'ysd-plugins_viewlistener' unless defined?Plugins::ViewListener
 module Huasi
 
   class MediaGalleryExtension < Plugins::ViewListener
+
+
+    # ========= Installation =================
+
+    # 
+    # Install the plugin
+    #
+    def install(context={})
+            
+        SystemConfiguration::Variable.first_or_create({:name => 'photo_default_adapter'}, 
+                                                      {:value => '', :description => 'Adaptador por defecto para la integración con álbumes de fotografía', :module => :media_gallery}) 
+                                                      
+        SystemConfiguration::Variable.first_or_create({:name => 'photo_default_account'}, 
+                                                      {:value => '', :description => 'Cuenta por defecto para acceder al proveedor de álbumes de fotografía', :module => :media_gallery})
+                                                          
+    end
+
                 
     # ========= Menu =====================
   
@@ -29,6 +48,18 @@ module Huasi
     end
 
     # ========= Page Building ============
+
+    #
+    # It gets the style sheets defined in the module
+    #
+    # @param [Context]
+    #
+    # @return [Array]
+    #   An array which contains the css resources used by the module
+    #
+    def page_style(context={})
+      ['/photo_gallery/css/jquery.ad-gallery.css']     
+    end
  
     #
     # It gets the scripts used by the module
