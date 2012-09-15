@@ -1,0 +1,168 @@
+<%= include('entity-management') %>
+
+<!-- Renders the elements container -->
+<script type="text/tmpl" id="elements_container_template">
+
+  <div id="elements_tbody" class="entity-blocks-container">
+  </div>
+
+</script>
+
+<!-- Renders one element in the elements list view -->
+        
+<script type="text/tmpl" id="elements_list_template">
+
+  <div class="entity-block-container">
+  
+    <div class="entity-block-container-inside">
+  
+      <div>
+        <img src="<%%= entity.thumbnails[1].thumbnail_url %>" class="element-navigation-detail" rel="<%%= index %>"/>
+      </div>
+      <div>
+        <span><%%= entity.description %></span>
+      </div>
+  
+    </div>
+  
+  </div>
+
+</script>
+
+<!-- Renders one element in the element view (full detailed) -->
+
+<script type="text/tmpl" id="element_template">
+
+     <div class="element_template" style="overflow:hidden">
+       <div class="entity-field"><div class="entity-fieldlabel">Name</div> <div class="entity-fieldvalue"><%%= entity.name %></div> </div>
+       <div class="entity-field"><div class="entity-fieldlabel">Description</div> <div class="entity-fieldvalue"><%%= entity.description %></div> </div>
+       <div class="entity-field"><div class="entity-fieldlabel">Image</div> <div class="entity-fieldvalue"><img id="entity_image_url" src="<%%= entity.image_url %>"/></div></div>  
+     </div>
+
+</script>
+
+<!-- Renders the form to edit an element -->
+
+<script type="text/tmpl" id="element_template_form">
+              
+     <form name="element">
+        
+        <div class="top-navigation-bar navigation-bar">
+             <h2 class="form-title">Photos on <%%= self.model.configuration.parentId %></h2>
+             <div class="navigation-bar-nav-buttons">
+             </div>
+        </div>        
+
+        <div class="form-fields">
+          <input type="hidden" name="photo_path" id="photo_path" <%% if (entity) { %> value="<%%= self.model.entityHooks[0].configurePhotoPath(entity) %>" <%% } %> />
+          <div class="form-row">
+            <div class="photo-container" style="border: 1px dashed gray; width: <%= album.width %>px; height: <%= album.height %>px">                            
+              <img id="element_photo_img" <%% if (entity) { %> src="<%%= entity.image_url%>" <%% } %> style="display:block; margin:0 auto"/>              
+            </div>
+          </div>
+          <br/>
+          <div class="form-row">
+            <div style="margin:0 auto; width: 300px">
+              <input type="button" name="change_photo_link" id="change_photo_link" value="Upload photo"/>
+              <input type="button" class="cancel-entity-button action-button entity-management-button" value="Cancel"/>
+            </div>
+          </div>          
+        </div>
+             
+     </form>
+     
+
+</script>
+
+<%   
+   locals = {:photo_album => album.name, 
+             :photo_width => album.width, 
+             :photo_height => album.height,
+             :photo_accept => SystemConfiguration::Variable.get_value('photo_media_accept'),
+             :photo_max_size => SystemConfiguration::Variable.get_value('photo_max_size').to_i}
+    
+   renderer = UIFieldSetRender::FieldSetRender.new('photo', self)      
+   photo_form_extension = renderer.render('formextension', 'em', locals)
+%>
+
+<%= photo_form_extension %>
+
+<script type="text/javascript">
+ 
+  function PhotoHook() {
+ 	   
+    this.entityKey = function(entity) {
+      return entity.id;
+    }
+    
+    this.onEdit = function(entity) {
+      
+      this.configForm(entity)  	
+      	
+    }
+    
+    this.onNew = function() {
+    	
+      this.configForm(null);
+    	
+    }
+    
+    this.configForm = function(entity) {
+    
+      var self = this;
+                  
+      $('#change_photo_link').bind('click', function(event) {
+      	
+        $('#element_photo_img').bind('load', function(event){ 
+      	      	  
+          if (entity) {          	          	
+     
+         	 // Actualizacion del detalle y del elemento en la lista      	  
+      	     entity.image_url = document.getElementById('element_photo_img').getAttribute('src');
+      	     photosManager.model.currentEntity().image_url = document.getElementById('element_photo_img').getAttribute('src');      	   
+             photosManager.model.change_state('entity_updated_successfully');	   	      	  
+      	  
+      	   }
+      	   else {
+      	     photosManager.model.change_state('entity_created_successfully');	
+      	   }
+      
+           $('#element_photo_img').unbind();
+      	 });
+      	 
+       $('#change_photo_link').unbind();
+      	
+      });
+       
+                	
+    }
+  	
+  	this.configurePhotoPath = function(entity) {
+  		  		
+  	  return '/album/<%=album.name%>/photo/' + entity.id;
+  		
+  	}
+  	
+  };
+  
+  var urls = { 
+  	           query_url  : '/photos',
+    	       create_url : '/photo',
+  	           update_url : '/photo',
+  	           delete_url : '/photo',
+  	           get_url    : '/photo'
+  	         };
+
+  var photoHook = new PhotoHook();
+  var hooks = [photoHook];
+  
+  // Add the complement hooks
+  if (typeof YSD.entityManagement.complementHooks != 'undefined') {
+    hooks = hooks.concat(YSD.entityManagement.complementHooks.complements);
+  }  
+  
+  var photosManager = new EntityManagement(urls, 'photo', 12, hooks, {parent_filtered:true});
+ 
+  $('.entity-title').html('Photos on ' + photosManager.model.configuration.parentId);
+  
+</script>

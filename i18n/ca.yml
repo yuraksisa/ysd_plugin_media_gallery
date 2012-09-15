@@ -1,3 +1,13 @@
+uploader:
+  photo: Seleccionar un arxiu d\'imatge de la seva computadora (tamany màxim %1 %2)
+  close_button: Tancar
+  max_size: El tamany del fitxer no pot excedir %1 %2
+  not_valid_image_file: L\'extensió del fitxer no és un tipus d'imatge vàlida
+  uploading_message: Carregant foto
+  ok_title: Foto carregada
+  ok_description: Foto carregada amb èxit  
+  error_title: Error
+  error_description: S\'ha produit un error al servidor. Torni-ho a intentar o provi amb altre imatge.
 media_admin_menu:
   media_menu: Media
   album_management: Albums

@@ -8,8 +8,11 @@ Gem::Specification.new do |s|
   s.description = "Media gallery integration"
   s.summary = "Media gallery integration"
   
-  s.add_runtime_dependency "ysd_core_plugins"
-  s.add_runtime_dependency "ysd_md_photo_gallery"
-  s.add_runtime_dependency "ysd_mw_photo_gallery"
+  s.add_runtime_dependency "json"
+  
+  s.add_runtime_dependency "ysd_plugin_site"        # Site builder
+  s.add_runtime_dependency "ysd_md_photo_gallery"   # The model
+  s.add_runtime_dependency "ysd_core_themes"        # Serving static content  
+  s.add_runtime_dependency "ysd_core_plugins"  
   
 end

@@ -1,0 +1,73 @@
+<!-- It shows a photo album -->
+<!-- It receives the album in the album variable -->
+  
+  <style type="text/css">
+  
+    #gallery {
+      padding-top: 10px;
+    }
+    
+    #descriptions {
+      position: relative;
+      height: 50px;
+      background: #EEE;
+      margin-top: 10px;
+      width: <%="#{album.width}px}"%>;
+      padding: 10px;
+      overflow: hidden;
+    }
+   
+    #descriptions .ad-image-description {
+      position: absolute;
+    }
+   
+    #descriptions .ad-image-description .ad-description-title {
+      display: block;
+    }   
+  
+  </style>
+  
+  <h1><%= album.name %></h1>
+  <p class="summary"><%= album.description %></p>
+  
+  <div id="gallery" class="ad-gallery">
+    <div class="ad-image-wrapper">
+    </div>
+    <div class="ad-controls">
+    </div>
+    <div class="ad-nav">
+      <div class="ad-thumbs">
+        <ul class="ad-thumb-list">
+          <% index = 0 %>
+          <% if album.adapted_album %>
+          <% album.adapted_album.photos.each do |photo| %>
+            <li>
+              <a href="<%="#{photo.get_image_url(album.width, album.height)}"%>" class="ad-thumb<%=index%>">
+                <img src="<%="#{photo.thumbnails[0].thumbnail_url}"%>" class="image<%=index%>" title="<%= photo.name %>" alt="<%= photo.description %>"/>
+              </a>
+            </li>  
+          <% index = index + 1 %>
+          <% end %>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+  <script type="text/javascript">
+  
+  $(function() {
+  
+    <%  gallery_options = [] 
+         options.each do |key, value|
+           gallery_options << "#{key.to_s}:#{value.to_s}"
+         end
+     %> 
+     
+  	var galleries = $('.ad-gallery').adGallery({ <%= gallery_options.join(',') %> });
+
+  	
+  });
+  
+  
+  </script>

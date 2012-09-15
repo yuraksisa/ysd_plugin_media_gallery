@@ -1,3 +1,13 @@
+uploader:
+  photo: Select an image file from your computer (max size %1 %2)
+  close_button: Close
+  max_size: The file size can not exceed %1 %2
+  not_valid_image_file: The file has not a valid image extension
+  uploading_message: Uploading photo
+  ok_title: Photo Uploaded!
+  ok_description: Photo uploaded successfully  
+  error_title: Error
+  error_description: Server error. Try it again or choose a different image.
 media_admin_menu:
   media_menu: Media
   album_management: Albums

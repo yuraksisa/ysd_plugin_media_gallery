@@ -1,0 +1,214 @@
+<%= include('entity-management') %>
+
+<!-- Renders the element description -->
+<script type="text/tmpl" id="elements_description">
+
+    <p>Albumes multimedia puede utilizarse para organizar y presentar colecciones o conjuntos de fotografías. Algunos módulos utilizan álbumes para organizar sus imágenes.</p>
+    <p>Los fotografías se almacenan en un sistema externo de almacenamiento de fotos como Picasa, Flickr. En el album puede configurar el sistema de almacenamiento y la cuenta de acceso.</p> 
+
+</script>
+
+<!-- Renders the elements container -->
+<script type="text/tmpl" id="elements_container_template">
+
+  <table id="elements_table" class="table">
+     <thead class="table-header">
+       <tr>
+         <th class="table-header-title" scope="col" style="width:20%">Name</th>
+         <th class="table-header-title" scope="col" style="width:40%">Description</th>
+         <th class="table-header-title" scope="col" style="width:10%">Width</th>
+         <th class="table-header-title" scope="col" style="width:10%">Height</th>
+         <th class="table-header-title" scope="col" style="width:10%">Size</th>
+         <th class="table-header-title" scope="col" style="width:10%">Remaining</th>
+         <th class="table-header-title" scope="col" style="width:10%"></th>
+         <th class="table-header-title" scope="col" style="width:10%"></th>
+       </tr>
+     </thead>
+     <tbody id="elements_tbody" class="table-tbody">             
+     </tbody>
+  </table>
+
+</script>
+
+<!-- Renders one element in the elements list view -->
+        
+<script type="text/tmpl" id="elements_list_template">
+
+    <tr class="table-row" rel="<%%= index %>" id="element_row_<%%=index%>">
+      <td class="table-cell element-navigation-detail" rel="<%%= index %>"><%%= entity.name %></td>
+      <td class="table-cell element-navigation-detail" rel="<%%= index %>"><%%= entity.description %></td>
+      <td class="table-cell element-navigation-detail" rel="<%%= index %>"><%%= entity.width %></td>
+      <td class="table-cell element-navigation-detail" rel="<%%= index %>"><%%= entity.height %></td>
+      <td class="table-cell element-navigation-detail" rel="<%%= index %>"><%%= entity.size %></td>
+      <td class="table-cell element-navigation-detail" rel="<%%= index %>"><%%= entity.remaining %></td>
+      <td class="table-cell"><a href="<%%= self.model.entityHooks[0].formatAlbumViewURL(entity) %>">View photos</a>
+      <td class="table-cell"><a href="<%%= self.model.entityHooks[0].formatPhotoManagementURL(entity) %>">Manage photos</a>
+    </tr>
+
+</script>
+
+<!-- Renders one element in the element view (full detailed) -->
+
+<script type="text/tmpl" id="element_template">
+
+     <div class="element_template" style="overflow:hidden">
+       <div class="entity-field"><div class="entity-fieldlabel">Name</div> <div class="entity-fieldvalue"><span class="entity-id"><%%= entity.name %></span></div> </div>
+       <div class="entity-field"><div class="entity-fieldlabel">Description</div> <div class="entity-fieldvalue"><%%= entity.description %></div></div>
+       <div class="entity-field"><div class="entity-fieldlabel">Width</div> <div class="entity-fieldvalue"><%%= entity.width %></div> </div>
+       <div class="entity-field"><div class="entity-fieldlabel">Height</div> <div class="entity-fieldvalue"><%%= entity.height %></div> </div>              
+       <div class="entity-field"><div class="entity-fieldlabel">External album</div> <div class="entity-fieldvalue"><%%= entity.external_album %></div> </div>
+       <div class="entity-field"><div class="entity-fieldlabel">Adapter</div> <div class="entity-fieldvalue"><%%= entity.adapter %></div> </div>  
+       <div class="entity-field"><div class="entity-fieldlabel">Size</div> <div class="entity-fieldvalue"><%%= entity.size %></div> </div>
+       <div class="entity-field"><div class="entity-fieldlabel">Remaining</div> <div class="entity-fieldvalue"><%%= entity.remaining %></div> </div>  
+       <div class="entity-field"><div class="entity-fieldlabel">Bytes Used</div> <div class="entity-fieldvalue"><%%= entity.bytes_used %></div> </div>  
+     </div>
+
+</script>
+
+<!-- Renders the form to edit an element -->
+
+<script type="text/tmpl" id="element_template_form">
+              
+     <form name="element">
+        
+        <div class="top-navigation-bar navigation-bar">
+             <h2 class="form-title">Media albums</h2>
+             <div class="navigation-bar-nav-buttons">
+             </div>
+        </div>        
+
+        <div class="form-fields">
+        
+          <div class="formrow">
+            <label for="name" class="fieldtitle">Name <span class="mandatoryfield">*</span></label>
+            <input type="text" maxlength="32" id="name" name="name" class="fieldcontrol" <%% if (entity) { %> value="<%%= entity.name %>" <%% } %> />
+            <div class="fielddescription">Name of the album. It will also be used in the external system to identify the album.</div>
+          </div>
+
+          <div class="formrow">
+            <label for="description" class="fieldtitle">Description</label>
+            <textarea name="description" id="description" class="fieldcontrol"><%% if (entity) { %> <%%= entity.description %> <%% } %></textarea>
+          </div>
+          <p style="text-align:right"> <span id="description_length"></span> <%= t.available_chars %> </p>
+                
+          <div class="formrow">
+            <label for="width" class="fieldtitle">Width</label>
+            <input type="text" maxlength="3" id="width" name="width" class="fieldcontrol" <%% if (entity) { %> value="<%%= entity.width %>" <%% } %> />
+            <div class="fielddescription">The standard width of all photo albums. The photo will be modified to fit in this size.</div>
+          </div>
+
+          <div class="formrow">
+            <label for="height" class="fieldtitle">Height</label>
+            <input type="text" maxlength="3" id="height" name="height" class="fieldcontrol" <%% if (entity) { %> value="<%%= entity.height %>" <%% } %> />
+            <div class="fielddescription">The standard height of all photo albums. The photo will be modified to fit in this size.</div>
+          </div>
+          
+          <div class="formrow">
+            <label for="external_album" class="fieldtitle">External album</label>
+            <input type="text" maxlength="50" id="external_album" name="external_album" class="fieldcontrol" <%% if (entity) { %> value="<%%= entity.external_album %>" <%% } %> />
+            <div class="fielddescription">Only type it if there is an existing album that has to be integrated in the system. If the album does not exist in the extarnal system leave it empty. When a the first photo is uploaded it will be created.</div> 
+          </div>
+          
+          <div class="formrow">
+            <label for="adapter" class="fieldtitle">Adapter</label>
+            <input type="adapter" maxlength="12" id="adapter" name="adapter" class="fieldcontrol" <%% if (entity) { %> value="<%%= entity.adapter %>" <%% } %> />
+            <div class="fielddescription">The external system which will hold the albums.</div>            
+          </div>        
+          
+          <div class="formrow">
+            <label for="account[id]" class="fieldtitle">Account</label>
+            <select id="account[id]" name="account[id]"></select>
+            <div class="fielddescription">The account which will be used to access the external system.</div>
+          </div>  
+
+        </div>
+        
+        <div class="bottom-navigation-bar navigation-bar">
+             <div class="navigation-bar-nav-buttons">
+                <input type="button" class="cancel-entity-button action-button entity-management-button" value="Cancel"/>
+                <%% if (entity) { %>
+                  <input type="submit" class="update-entity-button action-button entity-management-button" value="Update"/>
+                <%% } 
+                   else { %>
+                  <input type="submit" class="create-entity-button action-button entity-management-button" value="Create"/>
+                <%% } %>
+             </div>
+        </div>
+     
+     </form>
+     
+
+</script>
+
+
+<script type="text/javascript">
+ 
+  function AlbumHook() {
+ 	   
+    this.entityKey = function(entity) {
+      return entity.id;
+    }
+
+    this.onEdit = function(entity) {
+      $('#name').attr('readonly', true);
+      $('#description').focus();  	
+      this.configForm(entity);
+    };
+  
+    this.onNew = function() {
+  	  $('#name').focus();
+  	  this.configForm(null);
+    }
+    
+    this.adaptFormData = function(data) {
+    	
+      data['external_album']=$('#external_album').val(); // Make sure it's a String	
+      
+      return data;
+    }
+    
+    this.formatAlbumViewURL = function(entity) {
+    	
+      return '/photo_gallery/album/' + entity.name;
+    	
+    }
+    
+    this.formatPhotoManagementURL = function(entity) {
+    
+      return '/photo-management/' + entity.name;
+    	
+    }
+    
+    this.configForm = function(entity) {
+             
+      var dataSource = new YsdForms.RemoteDataSource('/external-service-accounts',{'id':'id','description':'id'});
+      var value = (entity && entity.account_id)?entity.account_id:null; 
+      var selector = new YsdForms.SelectSelector('account[id]', dataSource, value, true );             
+             
+             
+         // Limit the text area length
+         YsdForms.limit_text_area_content_size(document.getElementById('description'), 256, 
+            function (content_remain) {
+              document.getElementById('description_length').innerHTML = '<strong>' + content_remain + '</strong>';
+            }
+         );    
+    	
+    }
+  	
+  };
+  
+  var urls = { 
+  	           query_url  : '/albums',
+    	       create_url : '/album',
+  	           update_url : '/album',
+  	           delete_url : '/album',
+  	           get_url    : '/album'
+  	         };
+  
+  var albumHook = new AlbumHook();
+  var albumsManager = new EntityManagement(urls, 'album', 12, albumHook);
+ 
+  $('.entity-title').html('Media albums');
+  
+  
+</script>

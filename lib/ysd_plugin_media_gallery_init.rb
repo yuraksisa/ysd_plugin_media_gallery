@@ -1,5 +1,4 @@
 require 'ysd-plugins' unless defined?Plugins::Plugin
-require 'ysd_plugin_integration_middleware'
 require 'ysd_plugin_integration_extension'
 
 Plugins::SinatraAppPlugin.register :media_gallery do
@@ -8,14 +7,13 @@ Plugins::SinatraAppPlugin.register :media_gallery do
    author=      'yurak sisa'
    description= 'Integrate the media gallery application'
    version=     '0.1'
-   sinatra_extension Sinatra::MediaGallery
+   sinatra_extension Sinatra::YSD::PhotoGallery
+   sinatra_extension Sinatra::YSD::PhotoGalleryRESTApi
    sinatra_extension Sinatra::YSD::AlbumManagement
    sinatra_extension Sinatra::YSD::AlbumManagementRESTApi
    sinatra_extension Sinatra::YSD::PhotoManagement
    sinatra_extension Sinatra::YSD::PhotoManagementRESTApi   
-   sinatra_extension Sinatra::YSD::PhotoGallery
-   sinatra_extension Sinatra::YSD::PhotoGalleryRESTApi
-   sinatra_helper Sinatra::PhotoGallery
+   sinatra_helper    Sinatra::PhotoGallery
    hooker            Huasi::MediaGalleryExtension
   
 end

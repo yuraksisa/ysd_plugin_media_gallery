@@ -1,3 +1,13 @@
+uploader:
+  photo: Seleccionar un archivo de imagen de su computadora (tamaño máximo %1 %2)
+  close_button: Cerrar  
+  max_size: El tamaño del fichero no puede exceder %1 %2
+  not_valid_image_file: La extensión del fichero no es una imagen válida
+  uploading_message: Subiendo foto
+  ok_title: Foto subida!
+  ok_description: Foto subida con éxito   
+  error_title: Error
+  error_description: Error en el servidor. Inténtelo de nuevo o pruebe con una imagen diferente. 
 media_admin_menu:
   media_menu: Media
   album_management: Albumes
