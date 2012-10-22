@@ -1,0 +1,7 @@
+         <div id="photo_template">
+         <%% if (entity && entity.photo_url_medium) { %>
+           <div id="photo_container_template" class="formrow">
+              <img id="element_photo_img_template" <%% if (entity) { %> src="<%%=entity.photo_url_full%>" <%% } %> />  
+           </div>     
+         <%% } %>
+         </div>

@@ -11,3 +11,14 @@ uploader:
 media_admin_menu:
   media_menu: Media
   album_management: Albumes
+gallery:
+  description: Album
+  action_button:
+    gallery: Gestión del álbum  
+aspect:
+  gallery: Album 
+content:
+  content_photo:
+    description: Foto de portada
+aspect:
+  photo: Foto

@@ -1,0 +1,13 @@
+        <div id="photo_form">
+          <div id="photo_container" class="formrow">
+             <img id="element_photo_img" <%% if (entity) { %> src="<%%=entity.photo_url_full%>" <%% } %> />  
+          </div>
+          <div id="photo_change_container" class="formrow">
+             <input type="button" id="change_photo_link" name="change_photo_link" value="Cambiar foto"/> 
+          </div>
+          <input type="hidden" name="photo_path" <%% if (entity) { %> value="<%%= entity.photo_path %>" <%% } %> />
+          <input type="hidden" name="photo_url_tiny" <%% if (entity) { %> value="<%%= entity.photo_url_tiny %>" <%% } %> />
+          <input type="hidden" name="photo_url_small" <%% if (entity) { %> value="<%%= entity.photo_url_small %>" <%% } %> />
+          <input type="hidden" name="photo_url_medium" <%% if (entity) { %> value="<%%= entity.photo_url_medium %>" <%% } %> />
+          <input type="hidden" name="photo_url_full" <%% if (entity) { %> value="<%%= entity.photo_url_full %>" <%% } %> />
+        </div>

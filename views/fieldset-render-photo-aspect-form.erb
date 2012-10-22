@@ -1,0 +1,18 @@
+        <div id="contact_form">
+          <div class="formrow">
+            <label for="contact_website" class="fieldtitle">Web site</label>
+            <input type="text" maxlength="50" id="contact_website" name="contact_website" class="fieldcontrol" <%% if (entity) { %> value="<%%= entity.contact_website %>" <%% } %> />
+          </div>
+          <div class="formrow">
+            <label for="contact_email" class="fieldtitle">Email</label>
+            <input type="text" maxlength="30" id="contact_email" name="contact_email" class="fieldcontrol" <%% if (entity) { %> value="<%%= entity.contact_email %>" <%% } %> />
+          </div>
+          <div class="formrow">
+            <label for="contact_phone_number" class="fieldtitle">Phone number</label>
+            <input type="text" maxlength="15" id="contact_phone_number" name="contact_phone_number" class="fieldcontrol" <%% if (entity) { %> value="<%%= entity.contact_phone_number %>" <%% } %> />
+          </div>
+<div class="formrow">
+            <label for="contact_mobile" class="fieldtitle">Mobile</label>
+            <input type="text" maxlength="15" id="contact_mobile" name="contact_mobile" class="fieldcontrol" <%% if (entity) { %> value="<%%= entity.contact_mobile %>" <%% } %> />
+          </div>
+        </div>   

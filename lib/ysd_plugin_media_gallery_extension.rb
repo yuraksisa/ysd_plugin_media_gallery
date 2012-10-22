@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 require 'ysd-plugins_viewlistener' unless defined?Plugins::ViewListener
 
 #
@@ -52,37 +50,6 @@ module Huasi
                                   :weight => 2}}]      
    
     end
-
-    # ========= Page Building ============
-
-    #
-    # It gets the style sheets defined in the module
-    #
-    # @param [Context]
-    #
-    # @return [Array]
-    #   An array which contains the css resources used by the module
-    #
-    def page_style(context={})
-      ['/photo_gallery/css/jquery.ad-gallery.css']     
-    end
- 
-    #
-    # It gets the scripts used by the module
-    #
-    # @param [Context]
-    #
-    # @return [Array]
-    #   An array which contains the css resources used by the module
-    #
-    def page_script(context={})
-    
-      ['/js/ysd.events.js',
-       '/js/ysd.dialogs.js',
-       '/photo_gallery/js/jquery.ad-gallery.js']   
-    
-    end            
-
     
     # ========= Routes ===================
     
@@ -115,6 +82,37 @@ module Huasi
     
     end
   
+    # ========= Aspects ==================
+    
+    #
+    # Retrieve an array of the aspects defined in the plugin
+    #
+    # The attachment aspect (complement)
+    #
+    def aspects(context={})
+      
+      app = context[:app]
+      
+      aspects = []
+      
+      # front-page photo aspect
+      aspects << ::Plugins::Aspect.new(:photo, app.t.aspect.photo, [:entity], PhotoAspectDelegate.new,
+                                       [Plugins::AspectConfigurationAttribute.new(:album_name, 'album name', 'photos'),
+                                        Plugins::AspectConfigurationAttribute.new(:album_photo_width, 'photo width', 640),
+                                        Plugins::AspectConfigurationAttribute.new(:album_photo_height, 'photo height', 480),
+                                        Plugins::AspectConfigurationAttribute.new(:media_accept, 'media accept', 'image/jpeg,image/gif,image/png,image/jpeg'),
+                                        Plugins::AspectConfigurationAttribute.new(:max_size, 'max size', 3000000)])
+
+      # album (galley) aspect
+      aspects << ::Plugins::Aspect.new(:album, app.t.aspect.gallery, [:entity], GalleryAspectDelegate.new,
+                                       [Plugins::AspectConfigurationAttribute.new(:album_photo_width, 'photo width', 640),
+                                        Plugins::AspectConfigurationAttribute.new(:album_photo_height, 'photo height', 480),
+                                        Plugins::AspectConfigurationAttribute.new(:media_accept, 'media accept', 'image/jpeg,image/gif,image/png,image/jpeg'),
+                                        Plugins::AspectConfigurationAttribute.new(:max_size, 'max size', 1000000)])
+                                        
+      return aspects
+       
+    end  
   
   end #MailExtension
 end #Social

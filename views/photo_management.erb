@@ -81,7 +81,7 @@
              :photo_accept => SystemConfiguration::Variable.get_value('photo_media_accept'),
              :photo_max_size => SystemConfiguration::Variable.get_value('photo_max_size').to_i}
     
-   renderer = UIFieldSetRender::FieldSetRender.new('photo', self)      
+   renderer = UI::FieldSetRender.new('photo', self)      
    photo_form_extension = renderer.render('formextension', 'em', locals)
 %>
 

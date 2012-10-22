@@ -1,0 +1,10 @@
+<% if element.album_name and element.album_name.strip.length > 0 %>
+<div class="gallery_template">
+  <div class="content_data_block">
+    <h3 class="content_data_block_title"><%= t.gallery.description %></h3>
+    <div class="content_data_row">
+      <%= album(element.album_name) %>    
+    </div>
+  </div>
+</div>
+<% end %>

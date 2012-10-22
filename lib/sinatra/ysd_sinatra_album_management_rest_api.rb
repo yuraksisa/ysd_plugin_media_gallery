@@ -45,16 +45,12 @@ module Sinatra
         # Create a new album
         #
         app.post "/album" do
-        
-          puts "Creating album"
           
           request.body.rewind
           album_request = JSON.parse(URI.unescape(request.body.read))
           
           # Creates the new album
           the_album = Media::Album.create(album_request) 
-          
-          puts "created album : #{the_album}"
           
           # Return          
           status 200
@@ -68,8 +64,6 @@ module Sinatra
         #
         app.put "/album" do
         
-          puts "Updating album"
-        
           request.body.rewind
           album_request = JSON.parse(URI.unescape(request.body.read))
           
@@ -77,8 +71,6 @@ module Sinatra
           the_album = Media::Album.get(album_request['name'])
           the_album.attributes=(album_request)
           the_album.save
-          
-          puts "updated album : #{the_album}"
                    
           # Return          
           status 200
@@ -92,6 +84,17 @@ module Sinatra
         # Deletes an album
         #
         app.delete "/album" do
+
+          request.body.rewind
+          album_request = JSON.parse(URI.unescape(request.body.read))
+          
+          if the_album = Media::Album.get(album_request['name'])
+            the_album.destroy
+          end
+          
+          status 200
+          content_type :json
+          true.to_json 
         
         end
       
