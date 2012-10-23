@@ -137,6 +137,9 @@
 
 <script type="text/javascript">
  
+ require(['jquery', 'YSDEntityManagement', 'YSDForms', 'YSDRemoteDataSource', 'YSDSelectSelector']
+         function($, EntityManagement, YSDForms, RemoteDataSource, SelectSelector) {
+ 
   function AlbumHook() {
  	   
     this.entityKey = function(entity) {
@@ -175,13 +178,13 @@
     
     this.configForm = function(entity) {
              
-      var dataSource = new YsdForms.RemoteDataSource('/external-service-accounts',{'id':'id','description':'id'});
+      var dataSource = new RemoteDataSource('/external-service-accounts',{'id':'id','description':'id'});
       var value = (entity && entity.account_id)?entity.account_id:null; 
-      var selector = new YsdForms.SelectSelector('account[id]', dataSource, value, true );             
+      var selector = new SelectSelector('account[id]', dataSource, value, true );             
              
              
-         // Limit the text area length
-         YsdForms.limit_text_area_content_size(document.getElementById('description'), 256, 
+      // Limit the text area length
+      YSDForms.limit_text_area_content_size(document.getElementById('description'), 256, 
             function (content_remain) {
               document.getElementById('description_length').innerHTML = '<strong>' + content_remain + '</strong>';
             }
@@ -204,5 +207,6 @@
  
   $('.entity-title').html('Media albums');
   
+ });
   
 </script>

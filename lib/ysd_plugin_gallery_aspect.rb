@@ -1,3 +1,5 @@
+require 'renders/ysd_ui_fieldset_render' unless defined?UI::FieldSetRender
+
 module Huasi
   #
   # Gallery aspect
@@ -15,7 +17,7 @@ module Huasi
     
       app = context[:app]
       
-      renderer = UI::FieldSetRender.new('gallery', app)
+      renderer = ::UI::FieldSetRender.new('gallery', app)
       renderer.render('view','',{:element => element})
     
     end       

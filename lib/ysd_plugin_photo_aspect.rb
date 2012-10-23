@@ -1,3 +1,5 @@
+require 'renders/ysd_ui_fieldset_render' unless defined?UI::FieldSetRender
+
 module Huasi
   #
   # Photo aspect
@@ -45,7 +47,7 @@ module Huasi
       
       app = context[:app]
       
-      renderer = UI::FieldSetRender.new('photo', app)      
+      renderer = ::UI::FieldSetRender.new('photo', app)      
       photo_form = renderer.render('form', 'em')     
     
     end
@@ -86,7 +88,7 @@ module Huasi
     
        app = context[:app]
     
-       renderer = UI::FieldSetRender.new('photo', app)      
+       renderer = ::UI::FieldSetRender.new('photo', app)      
        photo_template = renderer.render('view', 'em')
                 
     end

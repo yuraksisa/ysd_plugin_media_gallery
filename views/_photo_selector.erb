@@ -1,26 +1,3 @@
-<style type="text/css">
-    
-  #uploader_form {
-  	width: 95%;
-  	padding: 5px;
-  }
-  
-  #photo_container {
-    margin: 0 auto;
-    height: 300px;
-  }
-    
-  #photo_img {
-    margin: 0 auto;
-  }
-  
-  #uploader_form_buttons {
-    position: relative;
-    bottom: 0px;	
-  }
-  
-</style>
-
 <div id="photo_block">
   
   <form id="uploader_form" method="POST" enctype="multipart/form-data" action="/photo_gallery/photo" name="uploader_form" target="uploader_iframe">
@@ -57,6 +34,9 @@
 </div>
  
 <script type="text/javascript">
+
+require(['jquery', 'YSDEventTarget', 'YSDEvents', 'YSDProcessingRequest', 'jquery.ui', 'YSDjson2'],
+        function($, EventTarget, YSDEvents, ProcessingRequest) {
 
   uploaderModel = {
   	
@@ -149,7 +129,7 @@
   
   uploaderController = {
   	
-  	events : new YSD.EventTarget(),
+  	events : new EventTarget(),
   	
   	photoSelected : function() { /* The user choose an image */
   		
@@ -165,19 +145,19 @@
   
   uploaderView = {
   	
-  	sendingRequest : new YSD.dialogs.SendingRequest('<%=t.uploader.uploading_message%>'),
+  	sendingRequest : new ProcessingRequest('<%=t.uploader.uploading_message%>'),
   	
   	init : function() {
   			
   	  // Configure the events
   	  
-  	  YSD.addEvent(document.getElementById('close_button'),
+  	  YSDEvents.addEvent(document.getElementById('close_button'),
   	               'click',
   	               function(event) {
   	               	 uploaderController.close();
   	               });
   	  
-  	  YSD.addEvent(document.getElementById('photo_file'),
+  	  YSDEvents.addEvent(document.getElementById('photo_file'),
   	               'change',
   	               function(event) {
   	  	
@@ -188,7 +168,7 @@
   	  	
   	               });
 
-      YSD.addEvent(document.getElementById('uploader_iframe'),
+      YSDEvents.addEvent(document.getElementById('uploader_iframe'),
                    'load',
                    function(event) {
                    	 
@@ -207,13 +187,13 @@
                    }
                    );  	     
                    
-      YSD.addEvent(document.getElementById('photo_img'),
+      YSDEvents.addEvent(document.getElementById('photo_img'),
                    'load',
                    function(event) {
                    	YSD.styles.center_container(document.getElementById('photo_img'));
                    });          
   		
-  	  YSD.addEvent(document.getElementById('uploader_form'),
+  	  YSDEvents.addEvent(document.getElementById('uploader_form'),
   	               'submit',
   	               function(event) {
   	                 uploaderModel.change_state('send_request');
@@ -276,5 +256,7 @@
   };
   
   uploaderView.init();
+  
+});
 
 </script>

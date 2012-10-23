@@ -8,19 +8,18 @@
         </div>
 
         <script type="text/javascript">
+        
+        require(['jquery', 'YSDGui', 'YSDEntityManagementComplementHooks'],
+                function($, YSDGui, EntityManagementComplementHooks) {
 
           PhotoPlugin = function() {
           	
             this.onEdit = function() { /* On Edit */
-            
               this.configureEvents();
-            
             };
             
             this.onNew = function() { /* On new */
-              
               this.configureEvents();
-            
             };
             
             /* -------------------------- */
@@ -28,7 +27,6 @@
             this.configureEvents = function() { /* Configure the events */
             
               var self = this;
-            
               $('#change_photo_link').bind('click',
                 function(event) {
                   self.choosePhoto();	
@@ -85,7 +83,7 @@
                      document.forms['element']['element_photo_img'].setAttribute('src', uploaderModel.photo.image_url); 
   	               }
   	               
-  	               YSD.hideElement(document.getElementById('choose_photo'));
+  	               YSDGui.hideElement(document.getElementById('choose_photo'));
   	                     
   	             } // onPhotoUploaded
   	           }  	
@@ -93,22 +91,20 @@
   	           if (typeof uploaderController != "undefined") {
   	           	
   	           	uploaderController.events.addEventListener('close', function(event) {
-  	           	  YSD.hideElement(document.getElementById('choose_photo'));	
+  	           	  YSDGui.hideElement(document.getElementById('choose_photo'));	
   	           	});
   	           	
   	           }
   	           
-  	           YSD.showElement(document.getElementById('choose_photo'), true);	
+  	           YSDGui.showElement(document.getElementById('choose_photo'), true);	
     	    } // choosePhoto
           };
           
-          
-          if (typeof YSD.entityManagement.complementHooks != 'undefined') {
+          	
+          var photoPlugin = new PhotoPlugin();
+          EntityManagementComplementHooks.register(photoPlugin);	
 	
-            var photoPlugin = new PhotoPlugin();
-    
-            YSD.entityManagement.complementHooks.register(photoPlugin);	
-	
-          }          
+     
+       });
           
-          </script>
+     </script>
