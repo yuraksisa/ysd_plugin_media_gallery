@@ -1,4 +1,4 @@
-require 'renders/ysd_ui_fieldset_render' unless defined?UI::FieldSetRender
+require 'ui/ysd_ui_fieldset_render' unless defined?UI::FieldSetRender
 
 module Huasi
   #

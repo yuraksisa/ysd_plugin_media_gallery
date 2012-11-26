@@ -8,6 +8,11 @@ uploader:
   ok_description: Foto carregada amb èxit  
   error_title: Error
   error_description: S\'ha produit un error al servidor. Torni-ho a intentar o provi amb altre imatge.
+#
+media_gallery:
+  photo_aspect:
+    no_photo_message: No s\'ha adjuntat cap foto
+#
 media_admin_menu:
   media_menu: Media
   album_management: Albums
@@ -15,10 +20,12 @@ gallery:
   description: Àlbum
   action_button:
     gallery: Gestionar àlbum
-aspect:
-  gallery: Àlbum
 content:
   content_photo:
     description: Imatge de portada
+#
+# Aspects
+#    
 aspect:
   photo: Foto  
+  gallery: Àlbum  

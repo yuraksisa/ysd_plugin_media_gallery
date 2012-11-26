@@ -9,102 +9,98 @@
 
         <script type="text/javascript">
         
-        require(['jquery', 'YSDGui', 'YSDEntityManagementComplementHooks'],
-                function($, YSDGui, EntityManagementComplementHooks) {
+          require(['jquery', 'YSDGui', 'YSDEntityManagementComplementHooks'],
+                   function($, YSDGui, EntityManagementComplementHooks) {
+          	
+            PhotoPlugin = function() {
+          	
+              this.onEdit = function() { /* On Edit */
+                this.configureEvents();
+              };
+            
+              this.onNew = function() { /* On new */
+                this.configureEvents();
+              };
 
-          PhotoPlugin = function() {
-          	
-            this.onEdit = function() { /* On Edit */
-              this.configureEvents();
-            };
-            
-            this.onNew = function() { /* On new */
-              this.configureEvents();
-            };
-            
-            /* -------------------------- */
-            
-            this.configureEvents = function() { /* Configure the events */
-            
-              var self = this;
-              $('#change_photo_link').bind('click',
-                function(event) {
-                  self.choosePhoto();	
-                });
-            
-            };
-   
-  	        this.choosePhoto = function() { /* Choose the photo (push the button) */
+              this.configureEvents = function() { /* Configure the events */
+                var self = this;
+                $('#change_photo_link').bind('click',
+                  function(event) {
+                    self.choosePhoto();	
+                  });
+              };
+
+  	          this.choosePhoto = function() { /* Choose the photo (push the button) */
   	
-  	           if (typeof uploaderModel != "undefined") {
+  	            if (typeof uploaderModel != "undefined") {
   	  	 
-                 var photoAlbum = '';
-                 var photoId = '';
+                   var photoAlbum = '';
+                   var photoId = '';
  
-  	  	         if (document.forms['element']['photo_path']) { 
-  	  	           /*var reg_exp = /album\\/(\\w+)\\/photo\\/(\\w+)/;*/
-  	  	           var reg_exp = new RegExp("album\\/(\\w+)\\/photo\\/(\\w+)");
-                   var photo_info = document.forms['element']['photo_path'].value.match(reg_exp);          
-                   if (photo_info) {
-                     photoAlbum = photo_info[1];
-                     photoId = photo_info[2];  	  	
-                   }
-  	  	         }
+  	  	           if (document.forms['element']['photo_path']) { 
+  	  	             var reg_exp = new RegExp("album\\/(\\w+)\\/photo\\/(\\w+)");
+                     var photo_info = document.forms['element']['photo_path'].value.match(reg_exp);          
+                     if (photo_info) {
+                       photoAlbum = photo_info[1];
+                       photoId = photo_info[2];  	  	
+                     }
+  	  	           }
   	  	
-  	  	         uploaderModel.photoId = photoId;
-  	  	         uploaderModel.photoAlbum = photoAlbum;
-  	  	         if (document.forms['element']['key']) {
-  	               uploaderModel.photoName = document.forms['element']['key'].value;
-  	  	         }
+   	  	           uploaderModel.photoId = photoId;
+  	  	           uploaderModel.photoAlbum = photoAlbum;
+  	  	           if (document.forms['element']['key']) {
+  	                 uploaderModel.photoName = document.forms['element']['key'].value;
+  	  	           }
   	  	         
-  	             uploaderModel.onPhotoUploaded = function() {
+  	               uploaderModel.onPhotoUploaded = function() {
   	      
-  	               var the_photo = 'album/' + uploaderModel.photo.album.name + '/photo/' + uploaderModel.photo.id;
-  	               document.forms['element']['photo_path'].setAttribute('value', the_photo);
+  	                 var the_photo = 'album/' + uploaderModel.photo.album.name + '/photo/' + uploaderModel.photo.id;
+  	                 document.forms['element']['photo_path'].setAttribute('value', the_photo);
   	      
-  	               if (document.forms['element']['photo_url_tiny'] && uploaderModel.photo.thumbnails && uploaderModel.photo.thumbnails[0] && uploaderModel.photo.thumbnails[0].thumbnail_url) {
-  	                 document.forms['element']['photo_url_tiny'].setAttribute('value', uploaderModel.photo.thumbnails[0].thumbnail_url);
-  	               }
+  	                 if (document.forms['element']['photo_url_tiny'] && uploaderModel.photo.thumbnails && uploaderModel.photo.thumbnails[0] && uploaderModel.photo.thumbnails[0].thumbnail_url) {
+  	                   document.forms['element']['photo_url_tiny'].setAttribute('value', uploaderModel.photo.thumbnails[0].thumbnail_url);
+  	                 }
   	      
-  	               if (document.forms['element']['photo_url_small'] && uploaderModel.photo.thumbnails && uploaderModel.photo.thumbnails[1] && uploaderModel.photo.thumbnails[1].thumbnail_url) {
-  	                 document.forms['element']['photo_url_small'].setAttribute('value', uploaderModel.photo.thumbnails[1].thumbnail_url);
-  	               }
+  	                 if (document.forms['element']['photo_url_small'] && uploaderModel.photo.thumbnails && uploaderModel.photo.thumbnails[1] && uploaderModel.photo.thumbnails[1].thumbnail_url) {
+  	                   document.forms['element']['photo_url_small'].setAttribute('value', uploaderModel.photo.thumbnails[1].thumbnail_url);
+  	                 }
   	      
-  	               if (document.forms['element']['photo_url_medium'] && uploaderModel.photo.thumbnails && uploaderModel.photo.thumbnails[2] && uploaderModel.photo.thumbnails[2].thumbnail_url ) {
-  	                 document.forms['element']['photo_url_medium'].setAttribute('value', uploaderModel.photo.thumbnails[2].thumbnail_url);
-  	               }
+  	                 if (document.forms['element']['photo_url_medium'] && uploaderModel.photo.thumbnails && uploaderModel.photo.thumbnails[2] && uploaderModel.photo.thumbnails[2].thumbnail_url ) {
+  	                   document.forms['element']['photo_url_medium'].setAttribute('value', uploaderModel.photo.thumbnails[2].thumbnail_url);
+  	                 }
   	      
-  	               if (document.forms['element']['photo_url_full'] && uploaderModel.photo.image_url) {
-  	                 document.forms['element']['photo_url_full'].setAttribute('value', uploaderModel.photo.image_url);
-  	               }
+  	                 if (document.forms['element']['photo_url_full'] && uploaderModel.photo.image_url) {
+  	                   document.forms['element']['photo_url_full'].setAttribute('value', uploaderModel.photo.image_url);
+  	                 }
   	      
-  	               // The version is added to force the photo reload
-  	               if (document.forms['element']['element_photo_img'] &&  uploaderModel.photo.image_url) {
-                     document.forms['element']['element_photo_img'].setAttribute('src', uploaderModel.photo.image_url); 
-  	               }
+  	                 // The version is added to force the photo reload
+  	                 if (document.forms['element']['element_photo_img'] &&  uploaderModel.photo.image_url) {
+                       document.forms['element']['element_photo_img'].setAttribute('src', uploaderModel.photo.image_url); 
+  	                 }
   	               
-  	               YSDGui.hideElement(document.getElementById('choose_photo'));
+  	                 YSDGui.hideElement(document.getElementById('choose_photo'));
   	                     
-  	             } // onPhotoUploaded
-  	           }  	
+  	               } // onPhotoUploaded
+  	             }  	
   	           
-  	           if (typeof uploaderController != "undefined") {
+  	             if (typeof uploaderController != "undefined") {
   	           	
-  	           	uploaderController.events.addEventListener('close', function(event) {
-  	           	  YSDGui.hideElement(document.getElementById('choose_photo'));	
-  	           	});
+  	           	   uploaderController.events.addEventListener('close', function(event) {
+  	           	     YSDGui.hideElement(document.getElementById('choose_photo'));	
+  	           	   });
   	           	
-  	           }
+  	             }
   	           
-  	           YSDGui.showElement(document.getElementById('choose_photo'), true);	
-    	    } // choosePhoto
-          };
+  	             YSDGui.showElement(document.getElementById('choose_photo'), true);	
+    	      } // choosePhoto
           
-          	
-          var photoPlugin = new PhotoPlugin();
-          EntityManagementComplementHooks.register(photoPlugin);	
-	
+            };
+
+            var photoPlugin = new PhotoPlugin();
+            EntityManagementComplementHooks.register(photoPlugin);	
      
-       });
+          });
           
-     </script>
+        </script>
+        
+        

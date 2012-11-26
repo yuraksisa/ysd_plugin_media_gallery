@@ -35,8 +35,8 @@
  
 <script type="text/javascript">
 
-require(['jquery', 'YSDEventTarget', 'YSDEvents', 'YSDDialog', 'jquery.ui', 'YSDjson2'],
-        function($, EventTarget, YSDEvents, ProcessingRequest) {
+require(['jquery', 'YSDEventTarget', 'YSDEvents', 'YSDStyles', 'YSDDialog', 'jquery.ui', 'YSDjson2'],
+        function($, EventTarget, YSDEvents, YSDStyles, ProcessingRequest) {
 
   uploaderModel = {
   	
@@ -190,7 +190,7 @@ require(['jquery', 'YSDEventTarget', 'YSDEvents', 'YSDDialog', 'jquery.ui', 'YSD
       YSDEvents.addEvent(document.getElementById('photo_img'),
                    'load',
                    function(event) {
-                   	YSD.styles.center_container(document.getElementById('photo_img'));
+                   	YSDStyles.center_container(document.getElementById('photo_img'));
                    });          
   		
   	  YSDEvents.addEvent(document.getElementById('uploader_form'),

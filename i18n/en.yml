@@ -8,6 +8,11 @@ uploader:
   ok_description: Photo uploaded successfully  
   error_title: Error
   error_description: Server error. Try it again or choose a different image.
+#
+media_gallery:
+  photo_aspect:
+    no_photo_message: There is no photo 
+#
 media_admin_menu:
   media_menu: Media
   album_management: Albums
@@ -15,10 +20,12 @@ gallery:
   description: Gallery
   action_button:
     gallery: Gallery management  
-aspect:
-  gallery: Gallery
 content:
   content_photo:
     description: Front page photo
+#
+# Aspects
+#
 aspect:
-  photo: Photo  
+  photo: Photo 
+  gallery: Gallery 

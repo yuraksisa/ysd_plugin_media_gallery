@@ -1,0 +1,27 @@
+    <div class="photo_config_template">
+          <div class="formrow">
+            <label for="aspect_attributes[album_name]" class="fieldtitle">Album name<span class="mandatoryfield">*</span></label>
+            <input type="text" maxlength="32" id="aspect_attributes[album_name]" name="aspect_attributes[album_name]" class="fieldcontrol" <%% if (entity) {%> value="<%%=entity.aspect_attributes.album_name %>" <%% } %>/>
+            <div class="fielddescription">The album name where photos are stored.</div>
+          </div>
+          <div class="formrow">
+            <label for="aspect_attributes[album_photo_width]" class="fieldtitle">Photo width <span class="mandatoryfield">*</span></label>
+            <input type="text" maxlength="4" id="aspect_attributes[album_photo_width]" name="aspect_attributes[album_photo_width]" class="fieldcontrol" <%% if (entity) {%> value="<%%=entity.aspect_attributes.album_photo_width %>" <%% } %>/>
+            <div class="fielddescription">The photo maximum width. If the photo is wider it will be reduced.</div>
+          </div>
+          <div class="formrow">
+            <label for="aspect_attributes[album_photo_height]" class="fieldtitle">Photo height <span class="mandatoryfield">*</span></label>
+            <input type="text" maxlength="32" id="aspect_attributes[album_photo_height]" name="aspect_attributes[album_photo_height]" class="fieldcontrol" <%% if (entity) {%> value="<%%=entity.aspect_attributes.album_photo_height %>" <%% } %>/>
+            <div class="fielddescription">The photo maximum height. If the photo is higher it will be reduced.</div>
+          </div>          
+          <div class="formrow">
+            <label for="aspect_attributes[media_accept]" class="fieldtitle">Media accept <span class="mandatoryfield">*</span></label>
+            <input type="text" maxlength="256" id="aspect_attributes[media_accept]" name="aspect_attributes[media_accept]" class="fieldcontrol" <%% if (entity) {%> value="<%%=entity.aspect_attributes.media_accept %>" <%% } %>/>
+            <div class="fielddescription">The photo album where photos are stored.</div>
+          </div>  
+          <div class="formrow">
+            <label for="aspect_attributes[max_size]" class="fieldtitle">Max size (in bytes) <span class="mandatoryfield">*</span></label>
+            <input type="text" maxlength="10" id="aspect_attributes[max_size]" name="aspect_attributes[max_size]" class="fieldcontrol" <%% if (entity) {%> value="<%%=entity.aspect_attributes.max_size %>" <%% } %>/>
+            <div class="fielddescription">The photo max size (in bytes).</div>
+          </div>            
+    </div>
