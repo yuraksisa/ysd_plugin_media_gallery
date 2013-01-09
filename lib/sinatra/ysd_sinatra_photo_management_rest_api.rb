@@ -8,11 +8,14 @@ module Sinatra
         # Retrive the photos of an album (GET)
         #
         app.get "/photos/:album_name" do
-          data=Media::Album.all
-  
-          # Prepare the result
-          content_type :json
-          data.to_json
+          
+          if media_album = Media::Album.get(params[:album_name])
+            content_type :json
+            media_album.photos.to_json
+          else
+            status 404
+          end
+
         end
         
         #
@@ -23,9 +26,8 @@ module Sinatra
           
             media_album=Media::Album.get(params[:album_name])
             
-            # Synchronizes the album information
             data = if media_album and media_album.adapted_album
-                     media_album.adapted_album.photos 
+                     media_album.photos 
                    else
                      []
                    end

@@ -1,0 +1,69 @@
+  
+  <style type="text/css">
+  
+    #gallery {
+      padding-top: 10px;
+    }
+    
+    #descriptions {
+      position: relative;
+      height: 50px;
+      background: #EEE;
+      margin-top: 10px;
+      width: <%="#{media_album.width}px}"%>;
+      padding: 10px;
+      overflow: hidden;
+    }
+   
+    #descriptions .ad-image-description {
+      position: absolute;
+    }
+   
+    #descriptions .ad-image-description .ad-description-title {
+      display: block;
+    }   
+  
+  </style>
+
+  <div id="gallery" class="ad-gallery">
+    <div class="ad-image-wrapper">
+    </div>
+    <div class="ad-controls">
+    </div>
+    <div class="ad-nav">
+      <div class="ad-thumbs">
+        <ul class="ad-thumb-list">
+          <% index = 0 %>
+          <% if media_album.adapted_album %>
+            <% media_album.photos.each do |photo| %>
+              <li>
+                <a href="<%="#{photo.get_image_url(media_album.width, media_album.height)}"%>" class="ad-thumb<%=index%>">
+                  <img src="<%="#{photo.thumbnails[0].thumbnail_url}"%>" class="image<%=index%>"/>
+                </a>
+              </li>  
+              <% index = index + 1 %>
+            <% end %>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+  <script type="text/javascript">
+  
+   require(['jquery', 'jquery.ad-gallery'], function($) {
+    
+     $(document).ready(function() {
+       <%  
+         gallery_options = [] 
+         options.each do |key, value|
+           gallery_options << "#{key.to_s}:#{value.to_s}"
+         end
+       %> 
+  	  var galleries = $('.ad-gallery').adGallery({ <%= gallery_options.join(',') %> });
+    });
+
+   });
+  
+  
+  </script>

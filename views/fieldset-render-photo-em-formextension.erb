@@ -14,13 +14,26 @@
           	
             PhotoPlugin = function() {
           	
-              this.onEdit = function() { /* On Edit */
+              this.onEdit = function(entity) { /* On Edit */
+                this.configForm(entity);
                 this.configureEvents();
               };
             
               this.onNew = function() { /* On new */
+                this.configForm(null);
                 this.configureEvents();
               };
+
+              this.adaptFormData = function(data) {
+                delete data.change_photo_link;
+                return data;
+              }
+               
+              this.configForm = function(entity) {
+                $('form[name=uploader_form] input[name=photo_id]').val('');
+                $('form[name=uploader_form] input[name=photo_name]').val('');
+                $('form[name=uploader_form] input[name=photo_description]').val('');
+              }
 
               this.configureEvents = function() { /* Configure the events */
                 var self = this;

@@ -1,0 +1,11 @@
+    <div class="slider-wrapper theme-default">
+      <div id="<%="slider_#{media_album.name}"%>" class="nivoSlider">
+        <% media_album.photos.each do |photo| %>
+         <a href="<%="#{photo.get_image_url(media_album.width, media_album.height)}"%>" class="slider-thumbnail">
+           <img src="<%="#{photo.get_image_url(media_album.width, media_album.height)}"%>" class="slider-thumbnail-img" alt="<%= photo.description %>"/>
+         </a>
+        <% end %>      	
+      </div>
+    </div>
+    
+    <%= slider("#slider_#{media_album.name}") %>

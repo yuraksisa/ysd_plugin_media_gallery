@@ -1,5 +1,3 @@
-require 'RMagick'
-
 require 'ysd_plugin_photo_aspect'
 require 'ysd_plugin_gallery_aspect'
 

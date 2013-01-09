@@ -1,4 +1,3 @@
-require 'stringio' unless defined?StringIO
 module Sinatra
   module YSD
     #
@@ -26,7 +25,7 @@ module Sinatra
             options.store(:height, media_album.height)
           end
           
-          load_page :album, {:locals => {:album => media_album, :options=> options}}
+          load_page(:album, {:locals => {:media_album => media_album, :options=> options}})
         
         end
         

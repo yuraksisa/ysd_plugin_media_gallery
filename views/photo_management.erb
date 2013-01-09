@@ -1,5 +1,15 @@
 <%= include('entity-management') %>
 
+<!-- Renders the element description -->
+<script type="text/tmpl" id="elements_title">
+  <h2 class="entity-title">Fotos del album <%= album.name %></h2>
+</script>
+
+<!-- Renders the element description -->
+<script type="text/tmpl" id="elements_description">
+ <p>Fotos</p>
+</script>
+
 <!-- Renders the elements container -->
 <script type="text/tmpl" id="elements_container_template">
 
@@ -46,13 +56,7 @@
 <script type="text/tmpl" id="element_template_form">
               
      <form name="element">
-        
-        <div class="top-navigation-bar navigation-bar">
-             <h2 class="form-title">Photos on <%%= self.model.configuration.parentId %></h2>
-             <div class="navigation-bar-nav-buttons">
-             </div>
-        </div>        
-
+       
         <div class="form-fields">
           <input type="hidden" name="photo_path" id="photo_path" <%% if (entity) { %> value="<%%= self.model.entityHooks[0].configurePhotoPath(entity) %>" <%% } %> />
           <div class="form-row">
@@ -71,24 +75,14 @@
              
      </form>
      
-
 </script>
-
-<%   
-   locals = {:photo_album => album.name, 
-             :photo_width => album.width, 
-             :photo_height => album.height,
-             :photo_accept => SystemConfiguration::Variable.get_value('photo_media_accept'),
-             :photo_max_size => SystemConfiguration::Variable.get_value('photo_max_size').to_i}
-    
-   renderer = UI::FieldSetRender.new('photo', self)      
-   photo_form_extension = renderer.render('formextension', 'em', locals)
-%>
 
 <%= photo_form_extension %>
 
 <script type="text/javascript">
  
+require(['jquery','YSDEntityManagement',"YSDEntityManagementComplementHooks"], function($,EntityManagement, EntityManagementComplementHooks){
+
   function PhotoHook() {
  	   
     this.entityKey = function(entity) {
@@ -117,7 +111,7 @@
       	      	  
           if (entity) {          	          	
      
-         	 // Actualizacion del detalle y del elemento en la lista      	  
+         	   // Actualizacion del detalle y del elemento en la lista      	  
       	     entity.image_url = document.getElementById('element_photo_img').getAttribute('src');
       	     photosManager.model.currentEntity().image_url = document.getElementById('element_photo_img').getAttribute('src');      	   
              photosManager.model.change_state('entity_updated_successfully');	   	      	  
@@ -147,7 +141,7 @@
   
   var urls = { 
   	           query_url  : '/photos',
-    	       create_url : '/photo',
+    	         create_url : '/photo',
   	           update_url : '/photo',
   	           delete_url : '/photo',
   	           get_url    : '/photo'
@@ -155,14 +149,10 @@
 
   var photoHook = new PhotoHook();
   var hooks = [photoHook];
-  
-  // Add the complement hooks
-  if (typeof YSD.entityManagement.complementHooks != 'undefined') {
-    hooks = hooks.concat(YSD.entityManagement.complementHooks.complements);
-  }  
-  
+  hooks = hooks.concat(EntityManagementComplementHooks.complements);
+    
   var photosManager = new EntityManagement(urls, 'photo', 12, hooks, {parent_filtered:true});
  
-  $('.entity-title').html('Photos on ' + photosManager.model.configuration.parentId);
+});
   
 </script>

@@ -108,10 +108,12 @@ module Huasi
 
       # album (galley) aspect
       aspects << ::Plugins::Aspect.new(:album, app.t.aspect.gallery, FieldSet::Album, GalleryAspectDelegate.new,
-                                       [Plugins::AspectConfigurationAttribute.new(:album_photo_width, 'photo width', 640),
+                                       [Plugins::AspectConfigurationAttribute.new(:album_prefix, 'album prefix', 'ysd_'),
+                                        Plugins::AspectConfigurationAttribute.new(:album_photo_width, 'photo width', 640),
                                         Plugins::AspectConfigurationAttribute.new(:album_photo_height, 'photo height', 480),
                                         Plugins::AspectConfigurationAttribute.new(:media_accept, 'media accept', 'image/jpeg,image/gif,image/png,image/jpeg'),
-                                        Plugins::AspectConfigurationAttribute.new(:max_size, 'max size', 1000000)])
+                                        Plugins::AspectConfigurationAttribute.new(:max_size, 'max size', 1000000),
+                                        Plugins::AspectConfigurationAttribute.new(:render, 'render', 'album')])
                                         
       return aspects
        

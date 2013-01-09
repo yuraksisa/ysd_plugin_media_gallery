@@ -24,8 +24,22 @@ content:
   content_photo:
     description: Imatge de portada
 #
+# Album management
+#
+album_management:
+  form:
+    title: Àlbums
+    description: >
+                 <p>Àlbums multimedia pot utilitzar-se per organitzar i presentar col.leccions d\'imatges. Alguns mòduls utilitzen àlbums per organitzer les seves imatges.</p>
+                 <p>Les imatges s\'emmagatzemen en un sistema extern com Picasa o Flickr.</p> 
+#
 # Aspects
 #    
 aspect:
   photo: Foto  
   gallery: Àlbum  
+gallery_aspect:
+  form:
+    album_name:
+      label: Àlbum
+      description: El nom de l\'album

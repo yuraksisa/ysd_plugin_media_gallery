@@ -1,9 +1,14 @@
     <div id="photo_aspect_config_form" class="aspect_config_form">
           <div class="formrow">
-            <label for="aspect_attributes[album_name]" class="fieldtitle">Album name<span class="mandatoryfield">*</span></label>
-            <input type="text" maxlength="50" id="aspect_attributes[album_name]" name="aspect_attributes[album_name]" class="fieldcontrol" <%% if (entity) {%> value="<%%=entity.aspect_attributes.album_name %>" <%% } %>/>
-            <div class="fielddescription">The album name where photos are stored.</div>
+            <label for="aspect_attributes[album_prefix]" class="fieldtitle">Album prefix<span class="mandatoryfield">*</span></label>
+            <input type="text" maxlength="8" id="aspect_attributes[album_prefix]" name="aspect_attributes[album_prefix]" class="fieldcontrol" <%% if (entity) {%> value="<%%=entity.aspect_attributes.album_prefix %>" <%% } %>/>
+            <div class="fielddescription">The album name prefix where photos are stored.</div>
           </div>
+          <div class="formrow">
+            <label for="aspect_attributes[render]" class="fieldtitle">Render</label>
+            <input type="text" maxlength="30" id="aspect_attributes[render]" name="aspect_attributes[render]" class="fieldcontrol" <%% if (entity) {%> value="<%%=entity.aspect_attributes.render %>" <%% } %>/>
+            <div class="fielddescription">The album render template.</div>
+          </div>          
           <div class="formrow">
             <label for="aspect_attributes[album_photo_width]" class="fieldtitle">Photo width <span class="mandatoryfield">*</span></label>
             <input type="text" maxlength="4" id="aspect_attributes[album_photo_width]" name="aspect_attributes[album_photo_width]" class="fieldcontrol" <%% if (entity) {%> value="<%%=entity.aspect_attributes.album_photo_width %>" <%% } %>/>
