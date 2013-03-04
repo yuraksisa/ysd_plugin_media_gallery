@@ -1,4 +1,6 @@
-require 'uuid'
+require 'uuid' unless defined?UUID
+require 'ysd_md_photo_gallery' unless defined?Media::Album
+
 module Sinatra
   module YSD
     #
@@ -64,11 +66,8 @@ module Sinatra
                                               end)  
           
           photo_file = params['photo_file'][:tempfile]
-          
-          # Get the album   
+ 
           media_album = Media::Album.first_or_create({:name => album_name}, album_data) 
-                    
-          # Update the photo
           photo=media_album.add_or_update_photo(photo_data, photo_file)
                                
           status 200

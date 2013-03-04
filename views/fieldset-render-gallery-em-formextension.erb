@@ -207,10 +207,14 @@ require(['jquery', 'YSDEntityManagementComplementHooks', 'YSDMemoryDataSource', 
 
       this.fileUploader.addListener('file_uploaded', function(event) {
         var data = event.data.file;
-        self.selector.addElement({id:data.id, description: '<img src="' + data.thumbnails[0].thumbnail_url + '" class="album-photo" data-photo-path="' + '/album/' + entity.album_name + '/photo/' + data.id + '"' + 'data-photo-url-tiny="' + data.thumbnails[0].thumbnail_url + '"' + 'data-photo-url-small="' + data.thumbnails[1].thumbnail_url + '"' + 'data-photo-url-medium="' + data.thumbnails[2].thumbnail_url + '"' + 'data-photo-url-full="' + data.image_url + '"/>'});
+        var album_name = data.album.name;
+        if (entity && entity.album_name && entity.album_name != '') {
+          album_name = entity.album_name;
+        }
+        self.selector.addElement({id:data.id, description: '<img src="' + data.thumbnails[0].thumbnail_url + '" class="album-photo" data-photo-path="' + '/album/' + album_name + '/photo/' + data.id + '"' + ' data-photo-url-tiny="' + data.thumbnails[0].thumbnail_url + '"' + ' data-photo-url-small="' + data.thumbnails[1].thumbnail_url + '"' + ' data-photo-url-medium="' + data.thumbnails[2].thumbnail_url + '"' + ' data-photo-url-full="' + data.image_url + '"/>'});
 
         if ($('input[name=album_name]').val() == '') {
-          $('input[name=album_name]').val(data.album.name);
+          $('input[name=album_name]').val(album_name);
           self.albumNameConfiguration();	
         }
       });      

@@ -1,7 +1,7 @@
 <div id="gallery_form">
   <div class="formrow">
-    <label for="album_name"><%=t.gallery_aspect.form.album_name.label%></label>
-    <input type="text" id="album_name" name="album_name" maxlength="50" class="fieldcontrol" <%% if (entity) {%> value="<%%=entity.album_name%>" <%% } %>/>
+    <label for="album_name" class="fieldtitle"><%=t.gallery_aspect.form.album_name.label%></label>
+    <input type="hidden" name="album_name" id="album_name" class="fieldcontrol" <%% if (entity) {%>value="<%%=entity.album_name%>"<%% } %>/>
     <input type="hidden" name="photo_path" id="photo_path" <%% if (entity) { %> value="<%%=entity.photo_path%>" <%% } %>/>
     <input type="hidden" name="photo_url_tiny" id="photo_url_tiny" <%% if (entity) { %> value="<%%=entity.photo_url_tiny%>" <%% } %>/>
     <input type="hidden" name="photo_url_small" id="photo_url_small" <%% if (entity) { %> value="<%%=entity.photo_url_small%>" <%% } %>/>

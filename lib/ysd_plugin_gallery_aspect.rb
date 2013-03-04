@@ -1,3 +1,4 @@
+require 'tilt' unless defined?Tilt
 require 'ui/ysd_ui_fieldset_render' unless defined?UI::FieldSetRender
 
 module Huasi
@@ -17,7 +18,7 @@ module Huasi
     
       app = context[:app]
       
-      if element.get_album.nil?
+      if element.album.nil?
         ''
       else
         aspect = aspect_model.aspect('album')
@@ -45,7 +46,8 @@ module Huasi
     def config(context={}, aspect_model)
       
       app = context[:app]
-      template_path = File.expand_path(File.join(File.dirname(__FILE__),'..','views','gallery_aspect_config.erb'))
+      template_path = File.expand_path(File.join(File.dirname(__FILE__),'..',
+        'views','gallery_aspect_config.erb'))
       template = Tilt.new(template_path)
       the_render = template.render(app)    
                 
@@ -96,29 +98,6 @@ module Huasi
 
     end
 
-    #
-    # Content element action
-    #
-    #def element_action(context={}, aspect_model)
-    # 
-    #  app = context[:app]
-    #
-    #  app.render_element_action_button({:title => app.t.gallery.action_button.gallery, 
-    #                                    :text  => app.t.gallery.action_button.gallery, 
-    #                                    :id    => 'manage_gallery' })
-    # 
-    #end
     
-    #
-    # Content element action extension
-    #
-    #def element_action_extension(context={}, aspect_model)
-    #  
-    #  app = context[:app]
-    #        
-    #  Plugins::Plugin.plugin_invoke_all('album_aspect_action_extension', {:app => app}, aspect_model).join
-    #
-    #end        
-  
   end
 end

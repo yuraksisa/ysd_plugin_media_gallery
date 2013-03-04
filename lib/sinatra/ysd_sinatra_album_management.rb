@@ -12,7 +12,7 @@ module Sinatra
         # Album management page
         #
         app.get "/album-management" do
-          load_page 'album_management'.to_sym
+          load_page :album_management
         end
               
       end

@@ -1,12 +1,18 @@
 require 'ui/ysd_ui_fieldset_render'
+require 'ysd_md_photo_gallery' unless defined?Media::Album
+require 'ysd_md_configuretion' unless defined?SystemConfiguration::Variable
+
 module Sinatra
   module YSD
+    #
+    # Manages an album photos
+    #
     module PhotoManagement
    
       def self.registered(app)
 
         #
-        # Photo management page
+        # Album's photo management page
         #
         app.get "/photo-management/:album_name" do
           
@@ -21,7 +27,8 @@ module Sinatra
             renderer = UI::FieldSetRender.new('photo', self)      
             photo_form_extension = renderer.render('formextension', 'em', locals)
 
-            load_page('photo_management', {:locals => {:album => media_album, :photo_form_extension => photo_form_extension}})
+            load_page('photo_management', {:locals => {:album => media_album,
+             :photo_form_extension => photo_form_extension}})
           
           else
             status 404

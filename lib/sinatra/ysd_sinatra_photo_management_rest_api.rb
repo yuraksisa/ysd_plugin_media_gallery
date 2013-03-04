@@ -1,5 +1,10 @@
+require 'ysd_md_photo_gallery' unless defined?Media::Album
+
 module Sinatra
   module YSD
+    #
+    # REST API to manage album's photos
+    #
     module PhotoManagementRESTApi
    
       def self.registered(app)
@@ -46,7 +51,6 @@ module Sinatra
         #
         app.post "/photo" do
         
-          # It redirects to the photo uploaded
           status, header, body = call! env.merge("PATH_INFO" => "/photo_gallery/photo")    
         
         end
@@ -56,7 +60,6 @@ module Sinatra
         #
         app.put "/photo" do
         
-          # It redirects to the photo uploaded
           status, header, body = call! env.merge("PATH_INFO" => "/photo_gallery/photo")    
         
         end

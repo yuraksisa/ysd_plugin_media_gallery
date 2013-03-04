@@ -1,5 +1,12 @@
+require 'json' unless defined?JSON
+require 'uri' unless defined?URI
+require 'ysd_md_photo_gallery' unless defined?Media::Album
+
 module Sinatra
   module YSD
+    #
+    # Album management REST API
+    #
     module AlbumManagementRESTApi
    
       def self.registered(app)
@@ -23,7 +30,6 @@ module Sinatra
           
             data=Media::Album.all
             
-            # Synchronizes the album information
             data.each do |album|            
              album.synchronize_data
             end
@@ -48,11 +54,9 @@ module Sinatra
           
           request.body.rewind
           album_request = JSON.parse(URI.unescape(request.body.read))
-          
-          # Creates the new album
+
           the_album = Media::Album.create(album_request) 
           
-          # Return          
           status 200
           content_type :json
           the_album.to_json          
@@ -66,13 +70,11 @@ module Sinatra
         
           request.body.rewind
           album_request = JSON.parse(URI.unescape(request.body.read))
-          
-          # Updates the album          
+                
           the_album = Media::Album.get(album_request['name'])
           the_album.attributes=(album_request)
           the_album.save
                    
-          # Return          
           status 200
           content_type :json
           the_album.to_json

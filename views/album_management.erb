@@ -6,7 +6,7 @@
 
 <!-- Renders the element description -->
 <script type="text/tmpl" id="elements_description">
-  <%=t.album_management.form.title%>
+  <%=t.album_management.form.description%>
 </script>
 
 <!-- Renders the elements container -->
@@ -65,13 +65,7 @@
 <script type="text/tmpl" id="element_template_form">
               
      <form name="element">
-        
-        <div class="top-navigation-bar navigation-bar">
-             <h2 class="form-title">Media albums</h2>
-             <div class="navigation-bar-nav-buttons">
-             </div>
-        </div>        
-
+      
         <div class="form-fields">
         
           <div class="formrow">
@@ -119,8 +113,7 @@
         </div>
         
         <div class="bottom-navigation-bar navigation-bar">
-             <div class="navigation-bar-nav-buttons">
-                <input type="button" class="cancel-entity-button action-button entity-management-button" value="Cancel"/>
+             <div class="navigation-bar-crud-buttons">
                 <%% if (entity) { %>
                   <input type="submit" class="update-entity-button action-button entity-management-button" value="Update"/>
                 <%% } 

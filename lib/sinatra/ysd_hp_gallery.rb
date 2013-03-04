@@ -14,16 +14,18 @@ module Sinatra
     #
     def album(album_name, display=:album, options={})
     
-      media_album = Media::Album.get(album_name)
+      if media_album = Media::Album.get(album_name)
 
-      locals = {}
+        locals = {}
           
-      if media_album
-        locals.store(:width, media_album.width)
-        locals.store(:height, media_album.height)
-      end
+        if media_album
+          locals.store(:width, media_album.width)
+          locals.store(:height, media_album.height)
+        end
 
-      partial(display, :locals => {:media_album => media_album, :options => options.merge(locals)})
+        partial(display, :locals => {:media_album => media_album, :options => options.merge(locals)})
+      
+      end
 
     end
     

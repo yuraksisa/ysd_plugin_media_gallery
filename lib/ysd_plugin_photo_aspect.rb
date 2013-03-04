@@ -23,7 +23,8 @@ module Huasi
     def config(context={}, aspect_model)
       
       app = context[:app]
-      template_path = File.expand_path(File.join(File.dirname(__FILE__),'..','views','photo_aspect_config.erb'))
+      template_path = File.expand_path(File.join(File.dirname(__FILE__),'..',
+        'views','photo_aspect_config.erb'))
       template = Tilt.new(template_path)
       the_render = template.render(app)    
                 

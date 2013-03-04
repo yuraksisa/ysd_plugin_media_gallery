@@ -1,3 +1,5 @@
+require 'ysd_md_photo_gallery' unless defined?Media::Album
+
 module Sinatra
   module YSD
     #
@@ -6,11 +8,7 @@ module Sinatra
     module PhotoGallery
    
       def self.registered(app)
-            
-        # Add the local folders to the views and translations     
-        app.settings.views = Array(app.settings.views).push(File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'views')))
-        app.settings.translations = Array(app.settings.translations).push(File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'i18n')))       
-              
+                          
         #
         # Shows an album
         #
@@ -43,7 +41,7 @@ module Sinatra
             # Get the photo        
             if album
           
-              photo = (album.photos.select do |photo| photo.id == params[:photo_id] end).first # We should store the photos in a hash
+              photo = (album.photos.select { |photo| photo.id == params[:photo_id] }).first 
               
               if photo              
                 photo_url = nil                        
@@ -59,11 +57,9 @@ module Sinatra
                 photo_url ||= photo.image_url                    
                 redirect (photo_url) 
               else
-                puts "the photo is not found"
                 status 404 # Not found
               end        
             else          
-              puts "the album is not found"          
               status 404 # Not found
             end
           
@@ -77,7 +73,8 @@ module Sinatra
         #
         app.get "/photo_gallery/*" do
             
-           serve_static_resource(request.path_info.gsub(/^\/photo_gallery/,''), File.join(File.dirname(__FILE__), '..', '..', 'static'), 'photo_gallery')
+           serve_static_resource(request.path_info.gsub(/^\/photo_gallery/,''), 
+             File.join(File.dirname(__FILE__), '..', '..', 'static'), 'photo_gallery')
             
         end        
     
