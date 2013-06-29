@@ -217,6 +217,15 @@ require(['jquery', 'YSDEntityManagementComplementHooks', 'YSDMemoryDataSource', 
           $('input[name=album_name]').val(album_name);
           self.albumNameConfiguration();	
         }
+        if ($('input[name=photo_path]').val() == '') {
+          var photo_path = '/album/' + album_name + '/photo/' + data.id;
+          $('input[name=photo_path]').val(photo_path);
+          $('input[name=photo_url_tiny]').val(data.thumbnails[0].thumbnail_url);
+          $('input[name=photo_url_small]').val(data.thumbnails[1].thumbnail_url);
+          $('input[name=photo_url_medium]').val(data.thumbnails[2].thumbnail_url);
+          $('input[name=photo_url_full]').val(data.image_url);
+          $('.album-photo[data-photo-path="'+photo_path+'"]').addClass('album-main-photo');
+        }
       });      
 
       this.selector.addListener('add_element_button_click', function(event) {
