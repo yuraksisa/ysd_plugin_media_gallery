@@ -58,17 +58,17 @@
      <form name="element">
        
         <div class="form-fields">
-          <input type="hidden" name="photo_path" id="photo_path" <%% if (entity) { %> value="<%%= self.model.entityHooks[0].configurePhotoPath(entity) %>" <%% } %> />
+          <input type="hidden" name="photo_path" id="photo_path" 
+             <%% if (entity) { %> value="<%%= self.model.entityHooks[0].configurePhotoPath(entity) %>" <%% } %> />
           <div class="form-row">
-            <div class="photo-container" style="border: 1px dashed gray; width: <%= album.width %>px; height: <%= album.height %>px">                            
-              <img id="element_photo_img" <%% if (entity) { %> src="<%%= entity.image_url%>" <%% } %> style="display:block; margin:0 auto"/>              
+            <div class="photo-container" style="border: 1px dashed gray; margin: 5px; padding: 5px">                            
+              <img id="element_photo_img" <%% if (entity) { %> src="<%%= entity.image_url%>" <%% } %> style="max-width: 100%; display:block; margin:0 auto"/>              
             </div>
           </div>
           <br/>
-          <div class="form-row">
-            <div style="margin:0 auto; width: 300px">
-              <input type="button" name="change_photo_link" id="change_photo_link" value="Upload photo"/>
-              <input type="button" class="cancel-entity-button action-button entity-management-button" value="Cancel"/>
+          <div class="formrow-botonera">
+            <div style="margin:0 auto; width: 80px">
+              <input type="button" name="change_photo_link" id="change_photo_link" value="<%=t.photo_management.form.upload_photo%>"/>
             </div>
           </div>          
         </div>

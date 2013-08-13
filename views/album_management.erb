@@ -76,7 +76,7 @@
 
           <div class="formrow">
             <label for="description" class="fieldtitle">Description</label>
-            <textarea name="description" id="description" class="fieldcontrol"><%% if (entity) { %> <%%= entity.description %> <%% } %></textarea>
+            <textarea name="description" id="description" class="fieldcontrol"><%% if (entity) { %><%%=entity.description %><%% }%></textarea>
           </div>
           <p style="text-align:right"> <span id="description_length"></span> <%= t.available_chars %> </p>
                 

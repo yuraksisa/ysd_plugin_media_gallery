@@ -32,6 +32,9 @@ album_management:
     description: >
                  <p>Albumes multimedia puede utilizarse para organizar y presentar colecciones o conjuntos de fotografías. Algunos módulos utilizan álbumes para organizar sus imágenes.</p>
                  <p>Los fotografías se almacenan en un sistema externo de almacenamiento de fotos como Picasa, Flickr. En el album puede configurar el sistema de almacenamiento y la cuenta de acceso.</p> 
+photo_management:
+  form:
+    upload_photo: Subir foto
 #
 # Aspects
 #

@@ -32,6 +32,9 @@ album_management:
     description: >
                  <p>Àlbums multimedia pot utilitzar-se per organitzar i presentar col.leccions d\'imatges. Alguns mòduls utilitzen àlbums per organitzer les seves imatges.</p>
                  <p>Les imatges s\'emmagatzemen en un sistema extern com Picasa o Flickr.</p> 
+photo_management:
+  form:
+    upload_photo: Pujar foto
 #
 # Aspects
 #    
