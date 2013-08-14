@@ -10,7 +10,21 @@ module Sinatra
     module AlbumManagementRESTApi
    
       def self.registered(app)
-                    
+        
+        #
+        # Retrieve the album displays templates
+        #
+        app.get "/api/displays/album" do
+          
+          resources = find_resources(/^_album.+\.erb/).map do |item| 
+            {:id => (value=item[1..-5]), :description => value}
+          end
+
+          content_type :json
+          resoureces.to_json
+
+        end
+
         #
         # Retrive all albums (GET)
         #
