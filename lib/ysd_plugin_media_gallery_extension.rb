@@ -17,6 +17,11 @@ module Huasi
     # Install the plugin
     #
     def install(context={})
+
+        SystemConfiguration::Variable.first_or_create({:name => 'media.default_storage'}, 
+          {:value => '', 
+           :description => 'Default storage for media', 
+           :module => :media_gallery}) 
             
         SystemConfiguration::Variable.first_or_create({:name => 'photo_default_adapter'}, 
           {:value => '', 
@@ -55,10 +60,16 @@ module Huasi
       
       menu_items = [{:path => '/cms/media',
                      :options => {:title => app.t.media_admin_menu.album_management,
-                                  :link_route => "/album-management",
+                                  :link_route => "/admin/album",
                                   :description => 'The albums admin tools to create and modify media albums.',
                                   :module => 'cms',
-                                  :weight => 2}}]      
+                                  :weight => 2}},
+                    {:path => '/configuration/media-storages',
+                     :options => {:title => app.t.media_config_menu.media_storage,
+                                  :link_route => "/admin/media-storage",
+                                  :description => "Admin media storages",
+                                  :module => :media_gallery,
+                                  :weight => 4 }}]      
    
     end
     
@@ -71,21 +82,21 @@ module Huasi
     #
     def routes(context={})
     
-      routes = [{:path => '/album-management',
-                 :regular_expression => /^\/album-management/,
+      routes = [{:path => '/admin/album',
+                 :regular_expression => /^\/admin\/album/,
                  :title => 'Albums',
                  :description => 'The albums admin tools to create and modify media albums',
                  :fit => 1,
                  :module => :media_gallery},                 
-                {:path => '/photo-management/:album_name',
+                {:path => '/admin/photo/:album_name',
                  :parent_path => '/album-management',
-                 :regular_expression => /^\/photo-management\/.+/,
+                 :regular_expression => /^\/admin\/photo\/.+/,
                  :title => 'Photos',
                  :description => 'It manages the album\'s photos. Used to upload and edit the album\'s photos.',
                  :fit => 1,
                  :module => :media_gallery},
-                {:path => '/photo_gallery/album/:album_name',
-                 :regular_expression => /^\/photo_gallery\/album\/.+/,
+                {:path => '/gallery/:album_name',
+                 :regular_expression => /^\/photo_gallery\/.+/,
                  :title => 'Photos',
                  :description => 'It shows the album\'s photos.',
                  :fit => 1,

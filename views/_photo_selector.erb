@@ -13,7 +13,7 @@
     <input type="hidden" id="photo_album" name="photo_album" value="<%= photo_album %>"/>
     <input type="hidden" id="photo_width" name="photo_width" value="<%= photo_width %>"/>
     <input type="hidden" id="photo_height" name="photo_height" value="<%= photo_height %>"/>
-    <input type="hidden" id="photo_id" name="photo_id"/>
+    <input type="hidden" id="photo_id" name="photo_id" value="<%=photo_id if defined?photo_id%>"/>
     <input type="hidden" id="photo_name" name="photo_name"/>
     <input type="hidden" id="photo_description" name="photo_description">
 
@@ -214,12 +214,9 @@ require(['jquery', 'YSDEventTarget', 'YSDEvents', 'YSDStyles', 'YSDDialog', 'jqu
   	      this.sendingRequest.close();
   	      
   	      $('#photo_file').val('');
-  	      
-  	      // Comentada la notificación al usuario
-  	      //uploaderView.notify('<%= t.uploader.ok_title%>', '<%= t.uploader.ok_description%>');
-  	      
+  	        	      
        	  // Show the loaded image
-          document.getElementById('photo_img').setAttribute('src', uploaderModel.photo.thumbnails[2].thumbnail_url);
+          document.getElementById('photo_img').setAttribute('src', uploaderModel.photo.photo_url_medium);
                             	   
           // Notify (review!!!)                  	   
           if (typeof uploaderModel.onPhotoUploaded != "undefined")

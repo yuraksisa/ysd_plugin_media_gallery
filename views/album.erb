@@ -1,5 +1,7 @@
   
-  <h2><%= media_album.name %></h2>
-  <p class="summary"><%= media_album.description %></p>
-  
-  <%= partial(:adgallery, :locals => {:media_album => media_album, :options => options}) %>
+  <h2>Fotos del album</h2>
+  <div>
+  	<p class="summary"><%= media_album.name %></p>
+    <p class="summary"><%= media_album.description %></p>
+  </div>
+  <%= partial(:album, :locals => {:media_album => media_album, :options => options}) %>

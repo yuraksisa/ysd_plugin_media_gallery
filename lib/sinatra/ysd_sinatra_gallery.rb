@@ -12,7 +12,7 @@ module Sinatra
         #
         # Shows an album
         #
-        app.get "/photo_gallery/album/:album_name" do
+        app.get "/gallery/:album_name" do
           
           media_album = Media::Album.get(params[:album_name])   
           
@@ -30,13 +30,13 @@ module Sinatra
         # 
         # Shows a photo
         #
-        ["/photo_gallery/album/:album_name/photo/:photo_id",
-         "/photo_gallery/album/:album_name/photo/:photo_id/:size"].each do |path|
+        ["/gallery/:album_name/:photo_id",
+         "/gallery/:album_name/:photo_id/:size"].each do |path|
         
           app.get path do
           
             # Get the album by its id                
-            album = PhotoCollection::Album.get_by_name(params[:album_name])
+            album = Media::Album.get(params[:album_name])
           
             # Get the photo        
             if album

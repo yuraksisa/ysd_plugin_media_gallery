@@ -12,19 +12,8 @@
 <!-- Renders the elements container -->
 <script type="text/tmpl" id="elements_container_template">
 
-  <table id="elements_table" class="table">
-     <thead class="table-header">
-       <tr>
-         <th class="table-header-title" scope="col" style="width:60%">Name</th>
-         <th class="table-header-title" scope="col" style="width:10%">Size</th>
-         <th class="table-header-title" scope="col" style="width:10%">Remaining</th>
-         <th class="table-header-title" scope="col" style="width:10%"></th>
-         <th class="table-header-title" scope="col" style="width:10%"></th>
-       </tr>
-     </thead>
-     <tbody id="elements_tbody" class="table-tbody">             
-     </tbody>
-  </table>
+  <div id="elements_tbody" class="entity-blocks-container">
+  </div>
 
 </script>
 
@@ -32,13 +21,20 @@
         
 <script type="text/tmpl" id="elements_list_template">
 
-    <tr class="table-row" rel="<%%= index %>" id="element_row_<%%=index%>">
-      <td class="table-cell element-navigation-detail" rel="<%%= index %>"><%%= entity.name %></td>
-      <td class="table-cell element-navigation-detail" rel="<%%= index %>"><%%= entity.size %></td>
-      <td class="table-cell element-navigation-detail" rel="<%%= index %>"><%%= entity.remaining %></td>
-      <td class="table-cell"><a href="<%%= self.model.entityHooks[0].formatAlbumViewURL(entity) %>">View photos</a>
-      <td class="table-cell"><a href="<%%= self.model.entityHooks[0].formatPhotoManagementURL(entity) %>">Manage photos</a>
-    </tr>
+  <div class="entity-block-container">
+    <div class="entity-block-container-inside all-space">
+      <div>
+        <img src="<%%= entity.thumbnail_url %>" class="box-shadow element-row-selector" style="display:block; margin: 0 auto" rel="<%%= index %>"/>
+      </div>
+      <div>
+        <div class="smaller_text less_contrast_text centered_text"><%%= entity.name.substring(0, 20) %></div>
+        <div class="right_text">
+          <span class="smaller_text" data-icon="&#xe072;"> <%%= entity.size %></span> 
+          <span class="smaller_text element-row-selector" rel="<%%= index %>" data-icon="&#xe082;"></span></a>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </script>
 
@@ -52,7 +48,6 @@
        <div class="entity-field"><div class="entity-fieldlabel">Width</div> <div class="entity-fieldvalue"><%%= entity.width %></div> </div>
        <div class="entity-field"><div class="entity-fieldlabel">Height</div> <div class="entity-fieldvalue"><%%= entity.height %></div> </div>              
        <div class="entity-field"><div class="entity-fieldlabel">External album</div> <div class="entity-fieldvalue"><%%= entity.external_album %></div> </div>
-       <div class="entity-field"><div class="entity-fieldlabel">Adapter</div> <div class="entity-fieldvalue"><%%= entity.adapter %></div> </div>  
        <div class="entity-field"><div class="entity-fieldlabel">Size</div> <div class="entity-fieldvalue"><%%= entity.size %></div> </div>
        <div class="entity-field"><div class="entity-fieldlabel">Remaining</div> <div class="entity-fieldvalue"><%%= entity.remaining %></div> </div>  
        <div class="entity-field"><div class="entity-fieldlabel">Bytes Used</div> <div class="entity-fieldvalue"><%%= entity.bytes_used %></div> </div>  
@@ -63,66 +58,108 @@
 <!-- Renders the form to edit an element -->
 
 <script type="text/tmpl" id="element_template_form">
+
+     <form name="album_photo" target="album_photo_uploader" 
+       method="POST" 
+       enctype="multipart/form-data" 
+       action="/photo_gallery/photo" 
+       style="display:none">
+       <input type="file" name="photo_file" id="photo_file" accept="<%= photo_accept %>"/>
+       <input type="hidden" id="photo_album" name="photo_album"/>
+     </form>
+
+     <iframe id="album_photo_uploader" name="album_photo_uploader" style="display:none">
+       Your system does not support iframes
+     </iframe>
+
               
      <form name="element">
-      
-        <div class="form-fields">
-        
-          <div class="formrow">
-            <label for="name" class="fieldtitle">Name <span class="mandatoryfield">*</span></label>
-            <input type="text" maxlength="40" id="name" name="name" class="fieldcontrol" <%% if (entity) { %> value="<%%= entity.name %>" <%% } %> />
-            <div class="fielddescription">Name of the album. It will also be used in the external system to identify the album.</div>
-          </div>
-
-          <div class="formrow">
-            <label for="description" class="fieldtitle">Description</label>
-            <textarea name="description" id="description" class="fieldcontrol"><%% if (entity) { %><%%=entity.description %><%% }%></textarea>
-          </div>
-          <p style="text-align:right"> <span id="description_length"></span> <%= t.available_chars %> </p>
-                
-          <div class="formrow">
-            <label for="width" class="fieldtitle">Width</label>
-            <input type="text" maxlength="3" id="width" name="width" class="fieldcontrol" <%% if (entity) { %> value="<%%= entity.width %>" <%% } %> />
-            <div class="fielddescription">The standard width of all photo albums. The photo will be modified to fit in this size.</div>
-          </div>
-
-          <div class="formrow">
-            <label for="height" class="fieldtitle">Height</label>
-            <input type="text" maxlength="3" id="height" name="height" class="fieldcontrol" <%% if (entity) { %> value="<%%= entity.height %>" <%% } %> />
-            <div class="fielddescription">The standard height of all photo albums. The photo will be modified to fit in this size.</div>
-          </div>
-          
-          <div class="formrow">
-            <label for="external_album" class="fieldtitle">External album</label>
-            <input type="text" maxlength="50" id="external_album" name="external_album" class="fieldcontrol" <%% if (entity) { %> value="<%%= entity.external_album %>" <%% } %> />
-            <div class="fielddescription">Only type it if there is an existing album that has to be integrated in the system. If the album does not exist in the extarnal system leave it empty. When a the first photo is uploaded it will be created.</div> 
-          </div>
-          
-          <div class="formrow">
-            <label for="adapter" class="fieldtitle">Adapter</label>
-            <input type="adapter" maxlength="12" id="adapter" name="adapter" class="fieldcontrol" <%% if (entity) { %> value="<%%= entity.adapter %>" <%% } %> />
-            <div class="fielddescription">The external system which will hold the albums.</div>            
-          </div>        
-          
-          <div class="formrow">
-            <label for="account[id]" class="fieldtitle">Account</label>
-            <select id="account[id]" name="account[id]"></select>
-            <div class="fielddescription">The account which will be used to access the external system.</div>
-          </div>  
-
-        </div>
-        
-        <div class="bottom-navigation-bar navigation-bar">
+        <%% if (entity == null) { %>
+        <div class="form-fields container_12">
+          <div class="grid_12">
+            <h3 class="bottom-border-solid">Nuevo álbum</h3>
+            <%= partial :alert %>
+            <div class="formrow">
+              <label for="name" class="fieldtitle"><%=t.album_management.form.name.label%> <span class="mandatoryfield">*</span></label>
+              <input type="text" maxlength="40" id="name" name="name" class="fieldcontrol" <%% if (entity) { %> value="<%%= entity.name %>" <%% } %> />
+            </div>
+            <div class="formrow">
+              <label for="width" class="fieldtitle"><%=t.album_management.form.dimensions.label%></label>
+              <input type="text" maxlength="3" id="width" name="width"  <%% if (entity) { %> value="<%%= entity.width %>" <%% } %> />
+              <input type="text" maxlength="3" id="height" name="height" <%% if (entity) { %> value="<%%= entity.height %>" <%% } %> />
+            </div>                    
+            <div class="bottom-navigation-bar navigation-bar">
              <div class="navigation-bar-crud-buttons">
-                <%% if (entity) { %>
-                  <input type="submit" class="update-entity-button action-button entity-management-button" value="Update"/>
-                <%% } 
-                   else { %>
-                  <input type="submit" class="create-entity-button action-button entity-management-button" value="Create"/>
-                <%% } %>
+                <input type="submit" class="create-entity-button action-button entity-management-button" value="<%=t.entitymanagement.create%>"/>
              </div>
+            </div>         
+          </div>
         </div>
-     
+        <%% } else { %>
+        <div class="form-fields bottom-margin">
+          <div class="container_12">
+            <div class="grid_9">
+              <div class="top-margin">
+                <% if user.belongs_to?('staff') %>
+                <div class="formrow-botonera">
+                   <button type="button"
+                         class="form-button element-action-button" 
+                         data-action-method="GET"
+                         data-action-url="/api/album/<%%=entity.id%>/synchronize"
+                         data-confirm-message="<%=t.album_management.form.confirm_import_photos%>"><%=t.album_management.form.import_photos%></button>
+                </div>
+                <% end %>
+              </div>
+            </div>
+            <div class="grid_3">
+              <div class="top-margin">
+                <div id="properties" class="smaller_text over_cursor right_text as_link less_contrast_text"><%=t.album_management.form.album_properties%></div>
+              </div>          
+          </div>
+          <div class="grid_12">
+            <div id="gallery">
+            </div>
+          </div>          
+        </div>
+ 
+             <div id="properties_form" class="all-full-space box-shadow background-color-1" style="display:none">
+                <h3 class="bottom-border-solid">Propiedades del álbum</h3>
+                <%= partial :alert %>
+                <input type="hidden" id="id" name="id" class="fieldcontrol" <%% if (entity) { %> value="<%%= entity.id %>" <%% } %> />
+                <div class="formrow">
+                  <label for="description" class="fieldtitle"><%=t.album_management.form.description.label%></label>
+                <textarea name="description" id="description" class="fieldcontrol"><%% if (entity) { %><%%=entity.description %><%% }%></textarea>
+                </div>
+                <p style="text-align:right"> <span id="description_length"></span> <%= t.available_chars %> </p>               
+                <div class="formrow">
+                  <label for="width" class="fieldtitle"><%=t.album_management.form.width.label%></label>
+                  <input type="text" maxlength="3" id="width" name="width" class="fieldcontrol" <%% if (entity) { %> value="<%%= entity.width %>" <%% } %> />
+                  <div class="fielddescription">The standard width of all photo albums. The photo will be modified to fit in this size.</div>
+                </div>
+                <div class="formrow">
+                  <label for="height" class="fieldtitle"><%=t.album_management.form.height.label%></label>
+                  <input type="text" maxlength="3" id="height" name="height" class="fieldcontrol" <%% if (entity) { %> value="<%%= entity.height %>" <%% } %> />
+                  <div class="fielddescription">The standard height of all photo albums. The photo will be modified to fit in this size.</div>
+                </div>
+                <div class="formrow">
+                  <label for="external_album" class="fieldtitle">External album</label>
+                  <input type="text" maxlength="50" id="external_album" name="external_album" class="fieldcontrol" <%% if (entity) { %> value="<%%= entity.external_album %>" <%% } %> />
+                  <div class="fielddescription">Only type it if there is an existing album that has to be integrated in the system. If the album does not exist in the extarnal system leave it empty. When a the first photo is uploaded it will be created.</div> 
+                </div>
+                <div class="formrow">
+                  <label for="media_storage[name]" class="fieldtitle">Storage</label>
+                  <select id="media_storage[name]" name="media_storage[name]"></select>
+                  <div class="fielddescription">The storage that holds the photos.</div>
+                </div>
+                <div class="bottom-navigation-bar navigation-bar">
+                  <div class="navigation-bar-crud-buttons">
+                    <input type="submit" class="update-entity-button action-button entity-management-button" value="<%=t.entitymanagement.update%>"/>
+                  </div>
+                </div>
+              </div>
+ 
+
+        <%% } %>
      </form>
      
 
@@ -131,73 +168,155 @@
 
 <script type="text/javascript">
  
- require(['jquery', 'YSDEntityManagement', 'YSDForms', 'YSDRemoteDataSource', 'YSDSelectSelector'],
-         function($, EntityManagement, YSDForms, RemoteDataSource, SelectSelector) {
+ require(['jquery', 'YSDEntityManagement', 'YSDForms', 'YSDRemoteDataSource', 
+          'YSDSelectSelector',  'YSDListManagement', 'YSDFileUploader', 'YSDGui'],
+         function($, EntityManagement, YSDForms, RemoteDataSource, 
+           SelectSelector, ListManagement, FileUploader, YSDGui) {
  
   function AlbumHook() {
  	   
+    this.selector = null;     /* ListManagement */
+    this.fileUploader = null; /* FileUploader */
+
     this.entityKey = function(entity) {
       return entity.id;
     }
 
     this.onEdit = function(entity) {
       $('#name').attr('readonly', true);
-      $('#description').focus();  	
+      $('#description').focus();
+      $('#properties').bind('click', function() {
+      
+         //$('#properties_form').toggle("slow"); 
+         YSDGui.showElement($('#properties_form')[0], true);
+      
+      });   	
       this.configForm(entity);
     };
   
     this.onNew = function() {
   	  $('#name').focus();
-  	  this.configForm(null);
     }
     
     this.adaptFormData = function(data) {
-    	
       data['external_album']=$('#external_album').val(); // Make sure it's a String	
-      
       return data;
     }
     
     this.formatAlbumViewURL = function(entity) {
-    	
-      return '/photo_gallery/album/' + entity.name;
-    	
+      return '/photo_gallery/album/' + entity.id;
     }
     
     this.formatPhotoManagementURL = function(entity) {
-    
-      return '/photo-management/' + entity.name;
-    	
+      return '/photo-management/' + entity.id;
     }
     
     this.configForm = function(entity) {
              
-      var dataSource = new RemoteDataSource('/external-service-accounts',{'id':'id','description':'id'});
-      var value = (entity && entity.account_id)?entity.account_id:null; 
-      var selector = new SelectSelector('account[id]', dataSource, value, true );             
+      var dataSource = new RemoteDataSource('/api/media-storages',{'id':'name','description':'name'});
+      var value = (entity && entity.storage_name)?entity.storage_name:null; 
+      var selector = new SelectSelector('media_storage[name]', dataSource, value, true );             
              
              
-      // Limit the text area length
+      // Limit the text area length 
+      
       YSDForms.limit_text_area_content_size(document.getElementById('description'), 256, 
             function (content_remain) {
               document.getElementById('description_length').innerHTML = '<strong>' + content_remain + '</strong>';
             }
          );    
+      
     	
+      this.albumConfiguration(entity);
+
+      $('.album-photo').bind('click', function(event) {
+
+        alert($(this).attr('data-photo-path').val());
+
+      });
+
     }
+
+    this.albumConfiguration = function(entity) {
+
+      var self = this;
+      var albumDataSource = null;
+      
+      if (!entity || !entity.id) {
+        return;
+      }
+
+      $(document.forms['album_photo']['photo_album']).val(entity.id);
+
+      albumDataSource = new RemoteDataSource('/photos/' + entity.id, 
+        {id:'id',
+         description: function(data){
+           return '<img src="'+ data.photo_url_small + '" class="album-photo" data-photo-path="' + '/album/' + entity.id + '/photo/' + data.id + '"' + 'data-photo-url-tiny="' + data.photo_url_tiny + '"' + 'data-photo-url-small="' + data.photo_url_small + '"' + 'data-photo-url-medium="' + data.photo_url_medium + '"' + 'data-photo-url-full="' + data.photo_url_full + '" data-album-id="' + entity.id + '" data-photo-id="' + data.id + '"/>' 
+         }
+       });
+
+      this.selector = new ListManagement('gallery', 
+                                         'photos_list', 
+                                         albumDataSource,
+                                         '<%=t.album_management.form.upload_photo%>');
+                 
+      this.fileUploader = new FileUploader('album_photo',
+                                           'photo_file', 
+                                           'album_photo_uploader');
+     
+
+      this.fileUploader.addListener('file_uploaded', function(event) {
+        var data = event.data.file;
+        var album_name = data.album.id;
+        if (entity && entity.album_name && entity.album_name != '') {
+          album_name = entity.album_name;
+        }
+        
+        self.selector.addElement( {id:data.id, 
+            description: '<img src="' + data.thumbnails[1].thumbnail_url + '" class="album-photo" data-photo-path="' + '/album/' + album_name + '/photo/' + data.id + '"' + ' data-photo-url-tiny="' + data.thumbnails[0].thumbnail_url + '"' + ' data-photo-url-small="' + data.thumbnails[1].thumbnail_url + '"' + ' data-photo-url-medium="' + data.thumbnails[2].thumbnail_url + '"' + ' data-photo-url-full="' + data.image_url + '" data-album-id="' + album_name + '" data-photo-id="' + data.id + '"/>'
+        });
+
+      });      
+
+      this.selector.addListener('add_element_button_click', function(event) {
+        //self.fileUploader.uploadFile(); 
+        window.location.href = "/admin/photo/new/" +  entity.id;
+      });
+
+      this.selector.addListener('elements_updated', function() {
+          $('img.album-photo').unbind('click');
+          $('img.album-photo').bind('click', function(event){
+             var album_id = $(this).attr('data-album-id');
+             var photo_id = $(this).attr('data-photo-id');
+             window.location.href = '/admin/photo/'+photo_id;
+          });
+      //  self.selectMainPhoto();
+      //  self.configSelectMainPhotoEvent();
+      });
+
+      this.selector.addListener('delete_element_button_click', function(event) {
+      //  self.deletePhoto($('input[name=album_name]').val(),
+      //                   event.data)
+      });
+
+      
+
+    }
+
   	
   };
   
   var urls = { 
   	           query_url  : '/albums',
-    	       create_url : '/album',
+    	         create_url : '/album',
   	           update_url : '/album',
   	           delete_url : '/album',
   	           get_url    : '/album'
   	         };
   
   var albumHook = new AlbumHook();
-  var albumsManager = new EntityManagement(urls, 'album', 12, albumHook);
+  var albumsManager = new EntityManagement(urls, 'album', 12, albumHook, 
+    {hold_form_after_action: true, newInline: true, prefix: '/admin'});
  
   $('.entity-title').html('Media albums');
   

@@ -16,6 +16,8 @@ media_gallery:
 media_admin_menu:
   media_menu: Media
   album_management: Albums
+media_config_menu:
+  media_storage: Magatzems de medis
 gallery:
   description: Àlbum
   action_button:
@@ -23,6 +25,26 @@ gallery:
 content:
   content_photo:
     description: Imatge de portada
+#
+# Media Storage management
+#
+media_storage_management:
+  title: Magatzem de medis
+  description:
+  table:
+    name: Nom
+    adapter: Adapter
+    account: Compte 
+  form:
+    name:
+      label: Nom
+      description:
+    adapter:
+      label: Adapter
+      description:
+    account:
+      label: Compte
+      description:
 #
 # Album management
 #
@@ -32,8 +54,25 @@ album_management:
     description: >
                  <p>Àlbums multimedia pot utilitzar-se per organitzar i presentar col.leccions d\'imatges. Alguns mòduls utilitzen àlbums per organitzer les seves imatges.</p>
                  <p>Les imatges s\'emmagatzemen en un sistema extern com Picasa o Flickr.</p> 
+    manage_photos: Gestionar les fotos
+    upload_photo: Afegir foto
+    name:
+      label: Nombre
+    description:
+      label: Descripción
+    dimensions:
+      label: Dimensions (amplada i alçada)
+    width:
+      label: Amplada (en píxels)
+    height:
+      label: Alçada (en píxels)
+    import_photos: Sincronitzar fotos
+    album_properties: Propietats de l'\àlbum
+    confirm_import_photos: Vol importar les fotos?
 photo_management:
   form:
+    title: Fotos de l'àlbum
+    description: 
     upload_photo: Pujar foto
 #
 # Aspects

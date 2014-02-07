@@ -2,53 +2,25 @@
 
 <!-- Renders the element description -->
 <script type="text/tmpl" id="elements_title">
-  <h2 class="entity-title">Fotos del album <%= album.name %></h2>
+  <h2 class="entity-title"><%=t.photo_management.form.title%></h2>
 </script>
 
 <!-- Renders the element description -->
 <script type="text/tmpl" id="elements_description">
- <p>Fotos</p>
 </script>
 
 <!-- Renders the elements container -->
 <script type="text/tmpl" id="elements_container_template">
-
-  <div id="elements_tbody" class="entity-blocks-container">
-  </div>
-
 </script>
 
 <!-- Renders one element in the elements list view -->
         
 <script type="text/tmpl" id="elements_list_template">
-
-  <div class="entity-block-container">
-  
-    <div class="entity-block-container-inside">
-  
-      <div>
-        <img src="<%%= entity.thumbnails[1].thumbnail_url %>" class="element-navigation-detail" rel="<%%= index %>"/>
-      </div>
-      <div>
-        <span><%%= entity.description %></span>
-      </div>
-  
-    </div>
-  
-  </div>
-
 </script>
 
 <!-- Renders one element in the element view (full detailed) -->
 
 <script type="text/tmpl" id="element_template">
-
-     <div class="element_template" style="overflow:hidden">
-       <div class="entity-field"><div class="entity-fieldlabel">Name</div> <div class="entity-fieldvalue"><%%= entity.name %></div> </div>
-       <div class="entity-field"><div class="entity-fieldlabel">Description</div> <div class="entity-fieldvalue"><%%= entity.description %></div> </div>
-       <div class="entity-field"><div class="entity-fieldlabel">Image</div> <div class="entity-fieldvalue"><img id="entity_image_url" src="<%%= entity.image_url %>"/></div></div>  
-     </div>
-
 </script>
 
 <!-- Renders the form to edit an element -->
@@ -56,21 +28,45 @@
 <script type="text/tmpl" id="element_template_form">
               
      <form name="element">
-       
-        <div class="form-fields">
-          <input type="hidden" name="photo_path" id="photo_path" 
-             <%% if (entity) { %> value="<%%= self.model.entityHooks[0].configurePhotoPath(entity) %>" <%% } %> />
-          <div class="form-row">
-            <div class="photo-container" style="border: 1px dashed gray; margin: 5px; padding: 5px">                            
-              <img id="element_photo_img" <%% if (entity) { %> src="<%%= entity.image_url%>" <%% } %> style="max-width: 100%; display:block; margin:0 auto"/>              
+        <div class="form-fields container_12">
+          
+          <div class="grid_8">
+            <input type="hidden" name="photo_path" id="photo_path" 
+              <%% if (entity) { %> value="<%%= self.model.entityHooks[0].configurePhotoPath(entity) %>" <%% } %> />
+            <div class="formrow">
+              <div class="photo-container" style="margin: 5px; padding: 5px">                            
+                <img id="element_photo_img" <%% if (entity) { %> src="<%%= entity.photo_url_full%>" <%% } %> class="box-shadow" style="max-width: 100%; display:block; margin:0 auto"/>              
+              </div>
+            </div>
+            <div class="formrow-botonera">
+              <div style="margin:0 auto; width: 80px">
+                <input type="button" name="change_photo_link" id="change_photo_link" value="<%=t.photo_management.form.upload_photo%>"/>
+              </div>
             </div>
           </div>
-          <br/>
-          <div class="formrow-botonera">
-            <div style="margin:0 auto; width: 80px">
-              <input type="button" name="change_photo_link" id="change_photo_link" value="<%=t.photo_management.form.upload_photo%>"/>
+
+          <div class="grid_4"> 
+            <div class="formrow">
+              <label for="name" class="fieldtitle">Name</label>
+              <input type="text" maxlength="40" id="name" name="name" class="fieldcontrol" readonly="readonly" <%% if (entity) { %> value="<%%= entity.name %>" <%% } %> />
             </div>
-          </div>          
+                
+            <div class="formrow">
+              <label for="width" class="fieldtitle">Width</label>
+              <input type="text" maxlength="4" id="width" name="width" class="fieldcontrol" readonly="readonly" <%% if (entity) { %> value="<%%= entity.width %>" <%% } %> />
+            </div>
+
+            <div class="formrow">
+              <label for="height" class="fieldtitle">Height</label>
+              <input type="text" maxlength="4" id="height" name="height" class="fieldcontrol" readonly="readonly" <%% if (entity) { %> value="<%%= entity.height %>" <%% } %> />
+            </div>
+
+            <div class="formrow">
+              <label for="height" class="fieldtitle">URL</label>
+              <input type="text" maxlength="100" id="image_url" name="image_url" class="fieldcontrol" readonly="readonly" <%% if (entity) { %> value="<%%= entity.photo_url_full %>" <%% } %> />
+            </div>
+          </div>
+
         </div>
              
      </form>
@@ -103,6 +99,8 @@ require(['jquery','YSDEntityManagement',"YSDEntityManagementComplementHooks"], f
     
     this.configForm = function(entity) {
     
+      $('.top-navigation-bar').hide();
+      
       var self = this;
                   
       $('#change_photo_link').bind('click', function(event) {
@@ -110,15 +108,13 @@ require(['jquery','YSDEntityManagement',"YSDEntityManagementComplementHooks"], f
         $('#element_photo_img').bind('load', function(event){ 
       	      	  
           if (entity) {          	          	
-     
          	   // Actualizacion del detalle y del elemento en la lista      	  
       	     entity.image_url = document.getElementById('element_photo_img').getAttribute('src');
       	     photosManager.model.currentEntity().image_url = document.getElementById('element_photo_img').getAttribute('src');      	   
-             photosManager.model.change_state('entity_updated_successfully');	   	      	  
-      	  
+             //photosManager.model.change_state('entity_updated_successfully');	   	      	  
       	   }
       	   else {
-      	     photosManager.model.change_state('entity_created_successfully');	
+      	     //photosManager.model.change_state('entity_created_successfully');	
       	   }
       
            $('#element_photo_img').unbind();
@@ -133,25 +129,36 @@ require(['jquery','YSDEntityManagement',"YSDEntityManagementComplementHooks"], f
   	
   	this.configurePhotoPath = function(entity) {
   		  		
-  	  return '/album/<%=album.name%>/photo/' + entity.id;
+  	  return '/album/<%=album.id%>/photo/' + entity.id;
   		
   	}
+
+    this.onNotify = function(data) {
+      if (this.manager.model.currentEntity() == null) {
+        this.manager.model.appendEntity(data);
+        this.manager.model.change_state('entity_created_successfully');  
+      }
+      else {
+        this.manager.model.synchronizeCurrentEntity(data);
+        this.manager.model.change_state('entity_created_successfully')
+      }
+    };
   	
   };
   
   var urls = { 
-  	           query_url  : '/photos',
-    	         create_url : '/photo',
   	           update_url : '/photo',
-  	           delete_url : '/photo',
-  	           get_url    : '/photo'
+               create_url : '/photo',
+  	           get_url    : '/photo/<%=photo_id%>'
   	         };
 
   var photoHook = new PhotoHook();
   var hooks = [photoHook];
   hooks = hooks.concat(EntityManagementComplementHooks.complements);
     
-  var photosManager = new EntityManagement(urls, 'photo', 12, hooks, {parent_filtered:true});
+  var photosManager = new EntityManagement(urls, 'photo', 12, hooks, 
+     {url_base: '/admin/photo' , action: '<%=action%>', prefix: '/admin/',
+      hold_form_after_action: true});
  
 });
   

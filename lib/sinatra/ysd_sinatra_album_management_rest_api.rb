@@ -43,11 +43,7 @@ module Sinatra
           app.post path do
           
             data=Media::Album.all
-            
-            data.each do |album|            
-             album.synchronize_data
-            end
-            
+                        
             begin # Count does not work for all adapters
               total=Media::Album.count
             rescue
@@ -60,7 +56,37 @@ module Sinatra
           end
         
         end
+
+        #
+        # Get an album
+        #
+        app.get "/album/:album_name" do
         
+          album =  Media::Album.get(params[:album_name])
+          
+          status 200
+          content_type :json
+          album.to_json
+        
+        end
+
+        #
+        # Get a synchronized album
+        #
+        app.get "/album/:album_name/synchronized" do
+          
+          if album =  Media::Album.get(params[:album_name])
+            album.synchronize_data
+            status 200
+            content_type :json
+            album.to_json        
+          else
+            status 404
+          end
+
+        end
+
+
         #
         # Create a new album
         #
@@ -85,7 +111,7 @@ module Sinatra
           request.body.rewind
           album_request = JSON.parse(URI.unescape(request.body.read))
                 
-          the_album = Media::Album.get(album_request['name'])
+          the_album = Media::Album.get(album_request['id'])
           the_album.attributes=(album_request)
           the_album.save
                    
@@ -104,7 +130,7 @@ module Sinatra
           request.body.rewind
           album_request = JSON.parse(URI.unescape(request.body.read))
           
-          if the_album = Media::Album.get(album_request['name'])
+          if the_album = Media::Album.get(album_request['id'])
             the_album.destroy
           end
           
@@ -112,6 +138,22 @@ module Sinatra
           content_type :json
           true.to_json 
         
+        end
+
+        # 
+        # Synchronize and album
+        #
+        app.get "/api/album/:id/synchronize" do
+         
+          if album = Media::Album.get(params[:id])
+            album.import_photos
+            status 200
+            content_type :json
+            album.to_json
+          else
+            status 404
+          end
+
         end
       
       end

@@ -16,6 +16,8 @@ media_gallery:
 media_admin_menu:
   media_menu: Media
   album_management: Albumes
+media_config_menu:
+  media_storage: Almacenes multimedia  
 gallery:
   description: Album
   action_button:
@@ -24,16 +26,53 @@ content:
   content_photo:
     description: Foto de portada
 #
+# Media Storage management
+#
+media_storage_management:
+  title: Almacen multimedia
+  description:  
+  table:
+    name: Nombre
+    adapter: Adapter
+    account: Cuenta
+  form:
+    name:
+      label: Name
+      description:
+    adapter:
+      label: Adapter
+      description:
+    account:
+      label: Cuenta
+      description:    
+#
 # Album management
 #
 album_management:
   form:
-    title: Àlbums
+    title: Álbumes
+    description:
     description: >
                  <p>Albumes multimedia puede utilizarse para organizar y presentar colecciones o conjuntos de fotografías. Algunos módulos utilizan álbumes para organizar sus imágenes.</p>
                  <p>Los fotografías se almacenan en un sistema externo de almacenamiento de fotos como Picasa, Flickr. En el album puede configurar el sistema de almacenamiento y la cuenta de acceso.</p> 
+    manage_photos: Gestionar fotos
+    upload_photo: Añadir foto
+    name:
+      label: Nombre
+    description:
+      label: Descripción
+    dimensions:
+      label: Dimensiones (ancho y alto)      
+    width:
+      label: Ancho (en píxels) 
+    height:
+      label: Alto (en píxels)
+    import_photos: Sincronizar fotos
+    album_properties: Propiedades del álbum
+    confirm_import_photos: ¿Quiere importar las fotos?      
 photo_management:
   form:
+    title: Fotos del álbum  
     upload_photo: Subir foto
 #
 # Aspects

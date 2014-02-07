@@ -11,8 +11,14 @@ module Sinatra
         #
         # Album management page
         #
-        app.get "/album-management" do
-          load_page :album_management
+        app.get "/admin/album/?*" do
+
+          locals = {
+                     :photo_accept => SystemConfiguration::Variable.get_value('photo_media_accept'),
+                     :photo_max_size => SystemConfiguration::Variable.get_value('photo_media_accept').to_i
+                   }
+
+          load_page :album_management, :locals => locals
         end
               
       end

@@ -23,142 +23,9 @@
      Attachment Plugin
      ---------------------------- */
 
-require(['jquery', 'YSDEntityManagementComplementHooks', 'YSDMemoryDataSource', 'YSDRemoteDataSource',
+require(['jquery', 'YSDFileUploader', 'YSDEntityManagementComplementHooks', 'YSDMemoryDataSource', 'YSDRemoteDataSource',
          'YSDListViewer', 'YSDListManagement', 'YSDEventTarget', 'YSDjson2' ], 
-        function($, EntityManagementComplementHooks, MemoryDataSource, RemoteDataSource, ListViewer, ListManagement, EventTarget ) {
-
-     
-  FileUploader = function(formName, inputFileId, iframeId) {
-
-    this.model = new FileUploaderModel(formName, inputFileId, iframeId);
-    this.controller = new FileUploaderController(this.model);
-    this.view = new FileUploaderView(this.model, this.controller);
-
-    this.model.setView(this.view);
-    
-    this.addListener = function(type, listener) { /* addListener */
-      this.model.addListener(type, listener);	
-    }
-
-    this.removeListener = function(type, listener) { /* removeListener */
-      this.model.removeListener(type, listener);  	  
-    }
-
-    this.uploadFile = function() {
-      this.controller.addNewFileClick();
-    }
-
-    this.view.init();
-
-  }
-  
-  FileUploaderModel = function(formName, inputFileId, iframeId) {
-    
-    this.formName = formName;
-    this.inputFileId = inputFileId;
-    this.iframeId = iframeId;
-
-	this.events = new EventTarget();	
-  	this.state = 'initial';
-  	this.file = null;
-
-    this.addListener = function(type, listener) { /* addListener */
-      this.events.addEventListener(type, listener);	
-    }
-
-    this.removeListener = function(type, listener) { /* removeListener */
-      this.events.removeEventListener(type, listener);  	  
-    }
-
-  	this.setView = function(view) {
-  	  this.view = view;	
-  	}
-  	
-  	this.changeState = function(action) { /* change state */
-  	  
-  	  switch (action) {
-  	  
-  	    case 'send_request':
-  	      this.state = 'uploading_file'
-  	      break;
-  	  	  	  	
-  	  	case 'file_uploaded_ok':
-  	  	  this.state = 'file_uploaded';
-  	  	  this.events.fireEvent({type:'file_uploaded', data: {file: this.file}});
-  	  	  break;
-  	  	  
-  	  	case 'file_uploaded_error':
-  	  	  this.state = 'error_uploading_file';
-  	  	  break;
-  	  }
-  	  
-  	  this.view.stateChanged(this.state);
-  		
-  	}
-  	
-  	this.uploadFile = function(file) { /* Upload the attachment */
-  	  
-  	  this.changeState('send_request');
-  	  document.forms[this.formName].submit(); // Submits the form to upload the file
-  	
-  	}
-  	
-  }
-
-  FileUploaderController = function(model) {
-    
-    this.model = model;
-
-    this.addNewFileClick = function() { /* The user clicks on the input file */
-  	  var result = $(document.forms[this.model.formName][this.model.inputFileId]).click();
-    }
-
-  	this.fileSelected = function() { /* A file is selected to be uploaded */
-  	  this.model.uploadFile();
-  	}    
-
-  }
-
-  FileUploaderView = function(model, controller) {
-
-    this.model = model;
-    this.controller = controller;
-    this.showingFileSelect = false;
-    
-    this.init = function() {
-      
-      var self = this;
-      var controller = this.controller;
-      var model = this.model;
-     		
-      $(document.forms[this.model.formName][this.model.inputFileId]).bind('change', function(event) {
-  	  	if ($(document.forms[self.model.formName][self.model.inputFileId]).val() != '') {
-  	  	  controller.fileSelected();
-  	  	}
-      });
-         
-      $(document.getElementById(this.model.iframeId)).bind('load', function(event){
-        try 
-        {
-          if (model.state == 'uploading_file') { // Manages the event only when uploading the image
-            model.file = JSON.parse(frames[model.iframeId].document.body.innerHTML);
-         	model.changeState('file_uploaded_ok');
-          }                  	     
-        }
-        catch (e)
-        { 
-          model.changeState('file_uploaded_error');
-        }      	
-      	
-      });
-      
-    }
-    
-    this.stateChanged = function(event) { /* State changed */
-    	
-    }
-
-  }
+        function($, FileUploader, EntityManagementComplementHooks, MemoryDataSource, RemoteDataSource, ListViewer, ListManagement, EventTarget ) {
 
   /* ----------------- Gallery Plugin ----------------- */
 
@@ -172,7 +39,7 @@ require(['jquery', 'YSDEntityManagementComplementHooks', 'YSDMemoryDataSource', 
     }
     
     this.onEdit = function(entity) {
-	  this.configForm(entity);
+	    this.configForm(entity);
       this.albumNameConfiguration();
     }
     
@@ -203,7 +70,6 @@ require(['jquery', 'YSDEntityManagementComplementHooks', 'YSDMemoryDataSource', 
                  
       this.fileUploader = new FileUploader('gallery_photo', 'photo_file', 'gallery_photo_uploader');
      
-      
 
       this.fileUploader.addListener('file_uploaded', function(event) {
         var data = event.data.file;
@@ -211,12 +77,14 @@ require(['jquery', 'YSDEntityManagementComplementHooks', 'YSDMemoryDataSource', 
         if (entity && entity.album_name && entity.album_name != '') {
           album_name = entity.album_name;
         }
+        
         self.selector.addElement({id:data.id, description: '<img src="' + data.thumbnails[0].thumbnail_url + '" class="album-photo" data-photo-path="' + '/album/' + album_name + '/photo/' + data.id + '"' + ' data-photo-url-tiny="' + data.thumbnails[0].thumbnail_url + '"' + ' data-photo-url-small="' + data.thumbnails[1].thumbnail_url + '"' + ' data-photo-url-medium="' + data.thumbnails[2].thumbnail_url + '"' + ' data-photo-url-full="' + data.image_url + '"/>'});
 
         if ($('input[name=album_name]').val() == '') {
           $('input[name=album_name]').val(album_name);
           self.albumNameConfiguration();	
         }
+
         if ($('input[name=photo_path]').val() == '') {
           var photo_path = '/album/' + album_name + '/photo/' + data.id;
           $('input[name=photo_path]').val(photo_path);
@@ -238,9 +106,31 @@ require(['jquery', 'YSDEntityManagementComplementHooks', 'YSDMemoryDataSource', 
         });
 
       this.selector.addListener('delete_element_button_click', function(event) {
-
+          self.deletePhoto($('input[name=album_name]').val(),
+                           event.data)
       });
       
+    }
+
+    this.deletePhoto = function(albumName, photoId) {
+
+      var self = this;
+
+      $.ajax( {
+                url  : "/photo_gallery/" + albumName + "/photo/" + photoId,
+                type : 'DELETE',
+                success : function(data, textStatus, jqXHR) {
+                  self.selector.deleteElement(photoId);
+                },
+                error : function(data, textStatus, jqXHR) {
+
+                },
+                complete : function(jqXHR, textStatus) {
+
+                }
+      }); 
+       
+
     }
 
     this.selectMainPhoto = function() {

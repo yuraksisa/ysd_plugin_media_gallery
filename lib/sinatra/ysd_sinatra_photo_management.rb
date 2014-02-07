@@ -11,24 +11,52 @@ module Sinatra
    
       def self.registered(app)
 
-        #
-        # Album's photo management page
-        #
-        app.get "/photo-management/:album_name" do
-          
-          if media_album = Media::Album.get(params[:album_name])          
 
-            locals = {:photo_album => media_album.name, 
-                      :photo_width => media_album.width, 
-                      :photo_height => media_album.height,
+        #
+        # Add a photo to an album
+        #
+        app.get "/admin/photo/new/:album_id" do
+          
+          if album = Media::Album.get(params[:album_id])
+
+            locals = {:photo_album => album.id, 
+                      :photo_width => album.width, 
+                      :photo_height => album.height,
                       :photo_accept => SystemConfiguration::Variable.get_value('photo_media_accept'),
                       :photo_max_size => SystemConfiguration::Variable.get_value('photo_max_size').to_i}
     
             renderer = UI::FieldSetRender.new('photo', self)      
             photo_form_extension = renderer.render('formextension', 'em', locals)
 
-            load_page('photo_management', {:locals => {:album => media_album,
-             :photo_form_extension => photo_form_extension}})
+            load_page('photo_management', {:locals => {:album => album,
+             :photo_form_extension => photo_form_extension, :album_id => album.id, :photo_id => nil, :action => 'new'}})
+          
+          else
+            status 404
+          end
+          
+        end
+
+
+        #
+        # Update an album photo
+        #
+        app.get "/admin/photo/:photo_id" do
+          
+          if photo = Media::Photo.get(params[:photo_id])
+
+            locals = {:photo_album => photo.album.id, 
+                      :photo_width => photo.album.width, 
+                      :photo_height => photo.album.height,
+                      :photo_id => photo.id,
+                      :photo_accept => SystemConfiguration::Variable.get_value('photo_media_accept'),
+                      :photo_max_size => SystemConfiguration::Variable.get_value('photo_max_size').to_i}
+    
+            renderer = UI::FieldSetRender.new('photo', self)      
+            photo_form_extension = renderer.render('formextension', 'em', locals)
+
+            load_page('photo_management', {:locals => {:album => photo.album,
+             :photo_form_extension => photo_form_extension, :album_id => photo.album.id, :photo_id => photo.id, :action => 'edit'}})
           
           else
             status 404

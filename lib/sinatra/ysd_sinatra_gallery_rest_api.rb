@@ -36,24 +36,14 @@ module Sinatra
         #
         app.post "/photo_gallery/photo" do
  
-          album_name = params['photo_album'] 
-
-          if album_name.empty?
-            album_prefix = params['photo_album_prefix']            
-            if album_prefix.empty?
-              album_name = settings.default_album
-            else
-              album_name = album_prefix
-              album_name << UUID.generator.generate(:compact)
-            end 
-          end
+          album_id = params['photo_album'].to_i 
           
           album_data = {}
           album_data.store(:width, params['photo_width'].to_i || settings.default_photo_width.to_i)
           album_data.store(:height, params['photo_height'].to_i || settings.default_photo_height.to_i)
            
           photo_data = {}
-          photo_data.store(:photo_id, params['photo_id']) if (params['photo_id'] and not params['photo_id'].empty?)   
+          photo_data.store(:photo_id, params['photo_id'].to_i) if (params['photo_id'] and not params['photo_id'].empty?)   
           photo_data.store(:photo_name, if params['photo_name'] and not params['photo_name'].empty?
                                           params['photo_name'] 
                                         else
@@ -67,7 +57,7 @@ module Sinatra
           
           photo_file = params['photo_file'][:tempfile]
  
-          media_album = Media::Album.first_or_create({:name => album_name}, album_data) 
+          media_album = Media::Album.first_or_create({:id => album_id}, album_data) 
           photo=media_album.add_or_update_photo(photo_data, photo_file)
                                
           status 200
@@ -79,10 +69,9 @@ module Sinatra
         # Deletes a photo
         #
         app.delete "/photo_gallery/:album_name/photo/:photo_id" do
-
+          
           if media_album = Media::Album.get(params[:album_name])
             media_album.delete_photo(params[:photo_id])
-            status 400
             media_album.to_json
           else
             status 404

@@ -16,6 +16,8 @@ media_gallery:
 media_admin_menu:
   media_menu: Media
   album_management: Albums
+media_config_menu:
+  media_storage: Media storages 
 gallery:
   description: Gallery
   action_button:
@@ -23,6 +25,26 @@ gallery:
 content:
   content_photo:
     description: Front page photo
+#
+# Media Storage management
+#
+media_storage_management:
+  title: Media storage
+  description:  
+  table:
+    name: Name
+    adapter: Adapter
+    account: Account
+  form:
+    name:
+      label: Name
+      description:
+    adapter:
+      label: Adapter
+      description:
+    account:
+      label: Account
+      description:    
 #
 # Album management
 #
@@ -32,8 +54,25 @@ album_management:
     description: >
                  <p>Multimedia albums can be used to present and organize collections of photographs. Some models use albums to organize images.</p>
                  <p>The photographs are stored in an external photo storage system such as Picasa or Flikr. The storage system and access to the account can be configured in the album.</p>  
+    manage_photos: Manage photos
+    upload_photo: Upload photo
+    name:
+      label: Name
+    description:
+      label: Description
+    dimensions:
+      label: Dimensions (width and height)      
+    width:
+      label: Width (in pixels)
+    height:
+      label: Height (in pixels) 
+    import_photos: Synchronize photos
+    album_properties: Album properties
+    confirm_import_photos: Would you like to import the photos?    
 photo_management:
   form:
+    title: Album photos  
+    description:
     upload_photo: Upload photo
 #
 # Aspects

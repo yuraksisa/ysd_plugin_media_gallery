@@ -16,7 +16,7 @@ module Sinatra
           
           if media_album = Media::Album.get(params[:album_name])
             content_type :json
-            media_album.photos.to_json
+            media_album.photos.nil? ? [].to_json : media_album.photos.to_json
           else
             status 404
           end
@@ -46,6 +46,17 @@ module Sinatra
         
         end
         
+        app.get "/photo/:id" do
+
+          if photo = Media::Photo.get(params[:id])
+            content_type :json
+            photo.to_json
+          else
+            status 404
+          end
+
+        end
+
         #
         # Create a new photo
         #
@@ -69,6 +80,7 @@ module Sinatra
         #
         app.delete "/photo" do
         
+
         end
      
      end
