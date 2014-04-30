@@ -3,7 +3,7 @@
       <label for="album_name" class="fieldtitle bottom-border-solid">
       	  <span data-icon="&#xe072;"></span> <%=t.gallery_aspect.form.album_name.label%>
       	  <%% if (entity) { %>
-      	  <a href="/album-management/edit/<%%=entity.album_name%>" class="right-float"><span data-icon="&#xe01e;"></a>
+      	  <a href="/album-management/edit/<%%=entity.id%>" class="right-float"><span data-icon="&#xe01e;"></a>
       	  <%% } %>
       </label>
       <input type="hidden" name="album_name" id="album_name" class="fieldcontrol" <%% if (entity) {%>value="<%%=entity.album_name%>"<%% } %>/>

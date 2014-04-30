@@ -57,8 +57,14 @@ require(['jquery', 'YSDFileUploader', 'YSDEntityManagementComplementHooks', 'YSD
       var self = this;
       var albumDataSource = null;
       
-      if (entity && entity.album_name) {
-        albumDataSource = new RemoteDataSource('/photos/' + entity.album_name, {id:'id', description: function(data){return '<img src="'+ data.thumbnails[0].thumbnail_url + '" class="album-photo" data-photo-path="' + '/album/' + entity.album_name + '/photo/' + data.id + '"' + 'data-photo-url-tiny="' + data.thumbnails[0].thumbnail_url + '"' + 'data-photo-url-small="' + data.thumbnails[1].thumbnail_url + '"' + 'data-photo-url-medium="' + data.thumbnails[2].thumbnail_url + '"' + 'data-photo-url-full="' + data.image_url + '"/>' }});
+      if (entity && entity.album_id) {
+
+        albumDataSource = new RemoteDataSource('/photos/' + entity.album_id, 
+          {id:'id',
+           description: function(data) {
+           return '<img src="'+ data.photo_url_small + '" class="album-photo" data-photo-path="' + '/album/' + entity.album_id + '/photo/' + data.id + '"' + 'data-photo-url-tiny="' + data.photo_url_tiny + '"' + 'data-photo-url-small="' + data.photo_url_small + '"' + 'data-photo-url-medium="' + data.photo_url_medium + '"' + 'data-photo-url-full="' + data.photo_url_full + '" data-album-id="' + entity.album_id + '" data-photo-id="' + data.id + '"/>' 
+         }
+         });
       }
       else {
         albumDataSource = new MemoryDataSource([]);

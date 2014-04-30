@@ -96,33 +96,35 @@
           </div>
         </div>
         <%% } else { %>
-        <div class="form-fields bottom-margin">
-          <div class="container_12">
-            <div class="grid_9">
-              <div class="top-margin">
-                <% if user.belongs_to?('staff') %>
-                <div class="formrow-botonera">
-                   <button type="button"
+          <div class="form-fields bottom-margin">
+            <div class="container_12">
+              <div class="grid_9">
+                <div class="top-margin">
+                  <% if user.belongs_to?('staff') %>
+                  <div class="formrow-botonera">
+                     <button type="button"
                          class="form-button element-action-button" 
                          data-action-method="GET"
                          data-action-url="/api/album/<%%=entity.id%>/synchronize"
                          data-confirm-message="<%=t.album_management.form.confirm_import_photos%>"><%=t.album_management.form.import_photos%></button>
+                  </div>
+                  <% end %>
                 </div>
-                <% end %>
               </div>
-            </div>
-            <div class="grid_3">
-              <div class="top-margin">
-                <div id="properties" class="smaller_text over_cursor right_text as_link less_contrast_text"><%=t.album_management.form.album_properties%></div>
+              <div class="grid_3">
+                <div class="top-margin">
+                  <div id="properties" class="smaller_text over_cursor right_text as_link less_contrast_text">
+                     <%=t.album_management.form.album_properties%>
+                  </div>
+                </div>          
+              </div>
+              <div class="grid_12">
+                <div id="gallery">
+                </div>
               </div>          
-          </div>
-          <div class="grid_12">
-            <div id="gallery">
             </div>
-          </div>          
-        </div>
  
-             <div id="properties_form" class="all-full-space box-shadow background-color-1" style="display:none">
+            <div id="properties_form" class="all-full-space box-shadow background-color-1" style="display:none">
                 <h3 class="bottom-border-solid">Propiedades del álbum</h3>
                 <%= partial :alert %>
                 <input type="hidden" id="id" name="id" class="fieldcontrol" <%% if (entity) { %> value="<%%= entity.id %>" <%% } %> />
@@ -156,7 +158,7 @@
                     <input type="submit" class="update-entity-button action-button entity-management-button" value="<%=t.entitymanagement.update%>"/>
                   </div>
                 </div>
-              </div>
+             </div>
  
 
         <%% } %>
@@ -186,10 +188,8 @@
       $('#name').attr('readonly', true);
       $('#description').focus();
       $('#properties').bind('click', function() {
-      
          //$('#properties_form').toggle("slow"); 
          YSDGui.showElement($('#properties_form')[0], true);
-      
       });   	
       this.configForm(entity);
     };
