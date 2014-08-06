@@ -40,14 +40,13 @@ require(['jquery', 'YSDFileUploader', 'YSDEntityManagementComplementHooks', 'YSD
     
     this.onEdit = function(entity) {
 	    this.configForm(entity);
-      this.albumNameConfiguration();
+      this.albumConfiguration();
     }
     
-    this.albumNameConfiguration = function() {
+    this.albumConfiguration = function() {
       
-      if ($('input[name=album_name]').val() != '') {
-      	$(document.forms['gallery_photo']['photo_album']).val($('input[name=album_name]').val());
-        $('input[name=album_name]').attr('readonly', 'readonly');
+      if ($('input[name=album\\[id\\]').val() != '') {
+      	$(document.forms['gallery_photo']['photo_album']).val($('input[name=album\\[id\\]]').val());
       }
 
     }
@@ -72,32 +71,32 @@ require(['jquery', 'YSDFileUploader', 'YSDEntityManagementComplementHooks', 'YSD
 
       this.selector = new ListManagement('gallery_form', 
                                          'gallery', 
-                                         albumDataSource);
+                                         albumDataSource,
+                                         '<%=t.album_management.form.upload_photo%>');
                  
       this.fileUploader = new FileUploader('gallery_photo', 'photo_file', 'gallery_photo_uploader');
      
 
       this.fileUploader.addListener('file_uploaded', function(event) {
-        var data = event.data.file;
-        var album_name = data.album.name;
-        if (entity && entity.album_name && entity.album_name != '') {
-          album_name = entity.album_name;
-        }
         
-        self.selector.addElement({id:data.id, description: '<img src="' + data.thumbnails[0].thumbnail_url + '" class="album-photo" data-photo-path="' + '/album/' + album_name + '/photo/' + data.id + '"' + ' data-photo-url-tiny="' + data.thumbnails[0].thumbnail_url + '"' + ' data-photo-url-small="' + data.thumbnails[1].thumbnail_url + '"' + ' data-photo-url-medium="' + data.thumbnails[2].thumbnail_url + '"' + ' data-photo-url-full="' + data.image_url + '"/>'});
+        var data = event.data.file;
+        var album_id = data.album_id;
+        
+        self.selector.addElement({id:data.id, 
+          description: '<img src="' + data.photo_url_small + '" class="album-photo" data-photo-path="' + '/album/' + album_id + '/photo/' + data.id + '"' + ' data-photo-url-tiny="' + data.photo_url_tiny + '"' + ' data-photo-url-small="' + data.photo_url_small + '"' + ' data-photo-url-medium="' + data.photo_url_medium + '"' + ' data-photo-url-full="' + data.photo_url_full + '" data-album-id="' + album_id + '" data-photo-id="' + data.id + '"/>'});
 
-        if ($('input[name=album_name]').val() == '') {
-          $('input[name=album_name]').val(album_name);
-          self.albumNameConfiguration();	
+        if ($('input[name=album\\[id\\]]').val() == '') {
+          $('input[name=album\\[id\\]]').val(album_id);
+          self.albumConfiguration();	
         }
 
         if ($('input[name=photo_path]').val() == '') {
-          var photo_path = '/album/' + album_name + '/photo/' + data.id;
+          var photo_path = '/album/' + album_id+ '/photo/' + data.id;
           $('input[name=photo_path]').val(photo_path);
-          $('input[name=photo_url_tiny]').val(data.thumbnails[0].thumbnail_url);
-          $('input[name=photo_url_small]').val(data.thumbnails[1].thumbnail_url);
-          $('input[name=photo_url_medium]').val(data.thumbnails[2].thumbnail_url);
-          $('input[name=photo_url_full]').val(data.image_url);
+          $('input[name=photo_url_tiny]').val(data.photo_url_tiny);
+          $('input[name=photo_url_small]').val(data.photo_url_small);
+          $('input[name=photo_url_medium]').val(data.photo_url_medium);
+          $('input[name=photo_url_full]').val(data.photo_url_full);
           $('.album-photo[data-photo-path="'+photo_path+'"]').addClass('album-main-photo');
         }
       });      
@@ -112,18 +111,24 @@ require(['jquery', 'YSDFileUploader', 'YSDEntityManagementComplementHooks', 'YSD
         });
 
       this.selector.addListener('delete_element_button_click', function(event) {
-          self.deletePhoto($('input[name=album_name]').val(),
-                           event.data)
+
+          self.manager.view.ask_for_confirmation(
+                 'Delete photo', 
+                 'Are you sure you want to delete this photo? This process can not be undone.',
+                 function(){
+                    self.deletePhoto(event.data);
+                 });
+
       });
       
     }
 
-    this.deletePhoto = function(albumName, photoId) {
+    this.deletePhoto = function(photoId) {
 
       var self = this;
 
       $.ajax( {
-                url  : "/photo_gallery/" + albumName + "/photo/" + photoId,
+                url  : "/photo/" + photoId,
                 type : 'DELETE',
                 success : function(data, textStatus, jqXHR) {
                   self.selector.deleteElement(photoId);

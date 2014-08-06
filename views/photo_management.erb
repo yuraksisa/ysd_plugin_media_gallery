@@ -63,7 +63,7 @@
 
             <div class="formrow">
               <label for="height" class="fieldtitle">URL</label>
-              <input type="text" maxlength="100" id="image_url" name="image_url" class="fieldcontrol" readonly="readonly" <%% if (entity) { %> value="<%%= entity.photo_url_full %>" <%% } %> />
+              <input type="text" maxlength="100" id="photo_url_full" name="photo_url_full" class="fieldcontrol" readonly="readonly" <%% if (entity) { %> value="<%%= entity.photo_url_full %>" <%% } %> />
             </div>
           </div>
 
@@ -109,8 +109,8 @@ require(['jquery','YSDEntityManagement',"YSDEntityManagementComplementHooks"], f
       	      	  
           if (entity) {          	          	
          	   // Actualizacion del detalle y del elemento en la lista      	  
-      	     entity.image_url = document.getElementById('element_photo_img').getAttribute('src');
-      	     photosManager.model.currentEntity().image_url = document.getElementById('element_photo_img').getAttribute('src');      	   
+      	     entity.photo_url_full = document.getElementById('element_photo_img').getAttribute('src');
+      	     photosManager.model.currentEntity().photo_url_full = document.getElementById('element_photo_img').getAttribute('src');      	   
              //photosManager.model.change_state('entity_updated_successfully');	   	      	  
       	   }
       	   else {

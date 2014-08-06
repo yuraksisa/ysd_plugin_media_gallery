@@ -1,9 +1,9 @@
   <div id="gallery_highlight_photo_size">
   	<% photo = media_album.photos.first %>
-    <img src="<%="#{photo.image_url}"%>" class="gallery-main-photo-img" 
+    <img src="<%="#{photo.photo_url_full}"%>" class="gallery-main-photo-img" 
          title="<%=photo.name%>" alt="<%=photo.description%>"/>
-    <% media_album.photos[1..-1].each do |photo| %>
-      <img src="<%="#{photo.thumbnails[1].thumbnail_url}"%>" 
+    <% media_album.photos.each do |photo| %>
+      <img src="<%="#{photo.photo_url_small}"%>" 
            class="gallery-thumbnail-img" title="<%=photo.name%>" 
            alt="<%=photo.description%>"/>
     <% end %>

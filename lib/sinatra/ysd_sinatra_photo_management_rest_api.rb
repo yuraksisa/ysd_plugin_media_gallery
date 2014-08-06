@@ -78,8 +78,18 @@ module Sinatra
         #
         # Deletes a photo
         #
-        app.delete "/photo" do
+        app.delete "/photo/:id" do
         
+          if photo = Media::Photo.get(params[:id])
+            photo.destroy
+            content_type :json
+            true.to_json
+          else
+            content_type :json
+            true.to_json
+          end  
+
+
 
         end
      

@@ -38,7 +38,7 @@
             <% media_album.photos.each do |photo| %>
               <li>
                 <a href="<%="#{photo.get_image_url(media_album.width, media_album.height)}"%>" class="ad-thumb<%=index%>">
-                  <img src="<%="#{photo.thumbnails[0].thumbnail_url}"%>" class="image<%=index%>"/>
+                  <img src="<%="#{photo.photo_url_tiny}"%>" class="image<%=index%>"/>
                 </a>
               </li>  
               <% index = index + 1 %>

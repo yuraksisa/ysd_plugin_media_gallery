@@ -47,14 +47,14 @@ module Sinatra
                 photo_url = nil                        
                 case params[:size]            
                   when 'tiny'                 
-                    photo_url = photo.thumbnails.first.thumbnail_url                
+                    photo_url = photo.photo_url_tiny                
                   when 'small'    
-                    photo_url = photo.thumbnails[1].thumbnail_url              
+                    photo_url = photo.photo_url_small              
                   when 'medium'                
-                    photo_url = photo.thumbnails.last.thumbnail_url                          
+                    photo_url = photo.photo_url_medium                          
                 end
           
-                photo_url ||= photo.image_url                    
+                photo_url ||= photo.photo_url_full                    
                 redirect (photo_url) 
               else
                 status 404 # Not found

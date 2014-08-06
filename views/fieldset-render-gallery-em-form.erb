@@ -1,12 +1,12 @@
 <div id="gallery_form">
     <div class="formrow">
-      <label for="album_name" class="fieldtitle bottom-border-solid">
+      <label for="album[id]" class="fieldtitle bottom-border-solid">
       	  <span data-icon="&#xe072;"></span> <%=t.gallery_aspect.form.album_name.label%>
       	  <%% if (entity) { %>
       	  <a href="/album-management/edit/<%%=entity.id%>" class="right-float"><span data-icon="&#xe01e;"></a>
       	  <%% } %>
       </label>
-      <input type="hidden" name="album_name" id="album_name" class="fieldcontrol" <%% if (entity) {%>value="<%%=entity.album_name%>"<%% } %>/>
+      <input type="hidden" name="album[id]" id="album[id]" class="fieldcontrol" <%% if (entity) {%>value="<%%=entity.album_id%>"<%% } %>/>
       <input type="hidden" name="photo_path" id="photo_path" <%% if (entity) { %> value="<%%=entity.photo_path%>" <%% } %>/>
       <input type="hidden" name="photo_url_tiny" id="photo_url_tiny" <%% if (entity) { %> value="<%%=entity.photo_url_tiny%>" <%% } %>/>
       <input type="hidden" name="photo_url_small" id="photo_url_small" <%% if (entity) { %> value="<%%=entity.photo_url_small%>" <%% } %>/>

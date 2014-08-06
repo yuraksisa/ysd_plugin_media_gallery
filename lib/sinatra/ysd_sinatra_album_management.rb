@@ -18,7 +18,7 @@ module Sinatra
                      :photo_max_size => SystemConfiguration::Variable.get_value('photo_media_accept').to_i
                    }
 
-          load_page :album_management, :locals => locals
+          load_em_page :album_management, :album, false, :locals => locals
         end
               
       end
