@@ -1,0 +1,39 @@
+<%= partial('choose_picture.js'.to_sym) %>
+
+require(['jquery', 'YSDGui'], function($, YSDGui) {
+
+  insertPictureModel = {
+
+    insertPictureDelegate: null,
+
+    photoChosen: function(photo, title, description, alt) {
+      if (this.insertPictureDelegate != null) {
+      	this.insertPictureDelegate.insertPhoto("/media/photo/"+photo.id,
+      		{description: description, title: title, alt: alt});
+      	YSDGui.hideElement(document.getElementById('album_selector_container'));
+      }
+    }
+
+  };
+
+  insertPictureController = {
+
+    insertPictureClick : function() {
+      YSDGui.showElement(document.getElementById('album_selector_container'), true);
+      choosePictureModel.choosePictureDelegate = insertPictureModel;
+      choosePictureView.init();	
+    }
+
+  };
+
+  insertPictureView = {
+
+    init: function() {
+      $('#insert_picture_btn').bind('click',function() {
+        insertPictureController.insertPictureClick();
+      });
+    }
+
+  };
+
+});

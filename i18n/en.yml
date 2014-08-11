@@ -1,3 +1,29 @@
+console_media:
+  title: Media
+  description: Media
+  configuration: Configuration
+  albums: Albums
+  storages: Media storage
+choose_picture:
+  albums: Choose the album
+  photos: Choose the photo
+  img_title: Title
+  img_description: Descripion
+  img_alt: Alt text 
+  button: Choose  
+insert_picture:
+  button: Insert picture  
+media_settings:
+  form:
+    title: Media configuration
+    general_group: General
+    storage_group: Storage
+    default_storage: Images storage
+    storage_description: It defines how the images of your web site are stored
+    see_storages: See storages
+    create_storage: Create media storage    
+    photo_media_accept: Media accept
+    photo_max_size: Max size
 uploader:
   photo: Select an image file from your computer (max size %1 %2)
   close_button: Close

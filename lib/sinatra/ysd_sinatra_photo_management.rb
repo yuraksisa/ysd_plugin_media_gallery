@@ -11,6 +11,20 @@ module Sinatra
    
       def self.registered(app)
 
+        app.get '/admin/console/media', :allowed_usergroups => ['staff'] do
+          load_page(:console_media_gallery)
+        end
+
+        #
+        # Media Gallery configuration
+        #
+        app.get '/admin/config/media', :allowed_usergroups => ['staff'] do
+          locals = {}
+          media_storage = SystemConfiguration::Variable.get_value('media.default_storage', nil)
+          locals.store(:not_media_storage, (media_storage.nil? or media_storage.empty?) )
+          locals.store(:storages, Hash[ *::Media::Storage.all.collect { |v| [v.name, v.name]}.flatten ])
+          load_page(:config_media_gallery, :locals => locals)
+        end
 
         #
         # Add a photo to an album

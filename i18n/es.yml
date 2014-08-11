@@ -1,3 +1,61 @@
+console_media:
+  title: Medios
+  description: > 
+               <p class="top-margin-1line">Las páginas web muestran generalmente imágenes, ya sea las fotos que complementan un artículo o un
+               álbum de fotos asociado a una página.</p>
+               <p>Las imágenes de su sitio web se gestionan con este módulo. Cualquier imagen debe estar almacenada
+               en un álbum.</p>
+               <div class="container_12">
+                 <div class="grid_4">
+                   <div class="content_data_box">
+                     <p>Los <strong>almacenes de imágenes</strong> permiten configurar donde se van a guardar los ficheros
+                     que representan las imágenes.</p>
+                     <p>Actualmente sólo se dispone de un tipo de almacén de 
+                     imágenes, <a href="http://picasa.google.com" target="_blank">Picasa</a>, lo que significa que debe tener una cuenta
+                     de Google para poder utilizar imágenes en su sitio web.</p>
+                   </div>
+                 </div>
+                 <div class="grid_4">
+                   <div class="left-margin content_data_box">
+                     <p>Puede <strong>configurar</strong> el tipo de ficheros de imágenes que se permitirán en su sitio web,
+                     como .gif, .jpg, .png u otros y el tamaño máximo permitido por fichero, para evitar el
+                     procesamiento de grandes ficheros.</p>
+                     <p>Todas estas opciones las encontrará en la página de 
+                     configuración del módulo.</p>
+                   </div>
+                 </div>
+                 <div class="grid_4">
+                   <div class="left-margin content_data_box">
+                     <p>Puede crear <strong>álbumes</strong> de fotos directamente; aunque también dispone de módulos que utilizan el
+                     sistema de álbumes a través del sistema de aspectos.</p>
+                     <p>Se puede definir el tamaño de las imágenes de un álbum de forma que todas ellas
+                     presenten el mismo aspecto.</p>
+                   </div>
+                 </div>
+               </div>
+  configuration: Configuración
+  albums: Álbums
+  storage: Almacen imágenes
+choose_picture:
+  albums: Álbums
+  photos: Fotos del álbum
+  img_title: Título
+  img_description: Descripción
+  img_alt: Texto alternativo
+  button: Seleccionar
+insert_picture:
+  button: Insertar imagen  
+media_settings:
+  form:
+    title: Configuración Medios
+    general_group: General
+    storage_group: Almacenamiento
+    default_storage: Almacen de imágenes
+    storage_description: Define donde se almacenan las imágenes de su sitio web
+    see_storages: Ver almacenes de imágenes
+    create_storage: Crear almacén de imágenes
+    photo_media_accept: Media accept
+    photo_max_size: Tamaño máximo (en bytes)
 uploader:
   photo: Seleccionar un archivo de imagen de su computadora (tamaño máximo %1 %2)
   close_button: Cerrar  

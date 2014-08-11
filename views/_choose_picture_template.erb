@@ -1,0 +1,28 @@
+<script type="text/template" id="choose_album_script">
+   <%% 
+      var i = 0;
+      for (;i<data.length;i++) { %>
+      <div class="album grid_20_pc">
+         <div class="right-margin bottom-margin">
+         <img src="<%%= data[i].thumbnail_url %>" class="box-shadow album-selector" rel="<%%=data[i].id%>" style="display:block; margin: 0 auto"/>
+         </div>
+      </div>  
+      <%% if ((i+1)%5 == 0)  { %>
+      <div class="clear-float"></div>
+      <%% } %>
+   <%% } %>
+</script>
+<script type="text/template" id="choose_photo_script">
+   <%% 
+      var i = 0;
+      for (;i<data.length;i++) { %>
+      <div class="photo grid_20_pc">
+         <div class="right-margin bottom-margin">
+           <img src="<%%= data[i].photo_url_small %>" class="box-shadow photo-selector" style="display:block; margin: 0 auto" rel="<%%=data[i].id%>"/>
+         </div>
+      </div>  
+      <%% if ((i+1)%5 == 0)  { %>
+      <div class="clear-float"></div>
+      <%% } %>      
+   <%% } %>
+</script>

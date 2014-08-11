@@ -30,7 +30,7 @@
      <form name="element">
         <div class="form-fields container_12">
           
-          <div class="grid_8">
+          <div class="grid_12">
             <input type="hidden" name="photo_path" id="photo_path" 
               <%% if (entity) { %> value="<%%= self.model.entityHooks[0].configurePhotoPath(entity) %>" <%% } %> />
             <div class="formrow">
@@ -45,7 +45,7 @@
             </div>
           </div>
 
-          <div class="grid_4"> 
+          <div class="grid_12"> 
             <div class="formrow">
               <label for="name" class="fieldtitle">Name</label>
               <input type="text" maxlength="40" id="name" name="name" class="fieldcontrol" readonly="readonly" <%% if (entity) { %> value="<%%= entity.name %>" <%% } %> />
@@ -119,8 +119,6 @@ require(['jquery','YSDEntityManagement',"YSDEntityManagementComplementHooks"], f
       
            $('#element_photo_img').unbind();
       	 });
-      	 
-       $('#change_photo_link').unbind();
       	
       });
        

@@ -1,3 +1,29 @@
+console_media:
+  title: Medis
+  description: Medis
+  configuration: Configuració
+  albums: Àlbums
+  storages: Magatzems d\'imatges
+choose_picture:
+  albums: Tria l'\àlbum
+  photos: Tria la foto
+  img_title: Títol
+  img_description: Descripció
+  img_alt: Texte alternatiu  
+  button: Triar  
+insert_picture:
+  button: Insertar imatge
+media_settings:
+  form:
+    title: Configuració Media
+    general_group: General
+    storage_group: Magatzenament
+    default_storage: Magatzem d\'imatges
+    storage_description: Defineix on es guarden les imatges de la seva web
+    see_storages: Veure els magatzems de dades
+    create_storage: Crear magatzem d\'imatges
+    photo_media_accept: Media accept
+    photo_max_size: Tamany màxim en bytes
 uploader:
   photo: Seleccionar un arxiu d\'imatge de la seva computadora (tamany màxim %1 %2)
   close_button: Tancar

@@ -51,6 +51,32 @@ require(['jquery', 'YSDFileUploader', 'YSDEntityManagementComplementHooks', 'YSD
 
     }
 
+    this.adaptFormData = function(data) {
+
+      if (data) {
+        if (data.album.id == '') {
+          delete data.album;
+        }
+        if (data.photo_path == '') {
+          delete data.photo_path;
+        }
+        if (data.photo_url_tiny == '') {
+          delete data.photo_url_tiny;
+        }
+        if (data.photo_url_small == '') {
+          delete data.photo_url_small;
+        }
+        if (data.photo_url_medium == '') {
+          delete data.photo_url_medium;
+        }
+        if (data.photo_url_full == '') {
+          delete data.photo_url_full;
+        }                
+      }
+
+      return data;
+    }
+
     this.configForm = function(entity) {
       
       var self = this;

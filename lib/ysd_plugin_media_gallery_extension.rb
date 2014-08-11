@@ -22,17 +22,7 @@ module Huasi
           {:value => '', 
            :description => 'Default storage for media', 
            :module => :media_gallery}) 
-            
-        SystemConfiguration::Variable.first_or_create({:name => 'photo_default_adapter'}, 
-          {:value => '', 
-           :description => 'Adaptador por defecto para la integración con álbumes de fotografía', 
-           :module => :media_gallery}) 
-                                                      
-        SystemConfiguration::Variable.first_or_create({:name => 'photo_default_account'}, 
-          {:value => '', 
-           :description => 'Cuenta por defecto para acceder al proveedor de álbumes de fotografía.',
-           :module => :media_gallery})
-                                                      
+                                                                  
         SystemConfiguration::Variable.first_or_create({:name => 'photo_media_accept'}, 
           {:value => 'image/jpeg,image/gif,image/png,image/jpeg', 
            :description => 'Formatos de imágenes aceptados', 

@@ -1,0 +1,40 @@
+<div id="album_selector_container" class="all-space" style="display:none;width: 80%;border: 1px solid black; background: white;">
+  <div class="container_12">	
+    <div class="grid_8">
+       <h4><%=t.choose_picture.albums%></h4>
+       <div id="album_selector" class="container_grid_pc" style="min-height:100px; max-height: 150px; overflow-y: scroll">
+       </div>
+       <h4><%=t.choose_picture.photos%></h4>
+       <div id="photo_selector" class="container_grid_pc bottom-margin" style="min-height:100px; max-height: 150px; overflow-y: scroll">
+       </div>
+    </div>
+    <div class="grid_4">
+      <div id="photo_selected_container" class="all-space" style="display:none">
+         <img id="photo_selected" class="box-shadow" style="display:block; margin: 0 auto; min-height: 100px; max-height: 200px"/>
+         <div class="smaller_text top-margin">
+       	    <div class="container_grid_pc bottom-margin formrow">
+       	    <label class="grid_30_pc"><%=t.choose_picture.img_title%></label>
+       	    <input type="img_title" id="img_title" class="grid_60_pc" style="padding:6px"/>
+       	    </div>
+       	    <div class="container_grid_pc bottom-margin formrow">
+       	    <label class="grid_30_pc"><%=t.choose_picture.img_description%></label>
+            <textarea id="img_description" class="grid_60_pc" style="padding:7px"></textarea>
+            </div>
+            <div class="container_grid_pc bottom-margin formrow">
+       	    <label class="grid_30_pc"><%=t.choose_picture.img_alt%></label>
+            <textarea id="img_alt" class="grid_60_pc" style="padding:7px"></textarea>           
+            </div>        
+         </div>
+       </div>
+    </div>
+  </div>
+  <div class="bottom-border-solid bottom-margin">
+  </div>
+  <div class="container_12">
+    <div class="grid_12">
+      <div class="right_text">
+      <button type="button" id="select_picture" class="form-button blue-button" disabled><%=t.choose_picture.button%></button>
+      </div>
+    </div>
+  </div>
+</div>

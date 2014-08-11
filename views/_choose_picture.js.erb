@@ -1,0 +1,114 @@
+require(['jquery', 'ysdtemplate'], function($, tmpl) {
+  
+  choosePictureModel = {
+
+     albums : null,
+     albumsCount : 0,
+     photos : null,
+     photosHash: {},
+     photoSelected: null,
+     choosePictureDelegate: null,
+
+     loadAlbums : function() {
+          $.ajax({
+  	   	       type: 'POST',
+  	   	       url : '/albums',
+  	   	       contentType: 'application/json; charset=utf-8',
+  		       dataType : 'json',
+  		       success: function(data, textStatus, jqXHR) {
+                  choosePictureModel.albums = data.data;
+                  choosePictureModel.albumsCount = data.summary
+                  choosePictureView.update('albums_available');
+              }
+          });
+     },
+
+     loadPhotos : function(albumId) {
+          $.ajax({
+  	   	       type: 'GET',
+  	   	       url : '/photos/' + albumId,
+  	   	       contentType: 'application/json; charset=utf-8',
+  		       dataType : 'json',
+  		       success: function(data, textStatus, jqXHR) {
+                  choosePictureModel.photos = data;
+                  var i=0;
+                  for (;i<data.length;i++) {
+                  	 choosePictureModel.photosHash[data[i].id] = data[i];
+                  }
+                  choosePictureView.update('photos_available');
+              }
+          });
+
+     },
+
+     selectPhoto : function(photoId) {
+     	this.photoSelected = this.photosHash[photoId];
+     	if (this.photoSelected != null) {
+     	  choosePictureView.update('photo_selected');	
+     	}
+     }
+
+  };
+
+  choosePictureController = {
+
+     chooseAlbum : function(albumId) {
+        choosePictureModel.loadPhotos(albumId);
+     },
+
+     choosePhoto: function(photoId) {
+        choosePictureModel.selectPhoto(photoId);
+     },
+
+     selectPictureButtonClick: function() {
+        if (choosePictureModel.choosePictureDelegate != null) {
+          choosePictureModel.choosePictureDelegate.photoChosen(
+          	  choosePictureModel.photoSelected,
+          	  $('#img_title').val(),
+          	  $('#img_description').val(),
+          	  $('#img_alt').val());
+        }
+     }
+
+
+  };
+
+  choosePictureView = { 
+
+     init: function() {
+       choosePictureModel.loadAlbums();
+       $('#select_picture').unbind('click');
+       $('#select_picture').bind('click', function() {
+         choosePictureController.selectPictureButtonClick();
+       });
+     },
+
+     update: function(info) {
+
+       switch (info) {
+       	  case 'albums_available' :
+            $("#album_selector").html(tmpl('choose_album_script', {data: choosePictureModel.albums}));
+            $('.album-selector').unbind('click');
+            $('.album-selector').bind('click', function() {
+               choosePictureController.chooseAlbum($(this).attr('rel'));
+            });
+       	    break;
+       	  case 'photos_available' :
+       	    $("#photo_selector").html(tmpl('choose_photo_script', {data: choosePictureModel.photos}));
+       	    $('.photo-selector').unbind('click');
+       	    $('.photo-selector').bind('click', function() {
+               choosePictureController.choosePhoto($(this).attr('rel'));
+       	    });
+       	    break;
+       	  case 'photo_selected' :
+       	    $('#photo_selected').attr('src', choosePictureModel.photoSelected.photo_url_medium);
+       	    $('#photo_selected_container').show();
+       	    $('#select_picture').removeAttr('disabled');
+       	    break;
+       }
+
+     }
+
+  };
+
+});
