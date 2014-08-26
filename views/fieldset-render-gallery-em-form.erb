@@ -1,9 +1,9 @@
-<div id="gallery_form">
+<div id="gallery_form" class="bottom-margin-1line">
     <div class="formrow">
       <label for="album[id]" class="fieldtitle bottom-border-solid">
       	  <span data-icon="&#xe072;"></span> <%=t.gallery_aspect.form.album_name.label%>
       	  <%% if (entity) { %>
-      	  <a href="/album-management/edit/<%%=entity.id%>" class="right-float"><span data-icon="&#xe01e;"></a>
+      	  <a href="/admin/album/edit/<%%=entity.id%>" class="right-float"><span data-icon="&#xe01e;"></a>
       	  <%% } %>
       </label>
       <input type="hidden" name="album[id]" id="album[id]" class="fieldcontrol" <%% if (entity) {%>value="<%%=entity.album_id%>"<%% } %>/>

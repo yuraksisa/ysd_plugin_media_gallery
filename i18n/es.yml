@@ -122,12 +122,16 @@ album_management:
     dimensions:
       label: Dimensiones (ancho y alto)      
     width:
-      label: Ancho (en píxels) 
+      label: Ancho (px) 
     height:
-      label: Alto (en píxels)
+      label: Alto (px)
     import_photos: Sincronizar fotos
     album_properties: Propiedades del álbum
     confirm_import_photos: ¿Quiere importar las fotos?      
+  form_validation:
+    name_required: Nombre obligatorio
+    width_numeric: Ancho debe ser un valor numérico
+    height_numeric: Alto debe ser un valor numérico
 photo_management:
   form:
     title: Fotos del álbum  

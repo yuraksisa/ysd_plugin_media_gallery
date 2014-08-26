@@ -23,11 +23,17 @@
 
   <div class="entity-block-container">
     <div class="entity-block-container-inside all-space">
-      <div>
+      <div style="height:108px">
+        <%% if (entity && entity.thumbnail_url != null && entity.thumbnail_url.length > 0)  { %> 
         <img src="<%%= entity.thumbnail_url %>" class="box-shadow element-row-selector" style="display:block; margin: 0 auto" rel="<%%= index %>"/>
+        <%% } else { %>
+        <div class="box-shadow element-row-selector" style="width:144px; height: 108px" rel="<%%= index %>">
+          <span class="centered_text" style="font-size:5em; display: block" data-icon="&#xe072;"></span> 
+        </div> 
+        <%% } %>
       </div>
       <div>
-        <div class="smaller_text less_contrast_text centered_text"><%%= entity.name.substring(0, 20) %></div>
+        <div class="smaller_text less_contrast_text centered_text top-margin"><%%= entity.name.substring(0, 20) %></div>
         <div class="right_text">
           <span class="smaller_text" data-icon="&#xe072;"> <%%= entity.size %></span> 
           <span class="smaller_text element-row-selector" rel="<%%= index %>" data-icon="&#xe082;"></span></a>
@@ -64,20 +70,23 @@
      </iframe>
 
               
-     <form name="element">
+     <form name="element" id="form_new_album">
         <%% if (entity == null) { %>
         <div class="form-fields container_12">
           <div class="grid_12">
             <h3 class="bottom-border-solid">Nuevo álbum</h3>
             <%= partial :alert %>
+            <input type="hidden" name="root" id="root" value="true"/>
             <div class="formrow">
               <label for="name" class="fieldtitle"><%=t.album_management.form.name.label%> <span class="mandatoryfield">*</span></label>
-              <input type="text" maxlength="40" id="name" name="name" class="fieldcontrol" <%% if (entity) { %> value="<%%= entity.name %>" <%% } %> />
+              <input type="text" maxlength="40" size="40" id="name" name="name" class="fieldcontrol" <%% if (entity) { %> value="<%%= entity.name %>" <%% } %> />
             </div>
             <div class="formrow">
-              <label for="width" class="fieldtitle"><%=t.album_management.form.dimensions.label%></label>
-              <input type="text" maxlength="3" id="width" name="width"  <%% if (entity) { %> value="<%%= entity.width %>" <%% } %> />
-              <input type="text" maxlength="3" id="height" name="height" <%% if (entity) { %> value="<%%= entity.height %>" <%% } %> />
+              <label for="width" class="fieldtitle"><%=t.album_management.form.width.label%></label>
+              <input type="text" maxlength="3" id="width" name="width" class="fieldcontrol" value="0"/>
+            <div class="formrow">              
+              <label for="height" class="fieldtitle"><%=t.album_management.form.height.label%></label>
+              <input type="text" maxlength="3" id="height" name="height" class="fieldcontrol" value="0"/>
             </div>                    
             <div class="bottom-navigation-bar navigation-bar">
              <div class="navigation-bar-crud-buttons">

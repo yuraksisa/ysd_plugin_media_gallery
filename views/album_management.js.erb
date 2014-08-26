@@ -23,6 +23,46 @@
   
     this.onNew = function() {
   	  $('#name').focus();
+      // Configura la validación
+      $.validator.addMethod(
+        "regexp",
+        function(value, element, regexp) {
+           var re = new RegExp(regexp);
+           return this.optional(element) || re.test(value);  
+        }, "Please check your input");
+
+      $('#form_new_album').validate({
+        submitHandler: function(form) 
+        {
+          return false;
+        },
+                               
+        rules : { // rules
+          'name': {
+             required: true
+          },
+          'width': {
+              regexp: '^\\d+$'
+          },
+          'height': {
+              regexp: '^\\d+$'
+          }
+        },
+            
+        messages : { // messages
+          'name': {
+             required : '<%=t.album_management.form_validation.name_required%>'
+          },
+          'width': {
+             regexp : '<%=t.album_management.form_validation.width_numeric%>'
+          },
+          'height': {
+             regexp : '<%=t.album_management.form_validation.width_numeric%>'
+          }
+        }
+            
+      }
+         );      
     }
     
     this.adaptFormData = function(data) {

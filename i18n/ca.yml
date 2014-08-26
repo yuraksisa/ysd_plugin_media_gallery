@@ -89,12 +89,16 @@ album_management:
     dimensions:
       label: Dimensions (amplada i alçada)
     width:
-      label: Amplada (en píxels)
+      label: Amplada (px)
     height:
-      label: Alçada (en píxels)
+      label: Alçada (px)
     import_photos: Sincronitzar fotos
     album_properties: Propietats de l'\àlbum
     confirm_import_photos: Vol importar les fotos?
+  form_validation:
+    name_required: Nom obligatori
+    width_numeric: L\'ample ha de ser numèric
+    height_numeric: L\'alçada ha de ser numèrica   
 photo_management:
   form:
     title: Fotos de l'àlbum

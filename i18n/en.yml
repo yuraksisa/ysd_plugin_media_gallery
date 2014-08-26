@@ -89,12 +89,16 @@ album_management:
     dimensions:
       label: Dimensions (width and height)      
     width:
-      label: Width (in pixels)
+      label: Width (px)
     height:
-      label: Height (in pixels) 
+      label: Height (px) 
     import_photos: Synchronize photos
     album_properties: Album properties
-    confirm_import_photos: Would you like to import the photos?    
+    confirm_import_photos: Would you like to import the photos?
+  form_validation:
+    name_required: Name is required
+    width_numeric: Width must be a number
+    height_numeric: Height must be a number        
 photo_management:
   form:
     title: Album photos  
