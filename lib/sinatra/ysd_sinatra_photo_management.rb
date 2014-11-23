@@ -11,14 +11,14 @@ module Sinatra
    
       def self.registered(app)
 
-        app.get '/admin/console/media', :allowed_usergroups => ['staff'] do
+        app.get '/admin/media', :allowed_usergroups => ['staff'] do
           load_page(:console_media_gallery)
         end
 
         #
         # Media Gallery configuration
         #
-        app.get '/admin/config/media', :allowed_usergroups => ['staff'] do
+        app.get '/admin/media/config', :allowed_usergroups => ['staff'] do
           locals = {}
           media_storage = SystemConfiguration::Variable.get_value('media.default_storage', nil)
           locals.store(:not_media_storage, (media_storage.nil? or media_storage.empty?) )
@@ -29,7 +29,7 @@ module Sinatra
         #
         # Add a photo to an album
         #
-        app.get "/admin/photo/new/:album_id" do
+        app.get "/admin/media/photo/new/:album_id" do
           
           if album = Media::Album.get(params[:album_id])
 
@@ -55,7 +55,7 @@ module Sinatra
         #
         # Update an album photo
         #
-        app.get "/admin/photo/:photo_id" do
+        app.get "/admin/media/photo/:photo_id" do
           
           if photo = Media::Photo.get(params[:photo_id])
 

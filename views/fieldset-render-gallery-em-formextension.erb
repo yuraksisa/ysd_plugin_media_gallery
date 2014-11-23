@@ -1,7 +1,7 @@
 <form name="gallery_photo" target="gallery_photo_uploader" 
       method="POST" 
       enctype="multipart/form-data" 
-      action="/photo_gallery/photo" 
+      action="/api/photo-upload" 
       style="display:none">
   <input type="file" name="photo_file" id="photo_file" accept="<%= photo_accept %>"/>
   <input type="hidden" id="photo_album_prefix" name="photo_album_prefix" value="<%= photo_album_prefix %>"/>
@@ -36,6 +36,7 @@ require(['jquery', 'YSDFileUploader', 'YSDEntityManagementComplementHooks', 'YSD
 
     this.onNew = function() {
       this.configForm(null);
+      this.albumConfiguration();
     }
     
     this.onEdit = function(entity) {
@@ -47,6 +48,9 @@ require(['jquery', 'YSDFileUploader', 'YSDEntityManagementComplementHooks', 'YSD
       
       if ($('input[name=album\\[id\\]').val() != '') {
       	$(document.forms['gallery_photo']['photo_album']).val($('input[name=album\\[id\\]]').val());
+      }
+      else {
+        $(document.forms['gallery_photo']['photo_album']).val('');
       }
 
     }
@@ -84,7 +88,7 @@ require(['jquery', 'YSDFileUploader', 'YSDEntityManagementComplementHooks', 'YSD
       
       if (entity && entity.album_id) {
 
-        albumDataSource = new RemoteDataSource('/photos/' + entity.album_id, 
+        albumDataSource = new RemoteDataSource('/api/photos/' + entity.album_id, 
           {id:'id',
            description: function(data) {
            return '<img src="'+ data.photo_url_small + '" class="album-photo" data-photo-path="' + '/album/' + entity.album_id + '/photo/' + data.id + '"' + 'data-photo-url-tiny="' + data.photo_url_tiny + '"' + 'data-photo-url-small="' + data.photo_url_small + '"' + 'data-photo-url-medium="' + data.photo_url_medium + '"' + 'data-photo-url-full="' + data.photo_url_full + '" data-album-id="' + entity.album_id + '" data-photo-id="' + data.id + '"/>' 
@@ -102,16 +106,24 @@ require(['jquery', 'YSDFileUploader', 'YSDEntityManagementComplementHooks', 'YSD
                  
       this.fileUploader = new FileUploader('gallery_photo', 'photo_file', 'gallery_photo_uploader');
      
+      this.fileUploader.addListener('start_upload', function(event) {
+        var fileName = event.data.fileName;
+        self.selector.addElement({id:fileName, description:'<div style="width:144px; height: 85px; display:inline-block; text-align: center; position: relative; top: -30px; border: 1px dashed #EEE; background:url(\'/img/ajax-loader_grande.gif\'); background-repeat: no-repeat; background-position: center"><span style="position: relative; top: 30px; color: rgb(33, 107, 10);"><%=t.uploader.uploading_message%></span></div>', hideDelete: true});
+
+      });
 
       this.fileUploader.addListener('file_uploaded', function(event) {
         
         var data = event.data.file;
+        var fileName = event.data.fileName;
         var album_id = data.album_id;
         
+        self.selector.deleteElement(fileName);
         self.selector.addElement({id:data.id, 
           description: '<img src="' + data.photo_url_small + '" class="album-photo" data-photo-path="' + '/album/' + album_id + '/photo/' + data.id + '"' + ' data-photo-url-tiny="' + data.photo_url_tiny + '"' + ' data-photo-url-small="' + data.photo_url_small + '"' + ' data-photo-url-medium="' + data.photo_url_medium + '"' + ' data-photo-url-full="' + data.photo_url_full + '" data-album-id="' + album_id + '" data-photo-id="' + data.id + '"/>'});
 
-        if ($('input[name=album\\[id\\]]').val() == '') {
+        if ($('input[name=album\\[id\\]]').val() == '' || 
+            $('input[name=album\\[id\\]]').val() == '0') {
           $('input[name=album\\[id\\]]').val(album_id);
           self.albumConfiguration();	
         }
@@ -127,14 +139,15 @@ require(['jquery', 'YSDFileUploader', 'YSDEntityManagementComplementHooks', 'YSD
         }
       });      
 
+      this.fileUploader.addListener('file_uploaded_error', function(event) {
+        var fileName = event.data.fileName;
+        self.selector.updateElement({id:fileName, description:'<div style="width:144px; height: 85px; display:inline-block; text-align: center; position: relative; top: -30px; border: 1px dashed #FBB;background: rgba(255,100,100,0.2)"><span style="position: relative; top: 30px; color: rgb(255, 0, 0);"><%=t.uploader.error_title%></span></div>', hideDelete: true});
+      });
+
+
       this.selector.addListener('add_element_button_click', function(event) {
       	self.fileUploader.uploadFile(); 
       });
-
-      this.selector.addListener('elements_updated', function() {
-          self.selectMainPhoto();
-          self.configSelectMainPhotoEvent();
-        });
 
       this.selector.addListener('delete_element_button_click', function(event) {
 
@@ -145,6 +158,11 @@ require(['jquery', 'YSDFileUploader', 'YSDEntityManagementComplementHooks', 'YSD
                     self.deletePhoto(event.data);
                  });
 
+      });
+
+      this.selector.addListener('elements_updated', function() {
+          self.selectMainPhoto();
+          self.configSelectMainPhotoEvent();
       });
       
     }

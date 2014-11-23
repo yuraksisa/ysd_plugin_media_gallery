@@ -145,9 +145,9 @@ require(['jquery','YSDEntityManagement',"YSDEntityManagementComplementHooks"], f
   };
   
   var urls = { 
-  	           update_url : '/photo',
-               create_url : '/photo',
-  	           get_url    : '/photo/<%=photo_id%>'
+  	           update_url : '/api/photo',
+               create_url : '/api/photo',
+  	           get_url    : '/api/photo/<%=photo_id%>'
   	         };
 
   var photoHook = new PhotoHook();
@@ -155,7 +155,7 @@ require(['jquery','YSDEntityManagement',"YSDEntityManagementComplementHooks"], f
   hooks = hooks.concat(EntityManagementComplementHooks.complements);
     
   var photosManager = new EntityManagement(urls, 'photo', 12, hooks, 
-     {url_base: '/admin/photo' , action: '<%=action%>', prefix: '/admin/',
+     {url_base: '/admin/media/photo' , action: '<%=action%>', prefix: '/admin/media',
       hold_form_after_action: true});
  
 });

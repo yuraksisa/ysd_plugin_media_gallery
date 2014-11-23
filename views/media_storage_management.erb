@@ -57,7 +57,9 @@
      <form name="element">
         
         <div class="form-fields">
-        
+          <%% if (entity) { %>
+          <input type="hidden" name="name" value="<%%=entity.name%>"/>
+          <%% } %>
           <div class="formrow">
             <label for="name" class="fieldtitle"><%= t.media_storage_management.form.name.label %> <span class="mandatoryfield">*</span></label>
             <input type="text" maxlength="32" id="name" name="name" class="fieldcontrol" <%% if (entity) { %> value="<%%= entity.name %>" <%% } %> />
@@ -141,7 +143,7 @@ require(['jquery','YSDEntityManagement','YSDRemoteDataSource','YSDSelectSelector
   	         };
   
   var storageHook = new StorageHook();
-  var storageManager = new EntityManagement(urls, '<%= t.media_storage_management.title %>', 12, storageHook, {prefix: '/admin'});
+  var storageManager = new EntityManagement(urls, '<%= t.media_storage_management.title %>', 12, storageHook, {prefix: '/admin/media'});
  
 });
   

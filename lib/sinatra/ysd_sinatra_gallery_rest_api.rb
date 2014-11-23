@@ -34,7 +34,7 @@ module Sinatra
         #
         # The action responses with the uploaded resource
         #
-        app.post "/photo_gallery/photo" do
+        app.post "/api/photo-upload" do
  
           album_id = params['photo_album'].to_i 
 

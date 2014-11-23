@@ -12,7 +12,7 @@ require(['jquery', 'ysdtemplate'], function($, tmpl) {
      loadAlbums : function() {
           $.ajax({
   	   	       type: 'POST',
-  	   	       url : '/albums',
+  	   	       url : '/api/albums',
   	   	       contentType: 'application/json; charset=utf-8',
   		       dataType : 'json',
   		       success: function(data, textStatus, jqXHR) {
@@ -26,7 +26,7 @@ require(['jquery', 'ysdtemplate'], function($, tmpl) {
      loadPhotos : function(albumId) {
           $.ajax({
   	   	       type: 'GET',
-  	   	       url : '/photos/' + albumId,
+  	   	       url : '/api/photos/' + albumId,
   	   	       contentType: 'application/json; charset=utf-8',
   		       dataType : 'json',
   		       success: function(data, textStatus, jqXHR) {

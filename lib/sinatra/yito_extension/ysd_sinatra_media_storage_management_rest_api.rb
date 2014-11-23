@@ -81,19 +81,18 @@ module Sinatra
         app.put "/api/media-storage", :allowed_usergroups => ['staff'] do
         
           request.body.rewind
-          storage_request = JSON.parse(URI.unescape(request.body.read))
+          storage_request = body_as_json(::Media::Storage) 
           
           # Updates the storage
-          storage = ::Media::Storage.get(storage_request[:id])
-
-          storage.attributes=(storage_request)
-          storage.save
-          
-          # Return          
-          status 200
-          content_type :json
-          storage.to_json
-        
+          if storage = ::Media::Storage.get(storage_request[:name])
+            storage.attributes=(storage_request)
+            storage.save
+            status 200
+            content_type :json
+            storage.to_json
+          else
+            status 404
+          end
         
         end
         
@@ -103,10 +102,10 @@ module Sinatra
         app.delete "/api/media-storage", :allowed_usergroups => ['staff'] do
 
           request.body.rewind
-          storage_request = JSON.parse(URI.unescape(request.body.read))
+          storage_request = body_as_json(::Media::Storage) 
 
           # Remove the storage
-          storage = ::Media::Storage.get(storage_request[:id])
+          storage = ::Media::Storage.get(storage_request[:name])
           storage.destroy
           
           # Return

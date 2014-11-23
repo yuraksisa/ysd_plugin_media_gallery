@@ -109,7 +109,7 @@
 
       $(document.forms['album_photo']['photo_album']).val(entity.id);
 
-      albumDataSource = new RemoteDataSource('/photos/' + entity.id, 
+      albumDataSource = new RemoteDataSource('/api/photos/' + entity.id, 
         {id:'id',
          description: function(data){
            return '<img src="'+ data.photo_url_small + '" class="album-photo" data-photo-path="' + '/album/' + entity.id + '/photo/' + data.id + '"' + 'data-photo-url-tiny="' + data.photo_url_tiny + '"' + 'data-photo-url-small="' + data.photo_url_small + '"' + 'data-photo-url-medium="' + data.photo_url_medium + '"' + 'data-photo-url-full="' + data.photo_url_full + '" data-album-id="' + entity.id + '" data-photo-id="' + data.id + '"/>' 
@@ -137,7 +137,7 @@
 
       this.selector.addListener('add_element_button_click', function(event) {
         //self.fileUploader.uploadFile(); 
-        window.location.href = "/admin/photo/new/" +  entity.id;
+        window.location.href = "/admin/media/photo/new/" +  entity.id;
       });
 
       this.selector.addListener('elements_updated', function() {
@@ -145,7 +145,7 @@
           $('img.album-photo').bind('click', function(event){
              var album_id = $(this).attr('data-album-id');
              var photo_id = $(this).attr('data-photo-id');
-             window.location.href = '/admin/photo/'+photo_id;
+             window.location.href = '/admin/media/photo/'+photo_id;
           });
       //  self.selectMainPhoto();
       //  self.configSelectMainPhotoEvent();
@@ -191,16 +191,16 @@
   };
   
   var urls = { 
-  	           query_url  : '/albums',
-    	         create_url : '/album',
-  	           update_url : '/album',
-  	           delete_url : '/album',
-  	           get_url    : '/album'
+  	           query_url  : '/api/albums',
+    	         create_url : '/api/album',
+  	           update_url : '/api/album',
+  	           delete_url : '/api/album',
+  	           get_url    : '/api/album'
   	         };
   
   var albumHook = new AlbumHook();
   var albumsManager = new EntityManagement(urls, 'album', 12, albumHook, 
-    {hold_form_after_action: true, newInline: true, prefix: '/admin'});
+    {hold_form_after_action: true, newInline: true, prefix: '/admin/media'});
  
   $('.entity-title').html('Media albums');
   

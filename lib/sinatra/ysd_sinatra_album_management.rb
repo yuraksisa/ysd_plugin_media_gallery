@@ -11,7 +11,7 @@ module Sinatra
         #
         # Album management page
         #
-        app.get "/admin/album/?*" do
+        app.get "/admin/media/album/?*" do
 
           locals = {
                      :photo_accept => SystemConfiguration::Variable.get_value('photo_media_accept'),

@@ -50,13 +50,13 @@ module Huasi
       
       menu_items = [{:path => '/cms/media',
                      :options => {:title => app.t.media_admin_menu.album_management,
-                                  :link_route => "/admin/album",
+                                  :link_route => "/admin/media/album",
                                   :description => 'The albums admin tools to create and modify media albums.',
                                   :module => 'cms',
                                   :weight => 2}},
                     {:path => '/configuration/media-storages',
                      :options => {:title => app.t.media_config_menu.media_storage,
-                                  :link_route => "/admin/media-storage",
+                                  :link_route => "/admin/media/storage",
                                   :description => "Admin media storages",
                                   :module => :media_gallery,
                                   :weight => 4 }}]      
@@ -72,15 +72,15 @@ module Huasi
     #
     def routes(context={})
     
-      routes = [{:path => '/admin/album',
-                 :regular_expression => /^\/admin\/album/,
+      routes = [{:path => '/admin/media/album',
+                 :regular_expression => /^\/admin\/media\/album/,
                  :title => 'Albums',
                  :description => 'The albums admin tools to create and modify media albums',
                  :fit => 1,
                  :module => :media_gallery},                 
-                {:path => '/admin/photo/:album_name',
-                 :parent_path => '/album-management',
-                 :regular_expression => /^\/admin\/photo\/.+/,
+                {:path => '/admin/media/photo/:album_name',
+                 :parent_path => '/admin/media/album',
+                 :regular_expression => /^\/admin\/media\/photo\/.+/,
                  :title => 'Photos',
                  :description => 'It manages the album\'s photos. Used to upload and edit the album\'s photos.',
                  :fit => 1,

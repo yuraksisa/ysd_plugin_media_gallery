@@ -1,6 +1,6 @@
 <h2><%=t.media_settings.form.title%></h2>
 <div data-alerts="alerts" data-titles="{'success':'<%=t.entitymanagement.success%>','warning':'<%=t.entitymanagement.warning%>','error':'<%=t.entitymanagement.error%>'}" data-fade="10000"></div>
-<form name="variables" action="/variables" method="PUT" 
+<form name="variables" action="/api/variables" method="PUT" 
       data-remote="ajax" data-remote-method="PUT">
 
   <h3><%=t.media_settings.form.storage_group%></h3>
@@ -9,10 +9,10 @@
   <% if not storages.empty? %>
   <%= render_variable_select('media.default_storage', t.media_settings.form.default_storage, storages) %>
   <% else %>
-  <a href="/admin/media-storage/new?destination=/admin/config/media"><%= t.media_settings.form.create_storage%></a>
+  <a href="/admin/media/storage/new?destination=/admin/media/config"><%= t.media_settings.form.create_storage%></a>
   <% end %>
   <div>
-  <a href="/admin/media-storage"><%= t.media_settings.form.see_storages%></a>
+  <a href="/admin/media/storage"><%= t.media_settings.form.see_storages%></a>
   </div>
 
   <h3><%=t.media_settings.form.general_group%></h3>

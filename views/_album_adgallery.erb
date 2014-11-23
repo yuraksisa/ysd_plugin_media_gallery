@@ -34,7 +34,6 @@
       <div class="ad-thumbs">
         <ul class="ad-thumb-list">
           <% index = 0 %>
-          <% if media_album.adapted_album %>
             <% media_album.photos.each do |photo| %>
               <li>
                 <a href="<%="#{photo.get_image_url(media_album.width, media_album.height)}"%>" class="ad-thumb<%=index%>">
@@ -43,7 +42,6 @@
               </li>  
               <% index = index + 1 %>
             <% end %>
-          <% end %>
         </ul>
       </div>
     </div>

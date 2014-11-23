@@ -28,7 +28,7 @@ module Sinatra
         #
         # Retrive all albums (GET)
         #
-        app.get "/albums" do
+        app.get "/api/albums" do
           data=Media::Album.all
   
           # Prepare the result
@@ -39,7 +39,7 @@ module Sinatra
         #
         # Retrieve albums (POST)
         #
-        ["/albums","/albums/page/:page"].each do |path|
+        ["/api/albums","/api/albums/page/:page"].each do |path|
           app.post path do
           
             data=Media::Album.all
@@ -60,7 +60,7 @@ module Sinatra
         #
         # Get an album
         #
-        app.get "/album/:album_name" do
+        app.get "/api/album/:album_name" do
         
           album =  Media::Album.get(params[:album_name])
           
@@ -70,27 +70,11 @@ module Sinatra
         
         end
 
-        #
-        # Get a synchronized album
-        #
-        app.get "/album/:album_name/synchronized" do
-          
-          if album =  Media::Album.get(params[:album_name])
-            album.synchronize_data
-            status 200
-            content_type :json
-            album.to_json        
-          else
-            status 404
-          end
-
-        end
-
 
         #
         # Create a new album
         #
-        app.post "/album" do
+        app.post "/api/album" do
           
           request.body.rewind
           album_request = JSON.parse(URI.unescape(request.body.read))
@@ -106,7 +90,7 @@ module Sinatra
         #
         # Updates a album
         #
-        app.put "/album" do
+        app.put "/api/album" do
         
           request.body.rewind
           album_request = JSON.parse(URI.unescape(request.body.read))
@@ -125,7 +109,7 @@ module Sinatra
         #
         # Deletes an album
         #
-        app.delete "/album" do
+        app.delete "/api/album" do
 
           request.body.rewind
           album_request = JSON.parse(URI.unescape(request.body.read))

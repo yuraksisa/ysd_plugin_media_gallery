@@ -12,7 +12,7 @@ module Sinatra
         #
         # Retrive the photos of an album (GET)
         #
-        app.get "/photos/:album_name" do
+        app.get "/api/photos/:album_name" do
           
           if media_album = Media::Album.get(params[:album_name])
             content_type :json
@@ -26,12 +26,12 @@ module Sinatra
         #
         # Retrieve the photos of an album (POST)
         #
-        ["/photos/:album_name","/photos/:album_name/page/:page"].each do |path|
+        ["/api/photos/:album_name","/api/photos/:album_name/page/:page"].each do |path|
           app.post path do
           
             media_album=Media::Album.get(params[:album_name])
             
-            data = if media_album and media_album.adapted_album
+            data = if media_album 
                      media_album.photos 
                    else
                      []
@@ -46,7 +46,7 @@ module Sinatra
         
         end
         
-        app.get "/photo/:id" do
+        app.get "/api/photo/:id" do
 
           if photo = Media::Photo.get(params[:id])
             content_type :json
@@ -60,25 +60,25 @@ module Sinatra
         #
         # Create a new photo
         #
-        app.post "/photo" do
+        app.post "/api/photo" do
         
-          status, header, body = call! env.merge("PATH_INFO" => "/photo_gallery/photo")    
+          status, header, body = call! env.merge("PATH_INFO" => "/api/photo-upload")    
         
         end
         
         #
         # Updates a photo
         #
-        app.put "/photo" do
+        app.put "/api/photo" do
         
-          status, header, body = call! env.merge("PATH_INFO" => "/photo_gallery/photo")    
+          status, header, body = call! env.merge("PATH_INFO" => "/api/photo-upload")    
         
         end
         
         #
         # Deletes a photo
         #
-        app.delete "/photo/:id" do
+        app.delete "/api/photo/:id" do
         
           if photo = Media::Photo.get(params[:id])
             photo.destroy
