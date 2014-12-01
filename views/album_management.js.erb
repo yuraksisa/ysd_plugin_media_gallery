@@ -69,15 +69,7 @@
       data['external_album']=$('#external_album').val(); // Make sure it's a String	
       return data;
     }
-    
-    this.formatAlbumViewURL = function(entity) {
-      return '/photo_gallery/album/' + entity.id;
-    }
-    
-    this.formatPhotoManagementURL = function(entity) {
-      return '/photo-management/' + entity.id;
-    }
-    
+        
     this.configForm = function(entity) {
              
       var dataSource = new RemoteDataSource('/api/media-storages',{'id':'name','description':'name'});
@@ -171,7 +163,7 @@
       var self = this;
 
       $.ajax( {
-                url  : "/photo/" + photoId,
+                url  : "/api/photo/" + photoId,
                 type : 'DELETE',
                 success : function(data, textStatus, jqXHR) {
                   self.selector.deleteElement(photoId);

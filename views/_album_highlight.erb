@@ -3,9 +3,11 @@
     <img src="<%="#{photo.photo_url_full}"%>" class="gallery-main-photo-img" 
          title="<%=photo.name%>" 
          alt="<%=photo.description%>"/>
+    <% if media_album.photos.size > 1 %>
     <% media_album.photos.each do |photo| %>
       <img src="<%="#{photo.photo_url_small}"%>" 
            class="gallery-thumbnail-img" title="<%=photo.name%>" 
            alt="<%=photo.description%>"/>
+    <% end %>
     <% end %>
   </div>
