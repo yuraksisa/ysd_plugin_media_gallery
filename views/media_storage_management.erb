@@ -120,7 +120,7 @@ require(['jquery','YSDEntityManagement','YSDRemoteDataSource','YSDSelectSelector
         
     this.configForm = function(entity) {
              
-      var dataSourceAccount = new RemoteDataSource('/external-service-accounts',{'id':'id','description':'id'});
+      var dataSourceAccount = new RemoteDataSource('/api/external-service-accounts',{'id':'id','description':'id'});
       var valueAccount = (entity && entity.account_id)?entity.account_id:null; 
       var selectorAccount = new SelectSelector('account[id]', dataSourceAccount, valueAccount, true );             
 

@@ -1,6 +1,6 @@
   <div id="gallery_highlight">
   	<% photo = media_album.photos.first %>
-    <img src="<%="#{photo.photo_url_full}"%>" class="gallery-main-photo-img" 
+    <img src="<%="#{photo.get_image_url(media_album.width, media_album.height)}"%>" class="gallery-main-photo-img" 
          title="<%=photo.name%>" 
          alt="<%=photo.description%>"/>
     <% if media_album.photos.size > 1 %>
