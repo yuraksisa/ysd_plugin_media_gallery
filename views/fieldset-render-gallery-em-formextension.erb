@@ -46,7 +46,7 @@ require(['jquery', 'YSDFileUploader', 'YSDEntityManagementComplementHooks', 'YSD
     
     this.albumConfiguration = function() {
       
-      if ($('input[name=album\\[id\\]').val() != '') {
+      if ($('input[name=album\\[id\\]]').val() != '') {
       	$(document.forms['gallery_photo']['photo_album']).val($('input[name=album\\[id\\]]').val());
       }
       else {
