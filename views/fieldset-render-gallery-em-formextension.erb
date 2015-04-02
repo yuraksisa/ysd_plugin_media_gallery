@@ -58,7 +58,7 @@ require(['jquery', 'YSDFileUploader', 'YSDEntityManagementComplementHooks', 'YSD
     this.adaptFormData = function(data) {
 
       if (data) {
-        if (data.album.id == '') {
+        if (data.album && data.album.id == '') {
           delete data.album;
         }
         if (data.photo_path == '') {
