@@ -31,8 +31,26 @@ module Huasi
         SystemConfiguration::Variable.first_or_create({:name => 'photo_max_size'}, 
           {:value => 1000000, 
           :description => 'Máximo tamaño de la fotografía (en bytes)', 
-          :module => :media_gallery})                                                                                                            
-                                                          
+          :module => :media_gallery})  
+
+        SystemConfiguration::SecureVariable.first_or_create(
+          {:name => 'media.google.client_id'},
+          {:value => '.',
+           :description => 'CLIENT_ID',
+           :module => :media_gallery})  
+
+        SystemConfiguration::SecureVariable.first_or_create(
+          {:name => 'media.google.client_secret'},
+          {:value => '.',
+           :description => 'CLIENT_SECRET',
+           :module => :media_gallery})  
+                                      
+        SystemConfiguration::SecureVariable.first_or_create(
+          {:name => 'media.google.refresh_token'},
+          {:value => '.',
+           :description => 'REFRESH_TOKEN',
+           :module => :media_gallery})  
+
     end
 
                 
