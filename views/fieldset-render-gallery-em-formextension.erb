@@ -78,6 +78,10 @@ require(['jquery', 'YSDFileUploader', 'YSDEntityManagementComplementHooks', 'YSD
         }                
       }
 
+      if (data.album_id == null && this.manager.model.currentEntity().album_id != null) {
+        data.album_id = this.manager.model.currentEntity().album_id; 
+      }
+
       return data;
     }
 
@@ -114,6 +118,9 @@ require(['jquery', 'YSDFileUploader', 'YSDEntityManagementComplementHooks', 'YSD
 
       this.fileUploader.addListener('file_uploaded', function(event) {
         
+        var entityId = self.manager.model.getEntityId(self.manager.model.currentEntity());
+        var entityAlbumId = self.manager.model.currentEntity().album_id;
+        
         var data = event.data.file;
         var fileName = event.data.fileName;
         var album_id = data.album_id;
@@ -137,6 +144,12 @@ require(['jquery', 'YSDFileUploader', 'YSDEntityManagementComplementHooks', 'YSD
           $('input[name=photo_url_full]').val(data.photo_url_full);
           $('.album-photo[data-photo-path="'+photo_path+'"]').addClass('album-main-photo');
         }
+        
+        if (entityId != null && entityAlbumId == null) {
+          self.manager.model.currentEntity().album_id = album_id;
+          self.manager.model.update();
+        }
+
       });      
 
       this.fileUploader.addListener('file_uploaded_error', function(event) {
