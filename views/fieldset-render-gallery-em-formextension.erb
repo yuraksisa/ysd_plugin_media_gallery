@@ -78,7 +78,7 @@ require(['jquery', 'YSDFileUploader', 'YSDEntityManagementComplementHooks', 'YSD
         }                
       }
 
-      if (data.album_id == null && this.manager.model.currentEntity().album_id != null) {
+      if (data.album_id == null && this.manager.model.currentEntity() != null && this.manager.model.currentEntity().album_id != null) {
         data.album_id = this.manager.model.currentEntity().album_id; 
       }
 
