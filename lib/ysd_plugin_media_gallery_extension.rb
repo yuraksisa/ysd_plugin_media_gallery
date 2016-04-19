@@ -90,7 +90,29 @@ module Huasi
     #
     def routes(context={})
     
-      routes = [{:path => '/admin/media/album',
+      routes = [{:path => '/admin/media',
+                 :parent_path => '/admin',
+                 :regular_expression => /^\/admin\/media/,
+                 :title => 'Medios',
+                 :description => 'Gestión de medios',
+                 :fit => 1,
+                 :module => :media_gallery}, 
+                {:path => '/admin/media/config',
+                 :parent_path => '/admin/media',
+                 :regular_expression => /^\/admin\/media\/config/,
+                 :title => 'Configuración',
+                 :description => 'Configuración medios',
+                 :fit => 1,
+                 :module => :media_gallery}, 
+                {:path => '/admin/media/storage',
+                 :parent_path => '/admin/media',
+                 :regular_expression => /^\/admin\/media\/storage/,
+                 :title => 'Almacén de medios',
+                 :description => 'Almacenes de medios',
+                 :fit => 1,
+                 :module => :media_gallery},                                  
+                {:path => '/admin/media/album',
+                 :parent_path => '/admin/media',
                  :regular_expression => /^\/admin\/media\/album/,
                  :title => 'Albums',
                  :description => 'The albums admin tools to create and modify media albums',
@@ -146,5 +168,16 @@ module Huasi
        
     end  
   
-  end #MailExtension
+    #
+    # ---------- Path prefixes to be ignored ----------
+    #
+
+    #
+    # Ignore the following path prefix in cms
+    #
+    def ignore_path_prefix_cms(context={})
+      %w(/media/photo)
+    end
+
+  end #Media Extension
 end #Social

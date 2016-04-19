@@ -8,7 +8,7 @@ module Sinatra
         # Storage management page
         #        
         app.get "/admin/media/storage/?*", :allowed_usergroups => ['staff'] do
-          load_page 'media_storage_management'.to_sym
+          load_em_page :media_storage_management, nil, false
         end
         
       
