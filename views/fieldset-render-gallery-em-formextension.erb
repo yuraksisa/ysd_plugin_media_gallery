@@ -118,8 +118,17 @@ require(['jquery', 'YSDFileUploader', 'YSDEntityManagementComplementHooks', 'YSD
 
       this.fileUploader.addListener('file_uploaded', function(event) {
         
-        var entityId = self.manager.model.getEntityId(self.manager.model.currentEntity());
-        var entityAlbumId = self.manager.model.currentEntity().album_id;
+        var entityId = null;
+
+        if (self.manager.model.currentEntity() != null) {
+          entityId = self.manager.model.getEntityId(self.manager.model.currentEntity());
+        }
+
+        var entityAlbumId = null;
+
+        if (self.manager.model.currentEntity() != null) {
+          entityAlbumId = self.manager.model.currentEntity().album_id;
+        }
         
         var data = event.data.file;
         var fileName = event.data.fileName;
