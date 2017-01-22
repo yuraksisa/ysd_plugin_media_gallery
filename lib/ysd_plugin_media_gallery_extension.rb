@@ -173,6 +173,13 @@ module Huasi
     #
 
     #
+    # Ignore the following path prefixes in language processor
+    #
+    def ignore_path_prefix_language(context={})
+      %w(/media/photo)
+    end
+
+    #
     # Ignore the following path prefix in cms
     #
     def ignore_path_prefix_cms(context={})
