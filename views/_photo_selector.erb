@@ -1,6 +1,12 @@
+<!-- _photo_selector.erb -->
 <div id="photo_block">
   
-  <form id="uploader_form" method="POST" enctype="multipart/form-data" action="/api/photo-upload" name="uploader_form" target="uploader_iframe">
+  <form id="uploader_form"
+				method="POST"
+				enctype="multipart/form-data"
+				action="/api/photo-upload"
+				name="uploader_form"
+				target="uploader_iframe">
 
     <div id="uploader_message">
       <p><%=t.uploader.photo("#{max_size/1000000}","Mb")%></p>
@@ -257,3 +263,4 @@ require(['jquery', 'YSDEventTarget', 'YSDEvents', 'YSDStyles', 'YSDDialog', 'jqu
 });
 
 </script>
+<!-- /_photo_selector.erb -->

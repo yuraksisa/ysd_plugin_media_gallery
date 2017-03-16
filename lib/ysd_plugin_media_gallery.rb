@@ -4,7 +4,7 @@ require 'ysd_plugin_gallery_aspect'
 require 'sinatra/ysd_hp_gallery'
 
 require 'sinatra/ysd_sinatra_gallery'
-require 'sinatra/ysd_sinatra_gallery_rest_api'
+#require 'sinatra/ysd_sinatra_gallery_rest_api'
 
 require 'sinatra/yito_extension/ysd_sinatra_media_storage_management'
 require 'sinatra/yito_extension/ysd_sinatra_media_storage_management_rest_api'

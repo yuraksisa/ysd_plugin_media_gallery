@@ -1,7 +1,7 @@
  require(['jquery', 'YSDEntityManagement', 'YSDForms', 'YSDRemoteDataSource', 
-          'YSDSelectSelector',  'YSDListManagement', 'YSDFileUploader', 'YSDGui'],
+          'YSDSelectSelector',  'YSDListManagement', 'YSDGui'],
          function($, EntityManagement, YSDForms, RemoteDataSource, 
-           SelectSelector, ListManagement, FileUploader, YSDGui) {
+           SelectSelector, ListManagement, YSDGui) {
  
   function AlbumHook() {
  	   
@@ -23,7 +23,7 @@
   
     this.onNew = function() {
   	  $('#name').focus();
-      // Configura la validación
+
       $.validator.addMethod(
         "regexp",
         function(value, element, regexp) {
@@ -90,60 +90,45 @@
 
     }
 
-    this.albumConfiguration = function(entity) {
+    this.albumConfiguration = function(entity) { /** Render the album **/
 
-      var self = this;
-      var albumDataSource = null;
-      
       if (!entity || !entity.id) {
         return;
       }
 
-      $(document.forms['album_photo']['photo_album']).val(entity.id);
+      var self = this;
 
-      albumDataSource = new RemoteDataSource('/api/photos/' + entity.id, 
+      // Build the data source to show the album's photos
+      var albumDataSource = new RemoteDataSource('/api/photos/' + entity.id,
         {id:'id',
          description: function(data){
-           return '<img src="'+ data.photo_url_small + '" class="album-photo" data-photo-path="' + '/album/' + entity.id + '/photo/' + data.id + '"' + 'data-photo-url-tiny="' + data.photo_url_tiny + '"' + 'data-photo-url-small="' + data.photo_url_small + '"' + 'data-photo-url-medium="' + data.photo_url_medium + '"' + 'data-photo-url-full="' + data.photo_url_full + '" data-album-id="' + entity.id + '" data-photo-id="' + data.id + '"/>' 
+           return '<img src="'+ data.photo_url_small + '" class="album-photo" data-photo-path="' + '/album/' +
+                   entity.id + '/photo/' + data.id + '"' + 'data-photo-url-tiny="' + data.photo_url_tiny + '"' +
+                  'data-photo-url-small="' + data.photo_url_small + '"' + 'data-photo-url-medium="' +
+                   data.photo_url_medium + '"' + 'data-photo-url-full="' + data.photo_url_full + '" data-album-id="' +
+                   entity.id + '" data-photo-id="' + data.id + '"/>'
          }
        });
-
-      this.selector = new ListManagement('gallery', 
+      this.selector = new ListManagement('gallery',
                                          'photos_list', 
                                          albumDataSource,
                                          '<%=t.album_management.form.upload_photo%>',
                                          'grid_20_pc centered_text');
-                 
-      this.fileUploader = new FileUploader('album_photo',
-                                           'photo_file', 
-                                           'album_photo_uploader');
-     
 
-      this.fileUploader.addListener('file_uploaded', function(event) {
-        var data = event.data.file;
-        var album_id = data.album.id;
-        self.selector.addElement( {id:data.id, 
-            description: '<img src="' + data.photo_url_small + '" class="album-photo" data-photo-path="' + '/album/' + album_id + '/photo/' + data.id + '"' + ' data-photo-url-tiny="' + data.photo_url_tiny + '"' + ' data-photo-url-small="' + data.photo_url_small + '"' + ' data-photo-url-medium="' + data.photo_url_medium + '"' + ' data-photo-url-full="' + data.photo_url_full + '" data-album-id="' + album_id + '" data-photo-id="' + data.id + '"/>'
-        });
-      });      
-
-      this.selector.addListener('add_element_button_click', function(event) {
-        //self.fileUploader.uploadFile(); 
+      this.selector.addListener('add_element_button_click', function(event) { // Manage add element button click
         window.location.href = "/admin/media/photo/new/" +  entity.id;
       });
 
-      this.selector.addListener('elements_updated', function() {
-          $('img.album-photo').unbind('click');
-          $('img.album-photo').bind('click', function(event){
-             var album_id = $(this).attr('data-album-id');
-             var photo_id = $(this).attr('data-photo-id');
-             window.location.href = '/admin/media/photo/'+photo_id;
-          });
-      //  self.selectMainPhoto();
-      //  self.configSelectMainPhotoEvent();
+      this.selector.addListener('elements_updated', function() { // Manage when elements are loaded (bind click photo)
+        $('img.album-photo').unbind('click');
+        $('img.album-photo').bind('click', function(event){
+            var album_id = $(this).attr('data-album-id');
+            var photo_id = $(this).attr('data-photo-id');
+               window.location.href = '/admin/media/photo/'+photo_id;
+        });
       });
 
-      this.selector.addListener('delete_element_button_click', function(event) {
+      this.selector.addListener('delete_element_button_click', function(event) { // Manage delete element button click
 
           self.manager.view.ask_for_confirmation(
                  'Delete photo', 
@@ -154,11 +139,9 @@
           
       });
 
-      
-
     }
 
-    this.deletePhoto = function(photoId) {
+    this.deletePhoto = function(photoId) { /** Delete photo **/
 
       var self = this;
 
@@ -175,10 +158,8 @@
 
                 }
       }); 
-       
 
-    }    
-
+    }
   	
   };
   
@@ -191,7 +172,7 @@
   	         };
   
   var albumHook = new AlbumHook();
-  var albumsManager = new EntityManagement(urls, 'album', 12, albumHook, 
+  var albumsManager = new EntityManagement(urls, 'album', 18, albumHook,
     {hold_form_after_action: true, newInline: true, prefix: '/admin/media'});
  
   $('.entity-title').html('Media albums');

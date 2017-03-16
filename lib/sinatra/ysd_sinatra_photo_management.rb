@@ -42,8 +42,12 @@ module Sinatra
             renderer = UI::FieldSetRender.new('photo', self)      
             photo_form_extension = renderer.render('formextension', 'em', locals)
 
-            load_page('photo_management', {:locals => {:album => album,
-             :photo_form_extension => photo_form_extension, :album_id => album.id, :photo_id => nil, :action => 'new'}})
+            load_page('photo_management', {:locals => {
+               :album => album,
+               :photo_form_extension => photo_form_extension, 
+               :album_id => album.id, 
+               :photo_id => nil, 
+               :action => 'new'}})
           
           else
             status 404
@@ -53,7 +57,7 @@ module Sinatra
 
 
         #
-        # Update an album photo
+        # Photo update
         #
         app.get "/admin/media/photo/:photo_id" do
           
@@ -69,8 +73,12 @@ module Sinatra
             renderer = UI::FieldSetRender.new('photo', self)      
             photo_form_extension = renderer.render('formextension', 'em', locals)
 
-            load_page('photo_management', {:locals => {:album => photo.album,
-             :photo_form_extension => photo_form_extension, :album_id => photo.album.id, :photo_id => photo.id, :action => 'edit'}})
+            load_page('photo_management', {:locals => {
+                :album => photo.album,
+                :photo_form_extension => photo_form_extension, 
+                :album_id => photo.album.id, 
+                :photo_id => photo.id, 
+                :action => 'edit'}})
           
           else
             status 404

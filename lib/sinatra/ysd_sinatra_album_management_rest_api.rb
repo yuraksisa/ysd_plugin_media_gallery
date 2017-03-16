@@ -41,8 +41,11 @@ module Sinatra
         #
         ["/api/albums","/api/albums/page/:page"].each do |path|
           app.post path do
-          
-            data=Media::Album.all
+
+            page = [params[:page].to_i, 1].max
+            page_size = 18
+
+            data=Media::Album.all({:offset => (page - 1)  * page_size, :limit => page_size})
                         
             begin # Count does not work for all adapters
               total=Media::Album.count

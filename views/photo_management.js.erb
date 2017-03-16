@@ -1,0 +1,69 @@
+require(['jquery','YSDEntityManagement',"YSDEntityManagementComplementHooks"], function($,EntityManagement, EntityManagementComplementHooks){
+
+    function PhotoHook() {
+
+        this.entityKey = function(entity) {
+            return entity.id;
+        }
+
+        this.onEdit = function(entity) {
+            this.configForm(entity)
+        }
+
+        this.onNew = function() {
+            this.configForm(null);
+        }
+
+        this.configForm = function(entity) {
+
+            $('.top-navigation-bar').hide();
+
+            var self = this;
+
+            $('#change_photo_link').bind('click', function(event) {
+
+                $('#element_photo_img').bind('load', function(event) { // When the image is uploaded, updates the photo
+                    if (entity) {
+                        entity.photo_url_full = document.getElementById('element_photo_img').getAttribute('src');
+                        photosManager.model.currentEntity().photo_url_full = document.getElementById('element_photo_img').getAttribute('src');
+                    }
+                    $('#element_photo_img').unbind();
+                });
+            });
+
+
+        }
+
+        this.configurePhotoPath = function(entity) {
+
+            return '/album/<%=album.id%>/photo/' + entity.id;
+
+        }
+
+        this.onNotify = function(data) {
+            if (this.manager.model.currentEntity() == null) {
+                this.manager.model.appendEntity(data);
+                this.manager.model.change_state('entity_created_successfully');
+            }
+            else {
+                this.manager.model.synchronizeCurrentEntity(data);
+                this.manager.model.change_state('entity_created_successfully')
+            }
+        };
+
+    };
+
+    var urls = {
+        update_url : '/api/photo',
+        get_url    : '/api/photo/<%=photo_id%>'
+    };
+
+    var photoHook = new PhotoHook();
+    var hooks = [photoHook];
+    hooks = hooks.concat(EntityManagementComplementHooks.complements);
+
+    var photosManager = new EntityManagement(urls, 'photo', 12, hooks,
+        {url_base: '/admin/media/photo' , action: '<%=action%>', prefix: '/admin/media',
+            hold_form_after_action: true});
+
+});

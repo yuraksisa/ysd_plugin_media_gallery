@@ -4,7 +4,7 @@
          title="<%=photo.name%>" alt="<%=photo.description%>"/>
     <% media_album.photos.each do |photo| %>
       <img src="<%="#{photo.photo_url_small}"%>" 
-           class="gallery-thumbnail-img" title="<%=photo.name%>" 
+           class="gallery-thumbnail-img"
            alt="<%=photo.description%>"/>
     <% end %>
   </div>

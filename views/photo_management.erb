@@ -26,26 +26,27 @@
 <!-- Renders the form to edit an element -->
 
 <script type="text/tmpl" id="element_template_form">
-              
+
+     <!-- Note: This has been extracted from fieldset-render-photo-em-form.erb in order to be shown in this area -->
+     <div class="container_12">
+       <div class="grid_12">
+          <div class="photo-container" style="margin: 5px; padding: 5px">
+             <img id="element_photo_img" <%% if (entity) { %> src="<%%= entity.photo_url_full%>" <%% } %> class="box-shadow" style="max-width: 100%; display:block; margin:0 auto"/>
+          </div>
+          <div style="margin:0 auto; width: 80px">
+             <input class="form-button" type="button" name="change_photo_link" id="change_photo_link" value="<%=t.photo_management.form.upload_photo%>"/>
+          </div>
+       </div>
+     </div>
+     <!-- End Note -->
+
+     <%% if (entity) { %>
      <form name="element">
         <div class="form-fields container_12">
-          
-          <div class="grid_12">
-            <input type="hidden" name="photo_path" id="photo_path" 
-              <%% if (entity) { %> value="<%%= self.model.entityHooks[0].configurePhotoPath(entity) %>" <%% } %> />
-            <div class="formrow">
-              <div class="photo-container" style="margin: 5px; padding: 5px">                            
-                <img id="element_photo_img" <%% if (entity) { %> src="<%%= entity.photo_url_full%>" <%% } %> class="box-shadow" style="max-width: 100%; display:block; margin:0 auto"/>              
-              </div>
-            </div>
-            <div class="formrow-botonera">
-              <div style="margin:0 auto; width: 80px">
-                <input type="button" name="change_photo_link" id="change_photo_link" value="<%=t.photo_management.form.upload_photo%>"/>
-              </div>
-            </div>
-          </div>
 
-          <div class="grid_12"> 
+          <input type="hidden" id="id" name="id" value="<%%= entity.id %>"/>
+
+          <div class="grid_12">
             <div class="formrow">
               <label for="name" class="fieldtitle">Name</label>
               <input type="text" maxlength="40" id="name" name="name" class="fieldcontrol" readonly="readonly" <%% if (entity) { %> value="<%%= entity.name %>" <%% } %> />
@@ -65,99 +66,31 @@
               <label for="height" class="fieldtitle">URL</label>
               <input type="text" maxlength="100" id="photo_url_full" name="photo_url_full" class="fieldcontrol" readonly="readonly" <%% if (entity) { %> value="<%%= entity.photo_url_full %>" <%% } %> />
             </div>
+
+            <div class="formrow">
+              <label for="height" class="fieldtitle">Descripción (alt)</label>
+              <input type="text" maxlength="100" id="description" name="description" class="fieldcontrol" <%% if (entity) { %> value="<%%= entity.description %>" <%% } %> />
+            </div>
+
+            <div class="bottom-navigation-bar navigation-bar">
+              <div class="navigation-bar-crud-buttons">
+                 <%% if (entity) { %>
+                   <input type="submit" class="update-entity-button action-button entity-management-button" value="Update"/>
+                 <%% }
+                   else { %>
+                   <input type="submit" class="create-entity-button action-button entity-management-button" value="Create"/>
+                 <%% } %>
+              </div>
+            </div>
+
           </div>
 
         </div>
              
      </form>
-     
+     <%% } %>
+
 </script>
 
 <%= photo_form_extension %>
 
-<script type="text/javascript">
- 
-require(['jquery','YSDEntityManagement',"YSDEntityManagementComplementHooks"], function($,EntityManagement, EntityManagementComplementHooks){
-
-  function PhotoHook() {
- 	   
-    this.entityKey = function(entity) {
-      return entity.id;
-    }
-    
-    this.onEdit = function(entity) {
-      
-      this.configForm(entity)  	
-      	
-    }
-    
-    this.onNew = function() {
-    	
-      this.configForm(null);
-    	
-    }
-    
-    this.configForm = function(entity) {
-    
-      $('.top-navigation-bar').hide();
-      
-      var self = this;
-                  
-      $('#change_photo_link').bind('click', function(event) {
-      	
-        $('#element_photo_img').bind('load', function(event){ 
-      	      	  
-          if (entity) {          	          	
-         	   // Actualizacion del detalle y del elemento en la lista      	  
-      	     entity.photo_url_full = document.getElementById('element_photo_img').getAttribute('src');
-      	     photosManager.model.currentEntity().photo_url_full = document.getElementById('element_photo_img').getAttribute('src');      	   
-             //photosManager.model.change_state('entity_updated_successfully');	   	      	  
-      	   }
-      	   else {
-      	     //photosManager.model.change_state('entity_created_successfully');	
-      	   }
-      
-           $('#element_photo_img').unbind();
-      	 });
-      	
-      });
-       
-                	
-    }
-  	
-  	this.configurePhotoPath = function(entity) {
-  		  		
-  	  return '/album/<%=album.id%>/photo/' + entity.id;
-  		
-  	}
-
-    this.onNotify = function(data) {
-      if (this.manager.model.currentEntity() == null) {
-        this.manager.model.appendEntity(data);
-        this.manager.model.change_state('entity_created_successfully');  
-      }
-      else {
-        this.manager.model.synchronizeCurrentEntity(data);
-        this.manager.model.change_state('entity_created_successfully')
-      }
-    };
-  	
-  };
-  
-  var urls = { 
-  	           update_url : '/api/photo',
-               create_url : '/api/photo',
-  	           get_url    : '/api/photo/<%=photo_id%>'
-  	         };
-
-  var photoHook = new PhotoHook();
-  var hooks = [photoHook];
-  hooks = hooks.concat(EntityManagementComplementHooks.complements);
-    
-  var photosManager = new EntityManagement(urls, 'photo', 12, hooks, 
-     {url_base: '/admin/media/photo' , action: '<%=action%>', prefix: '/admin/media',
-      hold_form_after_action: true});
- 
-});
-  
-</script>

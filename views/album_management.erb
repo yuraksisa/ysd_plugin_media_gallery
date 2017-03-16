@@ -48,28 +48,12 @@
 
 <script type="text/tmpl" id="element_template">
 
-
-
 </script>
 
 <!-- Renders the form to edit an element -->
 
 <script type="text/tmpl" id="element_template_form">
 
-     <form name="album_photo" target="album_photo_uploader" 
-       method="POST" 
-       enctype="multipart/form-data" 
-       action="/api/photo-upload" 
-       style="display:none">
-       <input type="file" name="photo_file" id="photo_file" accept="<%= photo_accept %>"/>
-       <input type="hidden" id="photo_album" name="photo_album"/>
-     </form>
-
-     <iframe id="album_photo_uploader" name="album_photo_uploader" style="display:none">
-       Your system does not support iframes
-     </iframe>
-
-              
      <form name="element" id="form_new_album">
         <%% if (entity == null) { %>
         <div class="form-fields container_12">

@@ -1,7 +1,7 @@
 <form name="gallery_photo" target="gallery_photo_uploader" 
       method="POST" 
       enctype="multipart/form-data" 
-      action="/api/photo-upload" 
+      action="/api/photo"
       style="display:none">
   <input type="file" name="photo_file" id="photo_file" accept="<%= photo_accept %>"/>
   <input type="hidden" id="photo_album_prefix" name="photo_album_prefix" value="<%= photo_album_prefix %>"/>
