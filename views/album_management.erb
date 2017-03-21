@@ -82,20 +82,7 @@
         <%% } else { %>
           <div class="form-fields bottom-margin">
             <div class="container_12 bottom-border-solid bottom-margin ultra_less_contrast_text">
-              <div class="grid_9">
-                <div class="top-margin">
-                  <% if user.belongs_to?('staff') %>
-                  <div class="formrow-botonera">
-                     <button type="button"
-                         class="form-button element-action-button" 
-                         data-action-method="GET"
-                         data-action-url="/api/album/<%%=entity.id%>/synchronize"
-                         data-confirm-message="<%=t.album_management.form.confirm_import_photos%>"><%=t.album_management.form.import_photos%></button>
-                  </div>
-                  <% end %>
-                </div>
-              </div>
-              <div class="grid_3">
+              <div class="prefix_9 grid_3">
                 <div class="top-margin">
                   <div id="properties" class="smaller_text over_cursor right_text as_link less_contrast_text">
                      <%=t.album_management.form.album_properties%>
@@ -125,16 +112,6 @@
                   <label for="height" class="fieldtitle"><%=t.album_management.form.height.label%></label>
                   <input type="text" maxlength="3" id="height" name="height" class="fieldcontrol" <%% if (entity) { %> value="<%%= entity.height %>" <%% } %> />
                   <div class="fielddescription">The standard height of all photo albums. The photo will be modified to fit in this size.</div>
-                </div>
-                <div class="formrow">
-                  <label for="external_album" class="fieldtitle">External album</label>
-                  <input type="text" maxlength="50" id="external_album" name="external_album" class="fieldcontrol" <%% if (entity) { %> value="<%%= entity.external_album %>" <%% } %> />
-                  <div class="fielddescription">Only type it if there is an existing album that has to be integrated in the system. If the album does not exist in the extarnal system leave it empty. When a the first photo is uploaded it will be created.</div> 
-                </div>
-                <div class="formrow">
-                  <label for="media_storage[name]" class="fieldtitle">Storage</label>
-                  <select id="media_storage[name]" name="media_storage[name]"></select>
-                  <div class="fielddescription">The storage that holds the photos.</div>
                 </div>
                 <div class="bottom-navigation-bar navigation-bar">
                   <div class="navigation-bar-crud-buttons">

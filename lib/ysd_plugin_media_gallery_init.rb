@@ -8,13 +8,10 @@ Plugins::SinatraAppPlugin.register :media_gallery do
    description= 'Integrate the media gallery application'
    version=     '0.1'
    sinatra_extension Sinatra::YSD::PhotoGallery
-   #sinatra_extension Sinatra::YSD::PhotoGalleryRESTApi
    sinatra_extension Sinatra::YSD::AlbumManagement
    sinatra_extension Sinatra::YSD::AlbumManagementRESTApi
    sinatra_extension Sinatra::YSD::PhotoManagement
    sinatra_extension Sinatra::YSD::PhotoManagementRESTApi
-   sinatra_extension Sinatra::YitoExtension::MediaStorageManagement
-   sinatra_extension Sinatra::YitoExtension::MediaStorageManagementRESTApi      
    sinatra_helper    Sinatra::PhotoGallery
    hooker            Huasi::MediaGalleryExtension
   

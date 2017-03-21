@@ -70,11 +70,13 @@ module Sinatra
         app.post "/api/photo" do
 
           album_id = params['photo_album'].to_i
-
           album_data = {}
           album_data.store(:width, params['photo_width'].to_i || settings.default_photo_width.to_i)
           album_data.store(:height, params['photo_height'].to_i || settings.default_photo_height.to_i)
-          album_data.store(:prefix, params['photo_album_prefix'])
+          album_data.store(:album_context, params['photo_album_prefix'])
+          album_data.store(:root, params.has_key?('photo_album_prefix') &&
+                                  !params['photo_album_prefix'].nil? &&
+                                  !params['photo_album_prefix'].empty?)
 
           photo_data = {}
           photo_data.store(:photo_id, params['photo_id'].to_i) if (params['photo_id'] and not params['photo_id'].empty?)
@@ -91,13 +93,15 @@ module Sinatra
 
           photo_file = params['photo_file'][:tempfile]
 
+          # Find/create the album
           media_album = if album_id == 0
                           Media::Album.create(album_data)
                         else
                           Media::Album.first_or_create({:id => album_id}, album_data)
                         end
 
-          photo=media_album.add_or_update_photo(photo_data, photo_file)
+          # Add the photo to the album
+          photo=media_album.add_or_update_photo(photo_data, photo_file, params['photo_file'][:filename])
 
           status 200
           body photo.to_json

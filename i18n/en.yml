@@ -1,9 +1,26 @@
+#
+# Media dashboard group
+#
 console_media:
   title: Media
   description: Media
   configuration: Configuration
   albums: Albums
-  storages: Media storage
+#
+# Media settings
+#  
+media_settings:
+  form:
+    title: Media configuration
+    general_group: General
+    storage_group: Storage
+    adapter: Images storage
+    adapter_description: It defines how the images of your web site are stored  
+    photo_media_accept: Media accept
+    photo_max_size: Max size
+#
+# Insert picture
+#       
 choose_picture:
   albums: Choose the album
   photos: Choose the photo
@@ -13,17 +30,9 @@ choose_picture:
   button: Choose  
 insert_picture:
   button: Insert picture  
-media_settings:
-  form:
-    title: Media configuration
-    general_group: General
-    storage_group: Storage
-    default_storage: Images storage
-    storage_description: It defines how the images of your web site are stored
-    see_storages: See storages
-    create_storage: Create media storage    
-    photo_media_accept: Media accept
-    photo_max_size: Max size
+#
+# Uploader
+# 
 uploader:
   photo: Select an image file from your computer (max size %1 %2)
   close_button: Close
@@ -50,27 +59,7 @@ gallery:
     gallery: Gallery management  
 content:
   content_photo:
-    description: Front page photo
-#
-# Media Storage management
-#
-media_storage_management:
-  title: Media storage
-  description:  
-  table:
-    name: Name
-    adapter: Adapter
-    account: Account
-  form:
-    name:
-      label: Name
-      description:
-    adapter:
-      label: Adapter
-      description:
-    account:
-      label: Account
-      description:    
+    description: Front page photo  
 #
 # Album management
 #
@@ -92,13 +81,14 @@ album_management:
       label: Width (px)
     height:
       label: Height (px) 
-    import_photos: Synchronize photos
     album_properties: Album properties
-    confirm_import_photos: Would you like to import the photos?
   form_validation:
     name_required: Name is required
     width_numeric: Width must be a number
     height_numeric: Height must be a number        
+#
+# Photo management
+#    
 photo_management:
   form:
     title: Album photos  
@@ -110,6 +100,7 @@ photo_management:
 aspect:
   photo: Photo 
   gallery: Gallery 
+#  
 gallery_aspect:
   form:
     album_name:

@@ -1,41 +1,26 @@
+#
+# Media dashboard group
+#
 console_media:
   title: Medios
-  description: > 
-               <p class="top-margin-1line">Las páginas web muestran generalmente imágenes, ya sea las fotos que complementan un artículo o un
-               álbum de fotos asociado a una página.</p>
-               <p>Las imágenes de su sitio web se gestionan con este módulo. Cualquier imagen debe estar almacenada
-               en un álbum.</p>
-               <div class="container_12">
-                 <div class="grid_4">
-                   <div class="content_data_box">
-                     <p>Los <strong>almacenes de imágenes</strong> permiten configurar donde se van a guardar los ficheros
-                     que representan las imágenes.</p>
-                     <p>Actualmente sólo se dispone de un tipo de almacén de 
-                     imágenes, <a href="http://picasa.google.com" target="_blank">Picasa</a>, lo que significa que debe tener una cuenta
-                     de Google para poder utilizar imágenes en su sitio web.</p>
-                   </div>
-                 </div>
-                 <div class="grid_4">
-                   <div class="left-margin content_data_box">
-                     <p>Puede <strong>configurar</strong> el tipo de ficheros de imágenes que se permitirán en su sitio web,
-                     como .gif, .jpg, .png u otros y el tamaño máximo permitido por fichero, para evitar el
-                     procesamiento de grandes ficheros.</p>
-                     <p>Todas estas opciones las encontrará en la página de 
-                     configuración del módulo.</p>
-                   </div>
-                 </div>
-                 <div class="grid_4">
-                   <div class="left-margin content_data_box">
-                     <p>Puede crear <strong>álbumes</strong> de fotos directamente; aunque también dispone de módulos que utilizan el
-                     sistema de álbumes a través del sistema de aspectos.</p>
-                     <p>Se puede definir el tamaño de las imágenes de un álbum de forma que todas ellas
-                     presenten el mismo aspecto.</p>
-                   </div>
-                 </div>
-               </div>
+  description: Medios
   configuration: Configuración
   albums: Álbums
-  storage: Almacen imágenes
+#
+# Media settings
+#  
+media_settings:
+  form:
+    title: Configuración Medios
+    general_group: General
+    storage_group: Almacenamiento
+    adapter: Almacenamiento imágenes
+    adapter_description: Define donde se almacenan las imágenes de su sitio web
+    photo_media_accept: Media accept
+    photo_max_size: Tamaño máximo (en bytes)
+#
+# Insert picture
+#       
 choose_picture:
   albums: Álbums
   photos: Fotos del álbum
@@ -45,17 +30,9 @@ choose_picture:
   button: Seleccionar
 insert_picture:
   button: Insertar imagen  
-media_settings:
-  form:
-    title: Configuración Medios
-    general_group: General
-    storage_group: Almacenamiento
-    default_storage: Almacen de imágenes
-    storage_description: Define donde se almacenan las imágenes de su sitio web
-    see_storages: Ver almacenes de imágenes
-    create_storage: Crear almacén de imágenes
-    photo_media_accept: Media accept
-    photo_max_size: Tamaño máximo (en bytes)
+#
+# Uploader
+# 
 uploader:
   photo: Seleccionar un archivo de imagen de su computadora (tamaño máximo %1 %2)
   close_button: Cerrar  
@@ -82,27 +59,7 @@ gallery:
     gallery: Gestión del álbum  
 content:
   content_photo:
-    description: Foto de portada
-#
-# Media Storage management
-#
-media_storage_management:
-  title: Almacen multimedia
-  description:  
-  table:
-    name: Nombre
-    adapter: Adapter
-    account: Cuenta
-  form:
-    name:
-      label: Name
-      description:
-    adapter:
-      label: Adapter
-      description:
-    account:
-      label: Cuenta
-      description:    
+    description: Foto de portada 
 #
 # Album management
 #
@@ -125,13 +82,14 @@ album_management:
       label: Ancho (px) 
     height:
       label: Alto (px)
-    import_photos: Sincronizar fotos
-    album_properties: Propiedades del álbum
-    confirm_import_photos: ¿Quiere importar las fotos?      
+    album_properties: Propiedades del álbum  
   form_validation:
     name_required: Nombre obligatorio
     width_numeric: Ancho debe ser un valor numérico
     height_numeric: Alto debe ser un valor numérico
+#
+# Photo management
+#    
 photo_management:
   form:
     title: Fotos del álbum  
@@ -142,6 +100,7 @@ photo_management:
 aspect:
   photo: Foto
   gallery: Album
+#  
 gallery_aspect:
   form:
     album_name:

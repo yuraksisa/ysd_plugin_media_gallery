@@ -18,9 +18,9 @@ module Huasi
     #
     def install(context={})
 
-        SystemConfiguration::Variable.first_or_create({:name => 'media.default_storage'}, 
-          {:value => '', 
-           :description => 'Default storage for media', 
+        SystemConfiguration::Variable.first_or_create({:name => 'media.adapter'}, 
+          {:value => 'filesystem', 
+           :description => 'Media adapter : filesystem or s3', 
            :module => :media_gallery}) 
                                                                   
         SystemConfiguration::Variable.first_or_create({:name => 'photo_media_accept'}, 
@@ -32,24 +32,6 @@ module Huasi
           {:value => 1000000, 
           :description => 'Máximo tamaño de la fotografía (en bytes)', 
           :module => :media_gallery})  
-
-        SystemConfiguration::SecureVariable.first_or_create(
-          {:name => 'media.google.client_id'},
-          {:value => '.',
-           :description => 'CLIENT_ID',
-           :module => :media_gallery})  
-
-        SystemConfiguration::SecureVariable.first_or_create(
-          {:name => 'media.google.client_secret'},
-          {:value => '.',
-           :description => 'CLIENT_SECRET',
-           :module => :media_gallery})  
-                                      
-        SystemConfiguration::SecureVariable.first_or_create(
-          {:name => 'media.google.refresh_token'},
-          {:value => '.',
-           :description => 'REFRESH_TOKEN',
-           :module => :media_gallery})  
 
     end
 
@@ -71,13 +53,7 @@ module Huasi
                                   :link_route => "/admin/media/album",
                                   :description => 'The albums admin tools to create and modify media albums.',
                                   :module => 'cms',
-                                  :weight => 2}},
-                    {:path => '/configuration/media-storages',
-                     :options => {:title => app.t.media_config_menu.media_storage,
-                                  :link_route => "/admin/media/storage",
-                                  :description => "Admin media storages",
-                                  :module => :media_gallery,
-                                  :weight => 4 }}]      
+                                  :weight => 2}}]      
    
     end
     
@@ -103,14 +79,7 @@ module Huasi
                  :title => 'Configuración',
                  :description => 'Configuración medios',
                  :fit => 1,
-                 :module => :media_gallery}, 
-                {:path => '/admin/media/storage',
-                 :parent_path => '/admin/media',
-                 :regular_expression => /^\/admin\/media\/storage/,
-                 :title => 'Almacén de medios',
-                 :description => 'Almacenes de medios',
-                 :fit => 1,
-                 :module => :media_gallery},                                  
+                 :module => :media_gallery},                                 
                 {:path => '/admin/media/album',
                  :parent_path => '/admin/media',
                  :regular_expression => /^\/admin\/media\/album/,

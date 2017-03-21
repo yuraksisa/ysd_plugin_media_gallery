@@ -1,9 +1,26 @@
+#
+# Media dashboard group
+#
 console_media:
   title: Medis
   description: Medis
   configuration: Configuració
   albums: Àlbums
-  storages: Magatzems d\'imatges
+#
+# Media settings
+#
+media_settings:
+  form:
+    title: Configuració Media
+    general_group: General
+    storage_group: Magatzenament
+    adapter: Magatzem d\'imatges
+    adapter_description: Defineix on es guarden les imatges de la seva web
+    photo_media_accept: Media accept
+    photo_max_size: Tamany màxim en bytes
+#
+# Insert picture
+#    
 choose_picture:
   albums: Tria l'\àlbum
   photos: Tria la foto
@@ -13,17 +30,9 @@ choose_picture:
   button: Triar  
 insert_picture:
   button: Insertar imatge
-media_settings:
-  form:
-    title: Configuració Media
-    general_group: General
-    storage_group: Magatzenament
-    default_storage: Magatzem d\'imatges
-    storage_description: Defineix on es guarden les imatges de la seva web
-    see_storages: Veure els magatzems de dades
-    create_storage: Crear magatzem d\'imatges
-    photo_media_accept: Media accept
-    photo_max_size: Tamany màxim en bytes
+#
+# Uploader
+#      
 uploader:
   photo: Seleccionar un arxiu d\'imatge de la seva computadora (tamany màxim %1 %2)
   close_button: Tancar
@@ -33,8 +42,7 @@ uploader:
   ok_title: Foto carregada
   ok_description: Foto carregada amb èxit  
   error_title: Error
-  error_description: S\'ha produit un error al servidor. Torni-ho a intentar o provi amb altre imatge.
-#
+  error_description: S\'ha produit un error al servidor. Torni-ho a intentar o provi amb altre imatge.#
 media_gallery:
   photo_aspect:
     no_photo_message: No s\'ha adjuntat cap foto
@@ -51,26 +59,6 @@ gallery:
 content:
   content_photo:
     description: Imatge de portada
-#
-# Media Storage management
-#
-media_storage_management:
-  title: Magatzem de medis
-  description:
-  table:
-    name: Nom
-    adapter: Adapter
-    account: Compte 
-  form:
-    name:
-      label: Nom
-      description:
-    adapter:
-      label: Adapter
-      description:
-    account:
-      label: Compte
-      description:
 #
 # Album management
 #
@@ -92,13 +80,14 @@ album_management:
       label: Amplada (px)
     height:
       label: Alçada (px)
-    import_photos: Sincronitzar fotos
     album_properties: Propietats de l'\àlbum
-    confirm_import_photos: Vol importar les fotos?
   form_validation:
     name_required: Nom obligatori
     width_numeric: L\'ample ha de ser numèric
     height_numeric: L\'alçada ha de ser numèrica   
+#
+# Photo management
+#    
 photo_management:
   form:
     title: Fotos de l'àlbum
@@ -109,7 +98,8 @@ photo_management:
 #    
 aspect:
   photo: Foto  
-  gallery: Àlbum  
+  gallery: Àlbum
+#    
 gallery_aspect:
   form:
     album_name:

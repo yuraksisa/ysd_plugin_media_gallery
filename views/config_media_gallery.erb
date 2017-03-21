@@ -4,16 +4,9 @@
       data-remote="ajax" data-remote-method="PUT">
 
     <h3><%=t.media_settings.form.storage_group%></h3>
-    <p><%=t.media_settings.form.storage_description%></p>
+    <p><%=t.media_settings.form.adapter_description%></p>
 
-    <% if not storages.empty? %>
-      <%= render_variable_select('media.default_storage', t.media_settings.form.default_storage, storages) %>
-    <% else %>
-      <a href="/admin/media/storage/new?destination=/admin/media/config"><%= t.media_settings.form.create_storage%></a>
-    <% end %>
-    <div>
-      <a href="/admin/media/storage"><%= t.media_settings.form.see_storages%></a>
-    </div>
+    <%= render_variable_select('media.adapter', t.media_settings.form.adapter, ::Media::ADAPTERS) %>
 
     <h3><%=t.media_settings.form.general_group%></h3>
 

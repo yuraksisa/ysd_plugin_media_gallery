@@ -20,9 +20,6 @@ module Sinatra
         #
         app.get '/admin/media/config', :allowed_usergroups => ['staff'] do
           locals = {}
-          media_storage = SystemConfiguration::Variable.get_value('media.default_storage', nil)
-          locals.store(:not_media_storage, (media_storage.nil? or media_storage.empty?) )
-          locals.store(:storages, Hash[ *::Media::Storage.all.collect { |v| [v.name, v.name]}.flatten ])
           load_page(:config_media_gallery, :locals => locals)
         end
 

@@ -71,11 +71,7 @@
     }
         
     this.configForm = function(entity) {
-             
-      var dataSource = new RemoteDataSource('/api/media-storages',{'id':'name','description':'name'});
-      var value = (entity && entity.storage_name)?entity.storage_name:null; 
-      var selector = new SelectSelector('media_storage[name]', dataSource, value, true );             
-     
+                      
       YSDForms.limit_text_area_content_size(document.getElementById('description'), 256, 
             function (content_remain) {
               document.getElementById('description_length').innerHTML = '<strong>' + content_remain + '</strong>';
