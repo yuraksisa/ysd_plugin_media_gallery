@@ -53,7 +53,7 @@
                    var photoAlbum = '';
                    var photoId = '';
  
-  	  	           if (document.forms['element']['photo_path']) { 
+  	  	           if (document.forms['element'] && document.forms['element']['photo_path']) { 
   	  	             var reg_exp = new RegExp("album\\/(\\w+)\\/photo\\/(\\w+)");
                      var photo_info = document.forms['element']['photo_path'].value.match(reg_exp);          
                      if (photo_info) {
@@ -64,36 +64,42 @@
   	  	
    	  	           uploaderModel.photoId = photoId;
   	  	           uploaderModel.photoAlbum = photoAlbum;
-  	  	           if (document.forms['element']['key']) {
+  	  	           if (document.forms['element'] && document.forms['element']['key']) {
   	                 uploaderModel.photoName = document.forms['element']['key'].value;
   	  	           }
   	  	         
   	               uploaderModel.onPhotoUploaded = function() {
   	      
   	                 var the_photo = 'album/' + uploaderModel.photo.album_id + '/photo/' + uploaderModel.photo.id;
-  	                 document.forms['element']['photo_path'].setAttribute('value', the_photo);
-  	      
-  	                 if (document.forms['element']['photo_url_tiny'] && uploaderModel.photo.photo_url_tiny) {
+                     if (document.forms['element'] && document.forms['element']['photo_path']) {
+  	                   document.forms['element']['photo_path'].setAttribute('value', the_photo);
+  	                 }
+
+  	                 if (document.forms['element'] && document.forms['element']['photo_url_tiny'] && uploaderModel.photo.photo_url_tiny) {
   	                   document.forms['element']['photo_url_tiny'].setAttribute('value', uploaderModel.photo.photo_url_tiny);
   	                 }
   	      
-  	                 if (document.forms['element']['photo_url_small'] && uploaderModel.photo.photo_url_small) {
+  	                 if (document.forms['element'] && document.forms['element']['photo_url_small'] && uploaderModel.photo.photo_url_small) {
   	                   document.forms['element']['photo_url_small'].setAttribute('value', uploaderModel.photo.photo_url_small);
   	                 }
   	      
-  	                 if (document.forms['element']['photo_url_medium'] && uploaderModel.photo.photo_url_medium ) {
+  	                 if (document.forms['element'] && document.forms['element']['photo_url_medium'] && uploaderModel.photo.photo_url_medium ) {
   	                   document.forms['element']['photo_url_medium'].setAttribute('value', uploaderModel.photo.photo_url_medium);
   	                 }
   	      
-  	                 if (document.forms['element']['photo_url_full'] && uploaderModel.photo.photo_url_full) {
+  	                 if (document.forms['element'] && document.forms['element']['photo_url_full'] && uploaderModel.photo.photo_url_full) {
   	                   document.forms['element']['photo_url_full'].setAttribute('value', uploaderModel.photo.photo_url_full);
   	                 }
   	      
   	                 // The version is added to force the photo reload
-  	                 if (document.forms['element']['element_photo_img'] &&  uploaderModel.photo.photo_url_full) {
+  	                 if (document.forms['element'] && document.forms['element']['element_photo_img'] &&  uploaderModel.photo.photo_url_full) {
                        document.forms['element']['element_photo_img'].setAttribute('src', uploaderModel.photo.photo_url_full); 
   	                 }
-  	               
+                     else if (document.getElementById('element_photo_img') && uploaderModel.photo.photo_url_full) {
+                       document.getElementById('element_photo_img').setAttribute('src', uploaderModel.photo.photo_url_full);
+                     }
+
+
   	                 YSDGui.hideElement(document.getElementById('choose_photo'));
 
                      self.manager.model.notifyHooks(uploaderModel.photo);
