@@ -31,7 +31,17 @@ module Huasi
         SystemConfiguration::Variable.first_or_create({:name => 'photo_max_size'}, 
           {:value => 1000000, 
           :description => 'Máximo tamaño de la fotografía (en bytes)', 
-          :module => :media_gallery})  
+          :module => :media_gallery})
+
+        SystemConfiguration::Variable.first_or_create({name: 'media.use_server_name_folder'},
+        {value: 'false',
+                 description: 'Indica si usa server name como folder para almacenar las imágenes',
+                 module: :media_gallery})
+
+        SystemConfiguration::Variable.first_or_create({name: 'media.public_folder_root'},
+                                                      {value: '',
+                                                       description: 'Indica el path donde se crea la estructura para almacenar las imágenes',
+                                                       module: :media_gallery})
 
     end
 
