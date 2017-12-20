@@ -194,7 +194,7 @@ require(['jquery', 'YSDFileUploader', 'YSDEntityManagementComplementHooks', 'YSD
       var self = this;
 
       $.ajax( {
-                url  : "/photo/" + photoId,
+                url  : "/api/photo/" + photoId,
                 type : 'DELETE',
                 success : function(data, textStatus, jqXHR) {
                   self.selector.deleteElement(photoId);

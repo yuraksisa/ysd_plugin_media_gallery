@@ -4,9 +4,10 @@
       data-remote="ajax" data-remote-method="PUT">
 
     <h3><%=t.media_settings.form.storage_group%></h3>
-    <p><%=t.media_settings.form.adapter_description%></p>
 
     <%= render_variable_select('media.adapter', t.media_settings.form.adapter, ::Media::ADAPTERS) %>
+    <%= render_variable_input_text('media.public_folder_root', t.media_settings.form.public_folder_root, 100, 100) %>
+    <%= render_variable_checkbox_boolean('media.use_server_name_folder', t.media_settings.form.use_server_name_folder) %>
 
     <h3><%=t.media_settings.form.general_group%></h3>
 

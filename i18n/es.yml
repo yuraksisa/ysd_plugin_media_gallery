@@ -12,9 +12,11 @@ console_media:
 media_settings:
   form:
     title: Configuración Medios
-    general_group: General
+    general_group: Características de las imágenes
     storage_group: Almacenamiento
     adapter: Almacenamiento imágenes
+    public_folder_root: Path de la carpeta public donde almacenar las imágenes
+    use_server_name_folder: Modo multi-site (cloud)
     adapter_description: Define donde se almacenan las imágenes de su sitio web
     photo_media_accept: Media accept
     photo_max_size: Tamaño máximo (en bytes)
