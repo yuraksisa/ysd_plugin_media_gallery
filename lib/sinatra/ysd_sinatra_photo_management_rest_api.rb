@@ -67,16 +67,26 @@ module Sinatra
         #
         # Upload a photo (creates or updates)
         #
+        # POST a form with the following fields in order to upload a photo
+        #
+        #   - photo_file : The photo file *REQUIRED
+        #
+        #   - photo_album : The album id if the photo belongs to an existing album
+        #   - photo_id : The photo id if the photo already exists
+        #   - photo_name : The photo name
+        #   - photo_description : The photo description (for IMG ALT attribute)
+        #
         app.post "/api/photo" do
 
           album_id = params['photo_album'].to_i
           album_data = {}
           album_data.store(:width, params['photo_width'].to_i || settings.default_photo_width.to_i)
           album_data.store(:height, params['photo_height'].to_i || settings.default_photo_height.to_i)
-          album_data.store(:album_context, params['photo_album_prefix'])
-          album_data.store(:root, params.has_key?('photo_album_prefix') &&
-                                  !params['photo_album_prefix'].nil? &&
-                                  !params['photo_album_prefix'].empty?)
+          if params.has_key?('photo_album_prefix') && !params['photo_album_prefix'].nil? &&
+             !params['photo_album_prefix'].empty?
+            album_data.store(:album_context, params['photo_album_prefix'])
+            album_data.store(:root, params['photo_album_prefix'])
+          end
 
           photo_data = {}
           photo_data.store(:photo_id, params['photo_id'].to_i) if (params['photo_id'] and not params['photo_id'].empty?)
@@ -105,6 +115,66 @@ module Sinatra
 
           status 200
           body photo.to_json
+
+        end
+
+        #
+        # Uploads a photo (create or update) and updates the associated variable
+        #
+        # POST a form with the following fields in order to upload a photo
+        #
+        #   - name: The variable name *REQUIRED
+        #   - photo_file : The photo file *REQUIRED
+        #
+        #   - photo_album : The album id if the photo belongs to an existing album
+        #   - photo_id : The photo id if the photo already exists
+        #   - photo_name : The photo name
+        #   - photo_description : The photo description (for IMG ALT attribute)
+        #
+        app.post "/api/photo-variable" do
+
+          variable_name = params['name']
+
+          album_id = params['photo_album'].to_i
+
+          album_data = {}
+          album_data.store(:width, params['photo_width'].to_i || settings.default_photo_width.to_i)
+          album_data.store(:height, params['photo_height'].to_i || settings.default_photo_height.to_i)
+
+          photo_data = {}
+          photo_data.store(:photo_id, params['photo_id'].to_i) if (params['photo_id'] and not params['photo_id'].empty?)
+          photo_data.store(:photo_name, if params['photo_name'] and not params['photo_name'].empty?
+                                          params['photo_name']
+                                        else
+                                          params['photo_file'][:filename]
+                                        end)
+          photo_data.store(:photo_description,if params['photo_description'] and not params['photo_description'].empty?
+                                                params['photo_description']
+                                              else
+                                                params['photo_file'][:filename]
+                                              end)
+
+          photo_file = params['photo_file'][:tempfile]
+
+
+          Media::Album.transaction do
+
+            # Find/create the album
+            media_album = if album_id == 0
+                            Media::Album.create(album_data)
+                          else
+                            Media::Album.first_or_create({:id => album_id}, album_data)
+                          end
+
+            # Add the photo to the album
+            photo=media_album.add_or_update_photo(photo_data, photo_file, params['photo_file'][:filename])
+
+            # Updates the variable
+            SystemConfiguration::Variable.set_value(variable_name, "/media/photo/#{photo.id}")
+
+            status 200
+            body photo.to_json
+          end
 
         end
 

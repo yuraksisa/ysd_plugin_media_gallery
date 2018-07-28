@@ -1,0 +1,264 @@
+<!-- _variable_selector.erb -->
+<div id="photo_block">
+
+  <form id="uploader_form_<%=id%>"
+        method="POST"
+        enctype="multipart/form-data"
+        action="/api/photo-variable"
+        name="uploader_form_<%=id%>"
+        target="uploader_iframe_<%=id%>"
+        class="form-horizontal">
+
+    <input type="hidden" id="name" name="name" value="<%= variable_name %>"/>
+    <input type="hidden" id="photo_album" name="photo_album" value="<%= photo_album %>"/>
+    <input type="hidden" id="photo_width" name="photo_width" value="<%= photo_width %>"/>
+    <input type="hidden" id="photo_height" name="photo_height" value="<%= photo_height %>"/>
+    <input type="hidden" id="photo_id" name="photo_id" value="<%=photo_id if defined?photo_id%>"/>
+    <input type="hidden" id="photo_name" name="photo_name"/>
+    <input type="hidden" id="photo_description" name="photo_description">
+
+    <div id="photo_holder">
+      <% if variable_value and !variable_value.empty? and !(variable_value =='.') %>
+      <img id="photo_img_<%=id%>" src="<%=variable_value%>" style="display: block; margin: 0 auto"/>
+      <% else %>
+      <div class="fa fa-photo text-center" style="font-size:350px; display: block"></div>
+      <% end %>
+    </div>
+
+    <br>
+
+    <div>
+      <input type="file" id="photo_file_<%=id%>" name="photo_file" accept="<%= accept %>" style="margin: 0 auto" class="form-control"/>
+    </div>
+
+    <br>
+
+    <div id="uploader_message_<%=id%>">
+      <p class="text-center"><%=t.uploader.photo("#{max_size/1000000}","Mb")%></p>
+    </div>
+
+    <br>
+
+  </form>
+
+  <iframe id="uploader_iframe_<%=id%>" name="uploader_iframe_<%=id%>" style="display:none">
+    Your system does not support iframes
+  </iframe>
+
+</div>
+
+<script type="text/javascript">
+
+    require(['jquery', 'YSDEventTarget', 'YSDEvents', 'YSDStyles', 'YSDDialog', 'jquery.ui', 'YSDjson2'],
+        function($, EventTarget, YSDEvents, YSDStyles, ProcessingRequest) {
+
+            uploaderModel_<%=id%> = {
+
+                photoId :'',
+                photoAlbum : '',
+                photoName : '',
+                photoDescription : '',
+                photo : null,
+                onPhotoUploaded : null,
+                state : 'starting',
+
+                change_state : function(action) {
+
+                    switch(action) {
+
+                        case 'send_request' :
+                            this.state = 'sending_request';
+                            break;
+
+                        case 'process_done_ok' :
+                            this.state = 'image_uploaded_ok';
+                            break;
+
+                        case 'process_done_error' :
+                            this.state = 'image_uploaded_error';
+                            break;
+
+                    }
+
+                    uploaderView_<%=id%>.state_changed(this.state);
+
+                },
+
+                uploadPhoto : function() {
+
+                    // Use a iframe to post the form
+
+                    the_form = document.forms['uploader_form_<%=id%>'];
+                    the_form.target = 'uploader_iframe_<%=id%>';
+
+                    // Assign the photoId, photoAlbum, photoName and photoDescription
+                    if (this.photoId) {
+                        document.forms['uploader_form_<%=id%>']['photo_id'].setAttribute('value', this.photoId);
+                    }
+
+                    if (this.photoAlbum) {
+                        document.forms['uploader_form_<%=id%>']['photo_album'].setAttribute('value', this.photoAlbum);
+                    }
+
+                    if (this.photoName) {
+                        document.forms['uploader_form_<%=id%>']['photo_name'].setAttribute('value', this.photoName);
+                    }
+
+                    if (this.photoDescription) {
+                        document.forms['uploader_form_<%=id%>']['photo_description'].setAttribute('value', this.photoDescription);
+                    }
+
+                    // If the browser allows File API, check the file type and length
+
+                    the_file = document.getElementById('photo_file_<%=id%>');
+
+                    if (typeof(the_file.files) != 'undefined') { // File API
+
+                        var max_size = <%= max_size %>;
+                        var mime_types = '<%= accept %>';
+                        mime_types = mime_types.split(',');
+
+                        file_info = the_file.files[0];
+
+                        if (file_info.fileSize > max_size )
+                        {
+                            uploaderView.notify('<%= t.uploader.error_title%>','<%= t.uploader.max_size("#{max_size/1000000}","Mb") %>');
+                            return;
+                        }
+
+                        if ($.inArray(file_info.type, mime_types) == -1)
+                        {
+                            uploaderView.notify('<%= t.uploader.error_title%>','<%= t.uploader.not_valid_image_file %>');
+                            return;
+                        }
+
+
+                    }
+                    uploaderModel_<%=id%>.change_state('send_request');
+                    the_form.submit(); // Submits the form to upload the image
+
+                }
+
+            };
+
+            uploaderController_<%=id%> = {
+
+                events : new EventTarget(),
+
+                photoSelected : function() { /* The user choose an image */
+
+                    uploaderModel_<%=id%>.uploadPhoto();
+
+                }
+
+            };
+
+            uploaderView_<%=id%> = {
+
+                sendingRequest : new ProcessingRequest('<%=t.uploader.uploading_message%>'),
+
+                init : function() {
+
+                    // Configure the events
+
+                    YSDEvents.addEvent(document.getElementById('photo_file_<%=id%>'),
+                        'change',
+                        function(event) {
+
+                            // If the photo file is not empty
+                            if ($('#photo_file_<%=id%>').val() != '') {
+                                uploaderController_<%=id%>.photoSelected();
+                            }
+
+                        });
+
+                    YSDEvents.addEvent(document.getElementById('uploader_iframe_<%=id%>'),
+                        'load',
+                        function(event) {
+
+                            try
+                            {
+
+                                if (uploaderModel_<%=id%>.state == 'sending_request') { // Manages the event only when uploading the image
+                                    uploaderModel_<%=id%>.photo = JSON.parse(frames['uploader_iframe_<%=id%>'].document.body.innerHTML);
+                                    uploaderModel_<%=id%>.change_state('process_done_ok');
+                                }
+                            }
+                            catch (e)
+                            {
+                                uploaderModel_<%=id%>.change_state('process_done_error');
+                            }
+                        }
+                    );
+
+                    YSDEvents.addEvent(document.getElementById('photo_img_<%=id%>'),
+                        'load',
+                        function(event) {
+                            //YSDStyles.center_container(document.getElementById('photo_img_<%=id%>'));
+                        });
+
+                    YSDEvents.addEvent(document.getElementById('uploader_form_<%=id%>'),
+                        'submit',
+                        function(event) {
+                            uploaderModel_<%=id%>.change_state('send_request');
+                        });
+
+                },
+
+                state_changed : function(state) {
+
+                    switch(state) {
+
+                        case 'sending_request' :
+                            this.sendingRequest.show();
+                            break;
+
+                        case 'image_uploaded_ok' :
+
+                            this.sendingRequest.close();
+
+                            $('#photo_file_<%=id%>').val('');
+
+                            // Show the loaded image
+                            document.getElementById('photo_img_<%=id%>').setAttribute('src', uploaderModel_<%=id%>.photo.photo_url_full);
+
+                            // Notify (review!!!)
+                            if (uploaderModel_<%=id%>.onPhotoUploaded != null && typeof uploaderModel_<%=id%>.onPhotoUploaded != "undefined")
+                            {
+                                uploaderModel_<%=id%>.onPhotoUploaded();
+                            }
+
+                            break;
+
+                        case 'image_uploaded_error' :
+                            $('#photo_file_<%=id%>').val('');
+                            this.sendingRequest.close();
+                            uploaderView_<%=id%>.notify('<%= t.uploader.error_title %>','<%= t.uploader.error_description %>');
+                            break;
+
+                    }
+
+
+                },
+
+                notify : function(title, message) {
+
+                    $("<div title='" + title + "'>" + message + "</div>").dialog( { height: 260, modal: true,
+                        buttons: {
+                            Ok: function()
+                            {
+                                $( this ).dialog( "close" );
+                            }
+                        }
+                    });
+
+                }
+
+            };
+
+            uploaderView_<%=id%>.init();
+
+        });
+
+</script>
+<!-- /_variable_selector.erb -->
