@@ -82,11 +82,10 @@ module Sinatra
           album_data = {}
           album_data.store(:width, params['photo_width'].to_i || settings.default_photo_width.to_i)
           album_data.store(:height, params['photo_height'].to_i || settings.default_photo_height.to_i)
-          if params.has_key?('photo_album_prefix') && !params['photo_album_prefix'].nil? &&
-             !params['photo_album_prefix'].empty?
-            album_data.store(:album_context, params['photo_album_prefix'])
-            album_data.store(:root, params['photo_album_prefix'])
-          end
+          album_data.store(:album_context, params['photo_album_prefix'])
+          album_data.store(:root, params.has_key?('photo_album_prefix') &&
+                                  !params['photo_album_prefix'].nil? &&
+                                  !params['photo_album_prefix'].empty?)
 
           photo_data = {}
           photo_data.store(:photo_id, params['photo_id'].to_i) if (params['photo_id'] and not params['photo_id'].empty?)
