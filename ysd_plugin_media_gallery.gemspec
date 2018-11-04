@@ -13,7 +13,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "tilt"        
 
   s.add_runtime_dependency "ysd_yito_core"          # Yito core library
-  s.add_runtime_dependency "ysd_yito_js"            # Yito JS library
   s.add_runtime_dependency "ysd_plugin_integration" # Integration
   
   s.add_runtime_dependency "ysd_core_plugins"
