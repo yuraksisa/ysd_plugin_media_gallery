@@ -1,0 +1,84 @@
+<style type="text/css">
+  .photo-container {
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;    
+  }
+  .photo-element {
+    margin: 0 auto;
+    display: block;
+  }
+</style>
+<div class="top-navigation-bar">
+  <h2 class="entity-title"><%=@title%></h2>
+</div>
+<div class="admin_content_wrapper"  style="background-color: #f5f5f5; margin: 0">
+  <div data-alerts="alerts" data-titles="{'success':'<%=t.entitymanagement.success%>','warning':'<%=t.entitymanagement.warning%>','error':'<%=t.entitymanagement.error%>'}" data-fade="10000"></div>
+
+  <div id="content">
+
+    <br>
+    	<div class="row">
+    	  <div class="col-sm-12 col-md-12">	
+					<div id="album_container">
+			            <% @resources_album.photos.each do |photo| %>
+			              <div class="col-md-3">
+                       <div class="photo-container" data-id="<%=photo.id%>">
+			                 <img src="<%= photo.photo_url_medium %>" 
+			                      class="box-shadow photo-element" style="display:block" 
+			                      rel="<%=photo.id%>" data-info="<%=photo.description%>"/>     
+			                 <span class="delete-photo fa fa-trash" rel="<%=photo.id%>"></span>
+                       </div>            
+                       <div><strong>/media/photo/<%=photo.id%></strong></div>                        
+			              </div>  
+			            <% end %>
+			        </div>
+			    
+		  </div>	        
+    	</div>
+
+    	<br>
+    	<hr>
+        <div class="row">
+          <div class="col-sm-12 col-md-12">
+          	<div style="margin-left:15px">
+          		<button id="add_photo_button" type="button" class="btn btn-primary">Añadir foto</button>
+          	</div>	
+      	  </div>
+        </div>         
+
+  </div>
+</div>    
+
+<!-- Uploading template -->
+<script id="uploading_template" type="txt/template">
+  <div id="<%%=id%>" class="col-md-3">
+    <%%=description%>
+  </div>
+</script>
+
+<script id="photo_template" type="txt/template">
+  <div class="col-md-3">
+     <div class="photo-container" data-id="<%%=photo.id%>">
+       <img src="<%%= photo.photo_url_medium %>" 
+            class="box-shadow photo-element" style="display:block" 
+            rel="<%%=photo.id%>" data-info="<%%=photo.description%>"/>  
+       <span class="delete-photo fa fa-trash" rel="<%%=photo.id%>"></span> 
+     </div>            
+     <div><strong>/media/photo/<%%=photo.id%></strong></div> 
+  </div>  
+</script>
+
+<!-- Support form and iframe to upload the slide photo -->
+<form name="gallery_photo" target="gallery_photo_uploader" 
+      method="POST" 
+      enctype="multipart/form-data" 
+      action="/api/photo"
+      style="display:none">
+  <input type="file" name="photo_file" id="photo_file" accept="image/jpeg,image/gif,image/png,image/jpeg"/>
+  <input type="hidden" id="photo_album" name="photo_album" value="<%=@resources_album.id%>"/>       
+</form>
+<iframe id="gallery_photo_uploader" name="gallery_photo_uploader" style="display:none">
+    Your system does not support iframes
+</iframe>

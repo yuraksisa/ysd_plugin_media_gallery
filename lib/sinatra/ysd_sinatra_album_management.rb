@@ -9,6 +9,20 @@ module Sinatra
         app.settings.translations = Array(app.settings.translations).push(File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'i18n')))
         
         #
+        # Resources album management page
+        #
+        app.get "/admin/media/album/resources", :allowed_usergroups => ['staff'] do
+
+          if @resources_album = ::Media::Album.first(name: 'resources')
+            @title = t.resources.title
+            load_page :album_edition
+          else
+            status 404
+          end    
+
+        end  
+
+        #
         # Album management page
         #
         app.get "/admin/media/album/?*" do

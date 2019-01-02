@@ -20,6 +20,8 @@ media_settings:
     adapter_description: Define donde se almacenan las imágenes de su sitio web
     photo_media_accept: Media accept
     photo_max_size: Tamaño máximo (en bytes)
+resources:
+  title: Medios    
 #
 # Insert picture
 #       
